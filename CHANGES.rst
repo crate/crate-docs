@@ -7,6 +7,7 @@ Unreleased
 ==========
 
 - Improve Make targets
+- Streamline `docs/Makefile` (move heavy-lifting to `rules.mk`)
 
 
 0.1.10 - 2019/07/09

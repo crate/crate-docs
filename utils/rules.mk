@@ -18,24 +18,39 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 
+ifeq ($(TOP_DIR),)
+$(error `TOP_DIR` is not set)
+endif
+
+ifeq ($(TOP_DIR),)
+$(error `DOCS_DIR` is not set)
+endif
+
 .EXPORT_ALL_VARIABLES:
 
-LOCAL_DIR    := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-ENV_DIR      := $(LOCAL_DIR)/.env
-ACTIVATE     := $(ENV_DIR)/bin/activate
-PYTHON       := python3.7
-PIP          := $(PYTHON) -m pip
-RST2HTML     := rst2html.py
-VALE_VERSION := 1.4.2
-VALE_URL     := https://github.com/errata-ai/vale/releases/download
-VALE_URL     := $(VALE_URL)/v$(VALE_VERSION)
-VALE_LINUX   := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
-VALE_MACOS   := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
-VALE_WIN     := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
-TOOLS_DIR    := $(LOCAL_DIR)/.tools
-VALE         := $(TOOLS_DIR)/vale
-VALE_OPTS    := --config=$(LOCAL_DIR)/_vale.ini
-LINT         := $(LOCAL_DIR)/bin/lint
+LOCAL_DIR       := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+ENV_DIR         := $(LOCAL_DIR)/.env
+ACTIVATE        := $(ENV_DIR)/bin/activate
+PYTHON          := python3.7
+PIP             := $(PYTHON) -m pip
+SPHINXBUILD     := sphinx-build
+SPHINXAUTOBUILD := sphinx-autobuild
+AUTOBUILD_OPTS  := --re-ignore '^(?!.+\.rst$$)'
+BUILD_DIR       := .build
+SPHINX_ARGS     := . $(BUILD_DIR)
+SPHINX_OPTS     := -W -n
+RST2HTML        := rst2html.py
+VALE_VERSION    := 1.4.2
+VALE_URL        := https://github.com/errata-ai/vale/releases/download
+VALE_URL        := $(VALE_URL)/v$(VALE_VERSION)
+VALE_LINUX      := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
+VALE_MACOS      := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
+VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
+TOOLS_DIR       := $(LOCAL_DIR)/.tools
+VALE            := $(TOOLS_DIR)/vale
+VALE_OPTS       := --config=$(LOCAL_DIR)/_vale.ini
+LINT            := $(LOCAL_DIR)/bin/lint
+FSWATCH         := fswatch
 
 # Figure out the OS
 ifeq ($(findstring ;,$(PATH)),;)
@@ -47,27 +62,42 @@ else
     UNAME := $(patsubst MINGW%,Windows,$(UNAME))
 endif
 
-# Find all RST source files in the current working directory (but skip the
-# possible locations of third-party dependencies)
+# Find all RST source files in `TOP_DIR` (but skip possible locations of
+# third-party dependencies)
 source_files := $(shell \
-    find . -not -path '*/\.*' -name '*\.rst' -type f)
+    find '$(TOP_DIR)' -not -path '*/\.*' -name '*\.rst' -type f)
 
 # Generate targets
 lint_targets := $(patsubst %,%.lint,$(source_files))
 delint_targets := $(patsubst %,%.delint,$(lint_targets))
 
-# Default target
 .PHONY: help
 help:
-	@ printf 'This Makefile is not supposed to be run manually.\n'
-	@ exit 1;
+	@ printf '\033[33mCrate Docs Utils\033[00m\n'
+	@ echo
+	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
+	@ echo
+	@ printf '\033[37m  dev    \033[00m Run a Sphinx development server that'
+	@ printf                          ' builds and lints the \n'
+	@ printf '\033[37m         \033[00m documentation as you edit the source'
+	@ printf                          ' files\n'
+	@ echo
+	@ printf '\033[37m  html   \033[00m Build the static HTML output\n'
+	@ echo
+	@ printf '\033[37m  check  \033[00m Build, test, and lint the'
+	@ printf                          ' documentation\n'
+	@ echo
+	@ printf '\033[37m  delint \033[00m Remove any `*.lint` files\n'
+	@ echo
+	@ printf '\033[37m  reset  \033[00m Reset the build cache\n'
 
 $(ACTIVATE):
 	$(PYTHON) -m venv $(ENV_DIR)
 	. $(ACTIVATE) && \
 	    $(PIP) install --upgrade pip
-	. $(ACTIVATE) && \
-	    $(PIP) install -r $(LOCAL_DIR)/requirements.txt
+	@ # We change to `TOP_DIR` to mimic how Read the Docs does it
+	. $(ACTIVATE) && cd $(TOP_DIR) && \
+	    $(PIP) install -r $(DOCS_DIR)/requirements.txt
 
 ifeq ($(UNAME),Linux)
 $(VALE):
@@ -101,6 +131,40 @@ tools: vale
 .PHONY: lint
 lint: tools $(lint_targets)
 
+.PHONY: lint-watch
+lint-watch: $(UTILS_DIR)
+	$(FSWATCH) .build/sitemap.xml | while read num; do \
+	    $(UTILS_MAKE) lint; \
+	done || true
+
+# If you are having problems with the `linkcheck` target, you might
+# want to configure `linkcheck_ignore` in your `conf.py` file.
+.PHONY: html linkcheck
+html linkcheck: $(ACTIVATE)
+	. $(ACTIVATE) && \
+	    $(SPHINXBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
+
+.PHONY: autobuild
+autobuild: $(ACTIVATE)
+	. $(ACTIVATE) && \
+	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
+
+.PHONY: dev
+dev: lint
+	@ if test ! -x "`which $(FSWATCH)`"; then \
+	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
+	    exit 1; \
+	fi
+	@ # Run `autobuild` and `lint-watch` simultaneously with the `-j` flag.
+	@ # Both output to STDOUT and STDERR. To make this less confusing,
+	@ # `lint-watch` watches the sitemap file that Sphinx builds at the end of
+	@ # each build iteration. So Sphinx should wake up first, and then the
+	@ # linter. The resulting output flows quite nicely.
+	$(MAKE) -j autobuild lint-watch
+
+.PHONY: check
+check: html linkcheck lint
+
 # Using targets for cleaning means we don't have to loop over the generated
 # list of unescaped filenames
 %.delint:
@@ -111,8 +175,3 @@ lint: tools $(lint_targets)
 
 .PHONY: delint
 delint: $(delint_targets)
-
-.PHONY: reset
-reset:
-	rm -rf $(ENV_DIR)
-	rm -rf $(TOOLS_DIR)

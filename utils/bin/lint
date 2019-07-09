@@ -20,12 +20,12 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 if test ! -n "$VALE"; then
-    echo "VALE is not set."
+    echo '`VALE` is not set.'
     exit 1
 fi
 
 if test ! -n "$VALE_OPTS"; then
-    echo "VALE_OPTS is not set."
+    echo '`VALE_OPTS` is not set.'
     exit 1
 fi
 
@@ -50,7 +50,7 @@ run_log () {
 
 printf "Linting: \033[35m$SOURCE_FILE\033[00m\n"
 
-echo "# Vale" > $LINT_FILE
-printf "%0.s#" {1..79} >> $LINT_FILE
+echo '# Vale' > $LINT_FILE
+printf '%0.s#' {1..79} >> $LINT_FILE
 echo >> $LINT_FILE
 run_log $VALE $VALE_OPTS $SOURCE_FILE
