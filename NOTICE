@@ -1,0 +1,16 @@
+Crate.io Docs Style Guide
+Copyright 2019 Crate.IO GmbH
+
+Licensed to Crate.IO GmbH (referred to in this notice as "Crate") under one or
+more contributor license agreements.
+
+Unless otherwise stated, every component of this project is licensed under the
+Apache License, Version 2.0.
+
+Third-party works bundled with this project are listed in the LICENSE file
+along with their respective licenses. Any additional mandatory notices
+pertaining to those dependencies will be reproduced in this file.
+
+Crate sometimes provides pre-built releases for convenience, also known as
+"convenience releases". Convenience releases may contain third-party works not
+listed in the LICENSE file or in this file.
