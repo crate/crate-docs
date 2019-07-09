@@ -1,8 +1,6 @@
-======================
-Crate Docs Style Guide
-======================
-
-|style| |travis| |rtd|
+================
+Crate Docs Utils
+================
 
 Standard utilities and an executable style guide for the `Crate
 documentation`_.
@@ -33,16 +31,3 @@ Looking for more help?
 .. _developer docs: DEVELOP.rst
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/
 .. _support channels: https://crate.io/support/
-
-
-.. |style| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-docs-style%2Fmaster%2Fdocs%2Fstyle.json
-    :alt: Style version
-    :target: https://github.com/crate/crate-docs-style
-
-.. |travis| image:: https://img.shields.io/travis/crate/crate-docs-style.svg?style=flat
-    :alt: Travis CI status
-    :target: https://travis-ci.org/crate/crate-docs-style
-
-.. |rtd| image:: https://readthedocs.org/projects/crate-docs-style/badge/
-    :alt: Read the Docs status
-    :target: https://readthedocs.org/projects/crate-docs-style/

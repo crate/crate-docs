@@ -49,19 +49,19 @@ AUTOBUILD_OPTS  := --re-ignore '^(?!.+\.rst$$)'
 BUILD_DIR       := .build
 SPHINX_ARGS     := . $(BUILD_DIR)
 SPHINX_OPTS     := -W -n
-STYLE_JSON      := style.json
-STYLE_REPO      := https://github.com/crate/crate-docs-style.git
-STYLE_DIR       := .style
-STYLE_DIR_ROOT  := $(DOCS_DIR)/$(STYLE_DIR)
-STYLE_RULES     := $(STYLE_DIR_ROOT)/utils/rules.mk
+UTILS_JSON      := utils.json
+UTILS_REPO      := https://github.com/crate/crate-docs-utils.git
+UTILS_DIR       := .style
+UTILS_DIR_ROOT  := $(DOCS_DIR)/$(UTILS_DIR)
+UTILS_RULES     := $(UTILS_DIR_ROOT)/utils/rules.mk
 # Change to `TOP_DIR` so we can process all RST files in the repository
-STYLE_MAKE      := $(MAKE) -C $(TOP_DIR) -f $(STYLE_RULES)
+UTILS_MAKE      := $(MAKE) -C $(TOP_DIR) -f $(UTILS_RULES)
 FSWATCH         := fswatch
 
 # Default target
 .PHONY: help
 help:
-	@ printf 'Crate Documentation Build System\n'
+	@ printf 'Crate Docs Utils\n'
 	@ echo
 	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
 	@ echo
@@ -102,25 +102,25 @@ $(VALE):
 endif
 
 # Parse JSON file for version
-STYLE_VERSION = $(shell cat $(STYLE_JSON) | \
+UTILS_VERSION = $(shell cat $(UTILS_JSON) | \
     python -c 'import json, sys; print(json.load(sys.stdin)["message"])')
 
-ifeq ($(STYLE_VERSION),)
-$(error No version specified in $(STYLE_JSON))
+ifeq ($(UTILS_VERSION),)
+$(error No version specified in $(UTILS_JSON))
 endif
 
 ifeq ($(wildcard $(TOP_DIR)/utils/rules.mk),)
 # The documentation for all other projects must install a versioned copy of the
 # crate-docs-style project
-$(STYLE_DIR):
+$(UTILS_DIR):
 	git clone --depth=1 -c advice.detachedHead=false \
-	    --branch=$(STYLE_VERSION) $(STYLE_REPO) $(STYLE_DIR)
+	    --branch=$(UTILS_VERSION) $(UTILS_REPO) $(UTILS_DIR)
 else
 # The documentation for the crate-docs-style project fakes an install of its
 # own code so that it can test itself
-$(STYLE_DIR):
+$(UTILS_DIR):
 	mkdir -p $@
-	cp -R $(TOP_DIR)/utils $@/utils
+	cp -R $(TOP_DIR)/utils/* $@
 endif
 
 .PHONY: autobuild
@@ -129,13 +129,13 @@ autobuild: $(ACTIVATE)
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
 .PHONY: lint
-lint: $(STYLE_DIR)
-	$(STYLE_MAKE) lint
+lint: $(UTILS_DIR)
+	$(UTILS_MAKE) lint
 
 .PHONY: lint-watch
-lint-watch: $(STYLE_DIR)
+lint-watch: $(UTILS_DIR)
 	@ $(FSWATCH) .build/sitemap.xml | while read num; do \
-	    $(STYLE_MAKE) lint; \
+	    $(UTILS_MAKE) lint; \
 	done || true
 
 .PHONY: dev
@@ -164,11 +164,11 @@ Makefile:
 	    $(SPHINXBUILD) -M $@ $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 
 .PHONY: delint
-delint: $(STYLE_DIR)
-	$(STYLE_MAKE) delint
+delint: $(UTILS_DIR)
+	$(UTILS_MAKE) delint
 
 .PHONY: reset
 reset:
 	rm -rf $(ENV_DIR)
 	rm -rf $(BUILD_DIR)
-	rm -rf $(STYLE_DIR)
+	rm -rf $(UTILS_DIR)
