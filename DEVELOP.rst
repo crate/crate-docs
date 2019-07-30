@@ -72,17 +72,16 @@ To create a new release:
 .. _Read the Docs: http://readthedocs.org
 .. _ReStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
-.. _style guide: https://github.com/crate/crate-docs-style
 
 
-.. |style| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-docs-style%2Fmaster%2Fdocs%2Fstyle.json
+.. |style| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-docs-utils%2Fmaster%2Fdocs%2Fstyle.json
     :alt: Style version
     :target: https://github.com/crate/crate-docs-style
 
-.. |travis| image:: https://img.shields.io/travis/crate/getting-started.svg?style=flat
+.. |travis| image:: https://img.shields.io/travis/crate/crate-docs-utils.svg?style=flat
     :alt: Travis CI status
-    :target: https://travis-ci.org/crate/getting-started
+    :target: https://travis-ci.org/crate/crate-docs-utils
 
-.. |rtd| image:: https://readthedocs.org/projects/crate-getting-started/badge/?version=latest
+.. |rtd| image:: https://readthedocs.org/projects/crate-docs-utils/badge/?version=latest
     :alt: Read The Docs status
-    :target: https://readthedocs.org/projects/crate-docs-style
+    :target: https://readthedocs.org/projects/crate-docs-utils
