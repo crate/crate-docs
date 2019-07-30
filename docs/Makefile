@@ -21,9 +21,9 @@
 # This file provides a standard Crate documentation build system
 #
 # The most up-to-date version of this Makefile can be found in the
-# crate-docs-style repository:
+# crate-docs-utils repository:
 #
-#   https://github.com/crate/crate-docs-style/blob/master/docs/Makefile
+#   https://github.com/crate/crate-docs-utils/blob/master/docs/Makefile
 
 .EXPORT_ALL_VARIABLES:
 
@@ -51,7 +51,7 @@ SPHINX_ARGS     := . $(BUILD_DIR)
 SPHINX_OPTS     := -W -n
 UTILS_JSON      := utils.json
 UTILS_REPO      := https://github.com/crate/crate-docs-utils.git
-UTILS_DIR       := .style
+UTILS_DIR       := .utils
 UTILS_DIR_ROOT  := $(DOCS_DIR)/$(UTILS_DIR)
 UTILS_RULES     := $(UTILS_DIR_ROOT)/utils/rules.mk
 # Change to `TOP_DIR` so we can process all RST files in the repository
@@ -111,12 +111,12 @@ endif
 
 ifeq ($(wildcard $(TOP_DIR)/utils/rules.mk),)
 # The documentation for all other projects must install a versioned copy of the
-# crate-docs-style project
+# crate-docs-utils project
 $(UTILS_DIR):
 	git clone --depth=1 -c advice.detachedHead=false \
 	    --branch=$(UTILS_VERSION) $(UTILS_REPO) $(UTILS_DIR)
 else
-# The documentation for the crate-docs-style project fakes an install of its
+# The documentation for the crate-docs-utils project fakes an install of its
 # own code so that it can test itself
 $(UTILS_DIR):
 	mkdir -p $@
