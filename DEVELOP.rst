@@ -46,7 +46,7 @@ You must install `fswatch`_ to use the ``dev`` target.
 Continuous integration and deployment
 -------------------------------------
 
-|style| |travis| |rtd|
+|utils| |travis| |rtd|
 
 Travis CI is is `configured`_ to run ``make check`` from the ``docs``
 directory. Please do not merge pull requests until the tests pass.
@@ -74,7 +74,7 @@ To create a new release:
 .. _Sphinx: http://sphinx-doc.org/
 
 
-.. |style| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-docs-utils%2Fmaster%2Fdocs%2Futils.json
+.. |utils| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-docs-utils%2Fmaster%2Fdocs%2Futils.json
     :alt: Utils version
     :target: https://github.com/crate/crate-docs-utils/blob/master/docs/utils.json
 
