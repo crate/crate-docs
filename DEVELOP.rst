@@ -61,7 +61,7 @@ Preparing a release
 To create a new release:
 
 - Add a new version section to the ``CHANGES.txt`` file
-- Update ``message`` in ``docs/style.json`` to the latest version
+- Update ``message`` in ``docs/utils.json`` to the latest version
 - Commit your changes with a message like "Prepare release X.Y.Z"
 - Push to ``origin``
 - Run ``./devtools/create_tag.sh``
