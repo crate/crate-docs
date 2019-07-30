@@ -74,7 +74,7 @@ To create a new release:
 .. _Sphinx: http://sphinx-doc.org/
 
 
-.. |style| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-docs-utils%2Fmaster%2Fdocs%2Fstyle.json
+.. |style| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-docs-utils%2Fmaster%2Fdocs%2Futils.json
     :alt: Style version
     :target: https://github.com/crate/crate-docs-style
 
