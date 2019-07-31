@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.1.12 - 2019/07/31
+===================
+
 - Add `site-packages` to RST skip list
 
 
