@@ -65,7 +65,11 @@ endif
 # Find all RST source files in `TOP_DIR` (but skip possible locations of
 # third-party dependencies)
 source_files := $(shell \
-    find '$(TOP_DIR)' -not -path '*/\.*' -name '*\.rst' -type f)
+    find '$(TOP_DIR)' \
+        -not -path '*/\.*' \
+        -not -path '*/site-packages/' \
+        -name '*\.rst' \
+        -type f)
 
 # Generate targets
 lint_targets := $(patsubst %,%.lint,$(source_files))
