@@ -6,8 +6,12 @@ Changes
 Unreleased
 ==========
 
-- Switch to `src` directory name
+
+0.2.0 - 2019/08/08
+===================
+
 - Improve dependency tracking
+- Switch to `src` directory name
 
 
 0.1.12 - 2019/07/31
