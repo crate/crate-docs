@@ -28,18 +28,18 @@ endif
 
 .EXPORT_ALL_VARIABLES:
 
-LOCAL_DIR       := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+LOCAL_DIR       := $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 ENV_DIR         := $(LOCAL_DIR)/.env
 ACTIVATE        := $(ENV_DIR)/bin/activate
 PYTHON          := python3.7
 PIP             := $(PYTHON) -m pip
-SPHINXBUILD     := sphinx-build
-SPHINXAUTOBUILD := sphinx-autobuild
+SPHINXBUILD     := $(ENV_DIR)/bin/sphinx-build
+SPHINXAUTOBUILD := $(ENV_DIR)/bin/sphinx-autobuild
 AUTOBUILD_OPTS  := --re-ignore '^(?!.+\.rst$$)'
-BUILD_DIR       := .build
+BUILD_DIR       := $(LOCAL_DIR)/.build
 SPHINX_ARGS     := . $(BUILD_DIR)
 SPHINX_OPTS     := -W -n
-RST2HTML        := rst2html.py
+RST2HTML        := $(ENV_DIR)/bin/rst2html.py
 VALE_VERSION    := 1.4.2
 VALE_URL        := https://github.com/errata-ai/vale/releases/download
 VALE_URL        := $(VALE_URL)/v$(VALE_VERSION)
@@ -49,7 +49,7 @@ VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
 TOOLS_DIR       := $(LOCAL_DIR)/.tools
 VALE            := $(TOOLS_DIR)/vale
 VALE_OPTS       := --config=$(LOCAL_DIR)/_vale.ini
-LINT            := $(LOCAL_DIR)/bin/lint
+LINT            := $(LOCAL_DIR)/src/bin/lint
 FSWATCH         := fswatch
 
 # Figure out the OS
@@ -67,7 +67,7 @@ endif
 source_files := $(shell \
     find '$(TOP_DIR)' \
         -not -path '*/\.*' \
-        -not -path '*/site-packages/' \
+        -not -path '*/site-packages/*' \
         -name '*\.rst' \
         -type f)
 
@@ -99,6 +99,10 @@ $(ACTIVATE):
 	$(PYTHON) -m venv $(ENV_DIR)
 	. $(ACTIVATE) && \
 	    $(PIP) install --upgrade pip
+
+$(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
+	. $(ACTIVATE) && \
+	    $(PIP) install -r $(LOCAL_DIR)/src/requirements.txt
 	@ # We change to `TOP_DIR` to mimic how Read the Docs does it
 	. $(ACTIVATE) && cd $(TOP_DIR) && \
 	    $(PIP) install -r $(DOCS_DIR)/requirements.txt
@@ -144,12 +148,12 @@ lint-watch: $(UTILS_DIR)
 # If you are having problems with the `linkcheck` target, you might
 # want to configure `linkcheck_ignore` in your `conf.py` file.
 .PHONY: html linkcheck
-html linkcheck: $(ACTIVATE)
+html linkcheck: $(ACTIVATE) $(SPHINXBUILD)
 	. $(ACTIVATE) && \
 	    $(SPHINXBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 
 .PHONY: autobuild
-autobuild: $(ACTIVATE)
+autobuild: $(ACTIVATE) $(SPHINXAUTOBUILD)
 	. $(ACTIVATE) && \
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
