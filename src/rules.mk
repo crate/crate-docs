@@ -48,7 +48,7 @@ VALE_MACOS      := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
 VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
 TOOLS_DIR       := $(LOCAL_DIR)/.tools
 VALE            := $(TOOLS_DIR)/vale
-VALE_OPTS       := --config=$(LOCAL_DIR)/_vale.ini
+VALE_OPTS       := --config=$(LOCAL_DIR)/src/_vale.ini
 LINT            := $(LOCAL_DIR)/src/bin/lint
 FSWATCH         := fswatch
 

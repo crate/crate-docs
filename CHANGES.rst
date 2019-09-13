@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Fix Vale config file path
+
 
 0.2.0 - 2019/08/08
 ===================
