@@ -46,6 +46,7 @@ VALE_URL        := $(VALE_URL)/v$(VALE_VERSION)
 VALE_LINUX      := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
 VALE_MACOS      := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
 VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
+NO_VALE_FILE    := $(TOP_DIR)/$(DOCS_DIR)/_no_vale # Vale disabled if exists
 TOOLS_DIR       := $(LOCAL_DIR)/.tools
 VALE            := $(TOOLS_DIR)/vale
 VALE_OPTS       := --config=$(LOCAL_DIR)/src/_vale.ini
@@ -60,6 +61,10 @@ else
     UNAME := $(patsubst CYGWIN%,Windows,$(UNAME))
     UNAME := $(patsubst MSYS%,Windows,$(UNAME))
     UNAME := $(patsubst MINGW%,Windows,$(UNAME))
+endif
+
+ifneq ($(wildcard $(NO_VALE_FILE)),)
+   UNAME := none
 endif
 
 # Find all RST source files in `TOP_DIR` (but skip possible locations of
@@ -119,6 +124,13 @@ $(VALE):
 	mkdir -p $(TOOLS_DIR)
 	curl -L $(VALE_URL)/$(VALE_MACOS) -o $(TOOLS_DIR)/$(VALE_MACOS)
 	cd $(TOOLS_DIR) && tar -xzf $(VALE_MACOS)
+endif
+
+# Disable Vale by mocking the executable
+ifeq ($(UNAME),none)
+$(VALE):
+	mkdir -p $(TOOLS_DIR)
+	ln -s `which true` $(VALE)
 endif
 
 .PHONY: vale

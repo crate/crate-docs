@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Add `_no_vale` file feature for disabling Vale lint checks
+
 
 0.2.1 - 2019/09/13
 ===================
