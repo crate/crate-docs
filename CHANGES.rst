@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Fix incorrect use of hardcoded build directory path with fswatch
+
 
 0.2.2 - 2019/10/22
 ==================

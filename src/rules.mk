@@ -153,7 +153,7 @@ lint: tools $(lint_targets)
 
 .PHONY: lint-watch
 lint-watch: $(UTILS_DIR)
-	$(FSWATCH) .build/sitemap.xml | while read num; do \
+	$(FSWATCH) $(BUILD_DIR)/sitemap.xml | while read num; do \
 	    $(UTILS_MAKE) lint; \
 	done || true
 
