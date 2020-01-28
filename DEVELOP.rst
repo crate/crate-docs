@@ -54,8 +54,8 @@ Please do not merge pull requests until the tests pass.
 `Read the Docs`_ (RTD) automatically deploys the documentation whenever a
 configured branch is updated.
 
-If you want to make changes to the RTD configuration (e.g., to activate or
-deactivate a release version), please contact the `@crate/docs`_ team.
+To make changes to the RTD configuration (e.g., to activate or deactivate a
+release version), please contact the `@crate/docs`_ team.
 
 
 Preparing a release
@@ -68,6 +68,7 @@ To create a new release:
 - Commit your changes with a message like "Prepare release X.Y.Z"
 - Push to ``origin``
 - Run ``./devtools/create_tag.sh``
+
 
 .. _@crate/docs: https://github.com/orgs/crate/teams/docs
 .. _configured: https://github.com/crate/crate-docs-utils/blob/master/.travis.yml
