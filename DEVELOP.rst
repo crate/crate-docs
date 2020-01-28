@@ -51,12 +51,11 @@ Continuous integration and deployment
 Travis CI is `configured`_ to run ``make check`` from the ``docs`` directory.
 Please do not merge pull requests until the tests pass.
 
-`Read the Docs`_ automatically deploys the documentation whenever a configured
-branch is updated.
+`Read the Docs`_ (RTD) automatically deploys the documentation whenever a
+configured branch is updated.
 
-If you want to make changes to the Read The Docs configuration (e.g., to
-activate or deactivate a supported release version), please contact the
-`@crate/docs`_ team.
+If you want to make changes to the RTD configuration (e.g., to activate or
+deactivate a release version), please contact the `@crate/docs`_ team.
 
 
 Preparing a release
