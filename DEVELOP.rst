@@ -54,6 +54,10 @@ Please do not merge pull requests until the tests pass.
 `Read the Docs`_ automatically deploys the documentation whenever a configured
 branch is updated.
 
+If you want to make changes to the Read The Docs configuration (e.g., to
+activate or deactivate a supported release version), please contact the
+@crate/docs team.
+
 
 Preparing a release
 ===================
