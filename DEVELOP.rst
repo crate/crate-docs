@@ -56,7 +56,7 @@ branch is updated.
 
 If you want to make changes to the Read The Docs configuration (e.g., to
 activate or deactivate a supported release version), please contact the
-@crate/docs team.
+`@crate/docs`_ team.
 
 
 Preparing a release
@@ -70,7 +70,7 @@ To create a new release:
 - Push to ``origin``
 - Run ``./devtools/create_tag.sh``
 
-
+.. _@crate/docs: https://github.com/orgs/crate/teams/docs
 .. _configured: https://github.com/crate/crate-docs-utils/blob/master/.travis.yml
 .. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
