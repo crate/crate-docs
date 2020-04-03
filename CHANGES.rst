@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Disabled proselint.Very rule
+
 
 0.2.3 - 2019/10/22
 ==================
