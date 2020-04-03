@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.2.4 - 2020/04/03
+==================
+
 - Disabled proselint.Very rule
 
 
