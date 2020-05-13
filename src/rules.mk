@@ -17,6 +17,7 @@
 # these terms will supersede the license and you may use the software solely
 # pursuant to the terms of the relevant commercial agreement.
 
+SHELL := /bin/bash
 
 .EXPORT_ALL_VARIABLES:
 
@@ -102,14 +103,14 @@ $(ACTIVATE):
 	@$(PYTHON) -c 'import sys; assert sys.version_info >= (3, 7), "Requires Python>=3.7"'
 	@# Create Python virtualenv
 	$(PYTHON) -m venv $(ENV_DIR)
-	. $(ACTIVATE) && \
+	source $(ACTIVATE) && \
 	    $(PIP) install --upgrade pip
 
 $(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
-	. $(ACTIVATE) && \
+	source $(ACTIVATE) && \
 	    $(PIP) install -r $(SRC_DIR)/requirements.txt
 	@ # We change to `TOP_DIR` to mimic how Read the Docs does it
-	. $(ACTIVATE) && cd $(TOP_DIR) && \
+	source $(ACTIVATE) && cd $(TOP_DIR) && \
 	    $(PIP) install -r $(DOCS_DIR)/requirements.txt
 
 ifeq ($(UNAME),Linux)
@@ -157,7 +158,7 @@ $(LINT_DIR)/%.csv: %.rst
 	@ if test -n '$(dir $@)'; then \
 	    mkdir -p '$(dir $@)'; \
 	fi
-	@ . $(ACTIVATE) && \
+	@ source $(ACTIVATE) && \
 	    $(LINT) '$<' '$@'
 
 .PHONY: lint
@@ -167,7 +168,7 @@ lint: lint-deps $(lint_targets)
 # want to configure `linkcheck_ignore` in your `conf.py` file.
 .PHONY: html linkcheck
 html linkcheck: $(ACTIVATE) $(SPHINXBUILD)
-	. $(ACTIVATE) && \
+	source $(ACTIVATE) && \
 	    $(SPHINXBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) -b $(@) $(O)
 
 .PHONY: autobuild-deps
@@ -175,7 +176,7 @@ autobuild-deps: $(SPHINXAUTOBUILD)
 
 .PHONY: autobuild
 autobuild: autobuild-deps
-	. $(ACTIVATE) && \
+	source $(ACTIVATE) && \
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
 .PHONY: lint-watch
