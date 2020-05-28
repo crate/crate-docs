@@ -15,10 +15,10 @@ ReStructuredText
 General
 =======
 
-With the exception of pre-formatted text (e.g., literals and code
-blocks), lines should not exceed 72 characters. At this width, GitHub
-pull request diffs will never be soft wrapped, which aids readability
-and collaboration.
+With the exception of pre-formatted text (e.g., literals and code blocks), as
+well as link URLs, lines should not exceed 79 characters. They should be
+wrapped as closely to 79 characters per line as possible, without exceeding
+that limit.
 
 .. TIP::
 
@@ -32,11 +32,11 @@ Additionally:
 
 .. TIP::
 
-    Good text editors can be configured to take care of spaces instead
-    of tabs, trailing spaces, and trailing newlines.
+    Good text editors can be configured to take care of spaces instead of tabs,
+    trailing spaces, and trailing newlines.
 
-Headings should be preceded by two empty lines to help visually
-distinguish the start of a new section.
+Headings should be preceded by two empty lines to help visually distinguish the
+start of a new section.
 
 Correct:
 
@@ -58,8 +58,8 @@ Incorrect line spacing:
     New section header
     ==================
 
-In all other cases, with the exception of preformatted text, there
-should never be multiple sequential empty lines.
+In all other cases, with the exception of preformatted text, there should never
+be multiple sequential empty lines.
 
 Correct:
 
@@ -142,11 +142,10 @@ Follow these markup conventions for title and headings:
 Labels
 ======
 
-Page titles and headings should be labeled. Labels must be unique within
-the scope of a single documentation project.
+Page titles and headings should be labeled. Labels must be unique within the
+scope of a single documentation project.
 
-Use ``-`` characters instead of ``_`` characters to separate words in a
-label.
+Use ``-`` characters instead of ``_`` characters to separate words in a label.
 
 Correct:
 
@@ -171,16 +170,15 @@ Incorrect separating character:
     Foo Widgets
     ===========
 
-The preferred way to link to documents (from within the same
-documentation project) is to use the most appropriate label as a
-*reference*. For example:
+The preferred way to link to documents (from within the same documentation
+project) is to use the most appropriate label as a *reference*. For example:
 
 .. code-block:: rst
 
     Consult the :ref:`foo-widgets` section.
 
-By default, this style of link will use the original title or heading
-text (including case). You can set your own link text, like this:
+By default, this style of link will use the original title or heading text
+(including case). You can set your own link text, like this:
 
 .. code-block:: rst
 
@@ -188,14 +186,13 @@ text (including case). You can set your own link text, like this:
 
 .. TIP::
 
-    If you want to link to a page or a subsection of a page but there
-    isn't a corresponding title or heading label, you can add one.
+    If you want to link to a page or a subsection of a page but there isn't a
+    corresponding title or heading label, you can add one.
 
 .. NOTE::
 
-    Long labels (20 characters or more) can be unwieldy to use. Opt for
-    a shorthand version of the title or heading if you need to cut
-    things down.
+    Long labels (20 characters or more) can be unwieldy to use. Opt for a
+    shorthand version of the title or heading if you need to cut things down.
 
 
 .. _lists:
@@ -209,8 +206,8 @@ Lists
 Closed
 ------
 
-The list items of a :ref:`closed list <style-tips-lists-closed>` appear
-as sequential lines with no additional spacing.
+The list items of a :ref:`closed list <style-tips-lists-closed>` appear as
+sequential lines with no additional spacing.
 
 For example:
 
@@ -218,9 +215,8 @@ For example:
 * Suspendisse quis fermentum quam, at tincidunt nisi
 * Etiam convallis dolor nec dolor feugiat
 
-Closed lists should be marked up using ``*`` characters, with no initial
-space relative to the current indent level, and no spaces between the
-list items.
+Closed lists should be marked up using ``*`` characters, with no initial space
+relative to the current indent level, and no spaces between the list items.
 
 Correct:
 
@@ -272,29 +268,28 @@ Incorrect line spacing:
 Open
 ----
 
-The list items of an  :ref:`open list <style-tips-lists-open>` appear
-separated like paragraphs.
+The list items of an  :ref:`open list <style-tips-lists-open>` appear separated
+like paragraphs.
 
 For example:
 
 .. rst-class:: open
 
-* Integer faucibus, nisl non hendrerit maximus, purus massa dignissim
-  tellus, posuere.
+* Integer faucibus, nisl non hendrerit maximus, purus massa dignissim tellus,
+  posuere.
 
 * Lacus dolor sit amet tellus. Mauris vel ultrices magna.
 
-  Suspendisse quis fermentum quam, at tincidunt nisi. Etiam convallis
-  dolor nec dolor feugiat, non sagittis justo dictum.
+  Suspendisse quis fermentum quam, at tincidunt nisi. Etiam convallis dolor nec
+  dolor feugiat, non sagittis justo dictum.
 
 * Nullam scelerisque lectus orci, nec rhoncus libero sollicitudin nec.
-  Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna
-  dictum. Etiam eget ornare nibh.
+  Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna dictum. Etiam
+  eget ornare nibh.
 
-Closed lists should be marked up using ``*`` characters, with no initial
-space relative to the current indent level, and one empty line between
-list items. They must also be prefixed with the ``.. rst-class:: open``
-directive.
+Closed lists should be marked up using ``*`` characters, with no initial space
+relative to the current indent level, and one empty line between list items.
+They must also be prefixed with the ``.. rst-class:: open`` directive.
 
 Correct:
 
@@ -313,8 +308,8 @@ Correct:
       dolor nec dolor feugiat, non sagittis justo dictum.
 
     * Nullam scelerisque lectus orci, nec rhoncus libero sollicitudin nec.
-      Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna
-      dictum. Etiam eget ornare nibh.
+      Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna dictum.
+      Etiam eget ornare nibh.
 
 Missing directive:
 
@@ -332,8 +327,8 @@ Missing directive:
       dolor nec dolor feugiat, non sagittis justo dictum.
 
     * Nullam scelerisque lectus orci, nec rhoncus libero sollicitudin nec.
-      Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna
-      dictum. Etiam eget ornare nibh.
+      Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna dictum.
+      Etiam eget ornare nibh.
 
 Incorrect line spacing:
 
@@ -351,8 +346,8 @@ Incorrect line spacing:
       Suspendisse quis fermentum quam, at tincidunt nisi. Etiam convallis
       dolor nec dolor feugiat, non sagittis justo dictum.
     * Nullam scelerisque lectus orci, nec rhoncus libero sollicitudin nec.
-      Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna
-      dictum. Etiam eget ornare nibh.
+      Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna dictum.
+      Etiam eget ornare nibh.
 
 
 .. _indentation:
@@ -360,8 +355,7 @@ Incorrect line spacing:
 Indentation
 ===========
 
-Literal blocks and admonition blocks should be indented by four
-characters.
+Literal blocks and admonition blocks should be indented by four characters.
 
 Correct:
 

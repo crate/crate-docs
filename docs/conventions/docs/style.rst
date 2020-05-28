@@ -21,9 +21,8 @@ Unless otherwise specified, we follow `The Chicago Manual of Style`_.
 
 .. TIP::
 
-    We have a company login for the online version of the Chicago Manual
-    of Style. If you need to access it, please ask a technical writer
-    for help.
+    We have a company login for the online version of the Chicago Manual of
+    Style. If you need to access it, please ask a technical writer for help.
 
 
 .. _style-tips:
@@ -50,8 +49,8 @@ Correct:
 .. code-block:: rst
 
 
-    This is the standard theme. The community edition of CrateDB uses a
-    lighter theme.
+    This is the standard theme. The community edition of CrateDB uses a lighter
+    theme.
 
 Incorrect double space:
 
@@ -67,7 +66,7 @@ Incorrect double space:
 Commas
 ~~~~~~
 
-We use the `serial commas`_.
+We use `serial commas`_.
 
 Correct:
 
@@ -82,8 +81,8 @@ Missing serial comma:
 
     CrateDB provides flexibility, scalability and ease-of-use.
 
-Lists should always include the word "and" after the seral comma, even
-in headings.
+Lists should always include the word "and" after the serial comma, even in
+headings.
 
 Correct:
 
@@ -118,8 +117,8 @@ Use :ref:`closed lists <lists-closed>` for simple lists:
 * Suspendisse quis fermentum quam, at tincidunt nisi
 * Etiam convallis dolor nec dolor feugiat
 
-Typically, each list item will be a single sentence and terminal
-punctuation is not used.
+Typically, each list item will be a single sentence and terminal punctuation is
+not used.
 
 
 .. _style-tips-lists-open:
@@ -131,20 +130,20 @@ Use :ref:`open lists <lists-open>` for more complex list items:
 
 .. rst-class:: open
 
-* Integer faucibus, nisl non hendrerit maximus, purus massa dignissim
-  tellus, posuere.
+* Integer faucibus, nisl non hendrerit maximus, purus massa dignissim tellus,
+  posuere.
 
 * Lacus dolor sit amet tellus. Mauris vel ultrices magna.
 
-  Suspendisse quis fermentum quam, at tincidunt nisi. Etiam convallis
-  dolor nec dolor feugiat, non sagittis justo dictum.
+  Suspendisse quis fermentum quam, at tincidunt nisi. Etiam convallis dolor nec
+  dolor feugiat, non sagittis justo dictum.
 
 * Nullam scelerisque lectus orci, nec rhoncus libero sollicitudin nec.
-  Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna
-  dictum. Etiam eget ornare nibh.
+  Suspendisse dictum eros eu dui lacinia, vitae ullamcorper magna dictum. Etiam
+  eget ornare nibh.
 
-Open lists are useful because paragraph spacing makes longer blocks of
-text easier to read. Terminal punctuation is used.
+Open lists are useful because paragraph spacing makes longer blocks of text
+easier to read. Terminal punctuation is used.
 
 
 .. _style-tips-numbers:
@@ -152,19 +151,17 @@ text easier to read. Terminal punctuation is used.
 Numbering
 ---------
 
-Numbers under 10 should be spelled out, unless they're literals (i.e.,
-SQL, configuration examples, code, etc.). For example, write "three",
-and not "3".
+Numbers under 10 should be spelled out, unless they're literals (i.e., SQL,
+configuration examples, code, etc.). For example, write "three", not "3".
 
 .. NOTE::
 
-    You can make an exception if you are enumerating a list. For
-    example: "Step 1" works better than "Step One".
+    You can make an exception if you are enumerating a list. For example:
+    "Step 1" works better than "Step One".
 
-Write "Third" and not "3rd", or similar.
+Write "third" and not "3rd", or similar.
 
-Numbers 10 or over should be written using numerals (i.e., "10", and not
-"ten").
+Numbers 10 or over should be written using numerals (i.e., "10", not "ten").
 
 
 .. _style-tips-misc:
@@ -172,9 +169,9 @@ Numbers 10 or over should be written using numerals (i.e., "10", and not
 Miscellaneous
 -------------
 
-The term "ID" is an abbreviation and should always be capitalised in
-prose. Lowercase is okay for literals, such as column names or variables
-(e.g., ``row_id``).
+The term "ID" is an abbreviation and should always be capitalized in prose.
+Lowercase is okay for literals, such as column names or variables (e.g.,
+``row_id``).
 
 Use "and" instead of "&".
 
@@ -209,8 +206,8 @@ Incorrect use of a solidus:
 
 .. NOTE::
 
-    You can make an exception if using "/" is in accordance with common
-    usage (e.g., "client/server").
+    You can make an exception if using "/" is in accordance with common usage
+    (e.g., "client/server").
 
 
 .. _American English: https://en.wikipedia.org/wiki/American_English
