@@ -71,21 +71,21 @@ To create a new release:
 
 
 .. _@crate/docs: https://github.com/orgs/crate/teams/docs
-.. _configured: https://github.com/crate/crate-docs-utils/blob/master/.travis.yml
+.. _configured: https://github.com/crate/docs/blob/master/.travis.yml
 .. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
 .. _ReStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
 
 
-.. |utils| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fcrate-docs-utils%2Fmaster%2Fdocs%2Futils.json
+.. |utils| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fdocs%2Fmaster%2Fdocs%2Futils.json
     :alt: Utils version
-    :target: https://github.com/crate/crate-docs-utils/blob/master/docs/utils.json
+    :target: https://github.com/crate/docs/blob/master/docs/utils.json
 
-.. |travis| image:: https://img.shields.io/travis/crate/crate-docs-utils.svg?style=flat
+.. |travis| image:: https://img.shields.io/travis/crate/docs.svg?style=flat
     :alt: Travis CI status
-    :target: https://travis-ci.org/crate/crate-docs-utils
+    :target: https://travis-ci.org/crate/docs
 
-.. |rtd| image:: https://readthedocs.org/projects/crate-docs-utils/badge/?version=latest
+.. |rtd| image:: https://readthedocs.org/projects/docs/badge/?version=latest
     :alt: Read The Docs status
-    :target: https://readthedocs.org/projects/crate-docs-utils
+    :target: https://readthedocs.org/projects/docs

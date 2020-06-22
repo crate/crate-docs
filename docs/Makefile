@@ -30,10 +30,13 @@ export DOCS_DIR := docs
 # Do not edit anything below this line
 ###############################################################################
 
-UTILS_JSON := utils.json
-UTILS_REPO := https://github.com/crate/crate-docs-utils.git
-UTILS_DIR  := .utils
-UTILS_MAKE := $(MAKE) -f $(UTILS_DIR)/src/rules.mk
+UTILS_JSON     := utils.json
+UTILS_REPO     := https://github.com/crate/docs.git
+CLONE_DIR      := .docs
+UTILS_DIR      := $(CLONE_DIR)/utils
+SELF_UTILS     := $(TOP_DIR)/utils
+SELF_MAKEFILE  := $(SELF_UTILS)/rules.mk
+UTILS_MAKE     := $(MAKE) -f $(UTILS_DIR)/rules.mk
 
 # Parse the JSON file
 UTILS_VERSION = $(shell cat $(UTILS_JSON) | \
@@ -48,17 +51,19 @@ endif
 help: $(UTILS_DIR)
 	@ $(UTILS_MAKE) $@
 
-ifneq ($(wildcard $(TOP_DIR)/src/rules.mk),)
+ifneq ($(wildcard $(SELF_MAKEFILE)),)
 # The utils project detects itself and fakes an install of its own code so that
 # it can test itself
-$(UTILS_DIR):
+$(CLONE_DIR):
 	mkdir -p $@
-	cp -R $(TOP_DIR)/src $@
+
+$(UTILS_DIR): $(CLONE_DIR)
+	cp -R $(SELF_UTILS) $@
 else
 # All other projects install a versioned copy of the utils
-$(UTILS_DIR):
+$(CLONE_DIR):
 	git clone --depth=1 -c advice.detachedHead=false \
-	    --branch=$(UTILS_VERSION) $(UTILS_REPO) $(UTILS_DIR)
+	    --branch=$(UTILS_VERSION) $(UTILS_REPO) $(MAKE_DIR)
 endif
 
 # Don't pass through this target
@@ -72,4 +77,4 @@ Makefile:
 
 .PHONY: reset
 reset:
-	rm -rf $(UTILS_DIR)
+	rm -rf $(CLONE_DIR)

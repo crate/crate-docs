@@ -28,7 +28,8 @@ endif
 
 .EXPORT_ALL_VARIABLES:
 
-LOCAL_DIR       := $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+LOCAL_DIR       := $(patsubst %/utils/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+UTILS_DIR       := $(LOCAL_DIR)/utils
 ENV_DIR         := $(LOCAL_DIR)/.env
 ACTIVATE        := $(ENV_DIR)/bin/activate
 PYTHON          := python3.7
@@ -49,8 +50,8 @@ VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
 NO_VALE_FILE    := $(TOP_DIR)/$(DOCS_DIR)/_no_vale # Vale disabled if exists
 TOOLS_DIR       := $(LOCAL_DIR)/.tools
 VALE            := $(TOOLS_DIR)/vale
-VALE_OPTS       := --config=$(LOCAL_DIR)/src/_vale.ini
-LINT            := $(LOCAL_DIR)/src/bin/lint
+VALE_OPTS       := --config=$(UTILS_DIR)/_vale.ini
+LINT            := $(UTILS_DIR)/bin/lint
 FSWATCH         := fswatch
 
 # Figure out the OS
@@ -107,7 +108,7 @@ $(ACTIVATE):
 
 $(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
 	. $(ACTIVATE) && \
-	    $(PIP) install -r $(LOCAL_DIR)/src/requirements.txt
+	    $(PIP) install -r $(UTILS_DIR)/requirements.txt
 	@ # We change to `TOP_DIR` to mimic how Read the Docs does it
 	. $(ACTIVATE) && cd $(TOP_DIR) && \
 	    $(PIP) install -r $(DOCS_DIR)/requirements.txt
@@ -184,6 +185,10 @@ dev: lint
 
 .PHONY: check
 check: html linkcheck lint
+
+# Alias for commonly used Make target
+.PHONY: test
+test: check
 
 # Using targets for cleaning means we don't have to loop over the generated
 # list of unescaped filenames
