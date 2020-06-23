@@ -1,8 +1,8 @@
 ================
-Crate Docs Utils
+Crate Docs Build
 ================
 
-Standard utilities and an executable style guide for the `Crate
+Standard build system and executable style guide for the `Crate
 documentation`_.
 
 

@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Renamed project to crate-docs-build
+
 
 0.2.4 - 2020/04/03
 ==================

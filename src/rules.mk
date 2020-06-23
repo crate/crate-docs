@@ -28,8 +28,8 @@ endif
 
 .EXPORT_ALL_VARIABLES:
 
-LOCAL_DIR       := $(patsubst %/utils/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-UTILS_DIR       := $(LOCAL_DIR)/utils
+LOCAL_DIR       := $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+SRC_DIR         := $(LOCAL_DIR)/src
 ENV_DIR         := $(LOCAL_DIR)/.env
 ACTIVATE        := $(ENV_DIR)/bin/activate
 PYTHON          := python3.7
@@ -50,8 +50,8 @@ VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
 NO_VALE_FILE    := $(TOP_DIR)/$(DOCS_DIR)/_no_vale # Vale disabled if exists
 TOOLS_DIR       := $(LOCAL_DIR)/.tools
 VALE            := $(TOOLS_DIR)/vale
-VALE_OPTS       := --config=$(UTILS_DIR)/_vale.ini
-LINT            := $(UTILS_DIR)/bin/lint
+VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini
+LINT            := $(SRC_DIR)/bin/lint
 FSWATCH         := fswatch
 
 # Figure out the OS
@@ -83,7 +83,7 @@ delint_targets := $(patsubst %,%.delint,$(lint_targets))
 
 .PHONY: help
 help:
-	@ printf '\033[33mCrate Docs Utils\033[00m\n'
+	@ printf '\033[33mCrate Docs Build\033[00m\n'
 	@ echo
 	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
 	@ echo
@@ -108,7 +108,7 @@ $(ACTIVATE):
 
 $(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
 	. $(ACTIVATE) && \
-	    $(PIP) install -r $(UTILS_DIR)/requirements.txt
+	    $(PIP) install -r $(SRC_DIR)/requirements.txt
 	@ # We change to `TOP_DIR` to mimic how Read the Docs does it
 	. $(ACTIVATE) && cd $(TOP_DIR) && \
 	    $(PIP) install -r $(DOCS_DIR)/requirements.txt
@@ -153,9 +153,9 @@ tools: vale
 lint: tools $(lint_targets)
 
 .PHONY: lint-watch
-lint-watch: $(UTILS_DIR)
+lint-watch: $(SRC_DIR)
 	$(FSWATCH) $(BUILD_DIR)/sitemap.xml | while read num; do \
-	    $(UTILS_MAKE) lint; \
+	    $(SRC_MAKE) lint; \
 	done || true
 
 # If you are having problems with the `linkcheck` target, you might

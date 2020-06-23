@@ -25,7 +25,7 @@ For help, run:
 
     $ make
 
-    Crate Docs Utils
+    Crate Docs Build
 
     Run `make <TARGET>`, where <TARGET> is one of:
 
@@ -46,7 +46,7 @@ You must install `fswatch`_ to use the ``dev`` target.
 Continuous integration and deployment
 -------------------------------------
 
-|utils| |travis| |rtd|
+|build| |travis| |rtd|
 
 Travis CI is `configured`_ to run ``make check`` from the ``docs`` directory.
 Please do not merge pull requests until the tests pass.
@@ -64,28 +64,28 @@ Preparing a release
 To create a new release:
 
 - Add a new version section to the ``CHANGES.txt`` file
-- Update ``message`` in ``docs/utils.json`` to the latest version
+- Update ``message`` in ``docs/build.json`` to the latest version
 - Commit your changes with a message like "Prepare release X.Y.Z"
 - Push to ``origin``
 - Run ``./devtools/create_tag.sh``
 
 
-.. _@crate/docs: https://github.com/orgs/crate/teams/docs
-.. _configured: https://github.com/crate/docs/blob/master/.travis.yml
+.. _@crate/tech-writing: https://github.com/orgs/crate/teams/tech-writing
+.. _configured: https://github.com/crate/crate-docs-build/blob/master/.travis.yml
 .. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
 .. _ReStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
 
 
-.. |utils| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fdocs%2Fmaster%2Fdocs%2Futils.json
-    :alt: Utils version
-    :target: https://github.com/crate/docs/blob/master/docs/utils.json
+.. |build| image:: https://img.shields.io/endpoint.svg?color=blue&url=https%3A%2F%2Fraw.githubusercontent.com%2Fcrate%2Fdocs%2Fmaster%2Fdocs%2Fbuild.json
+    :alt: Build version
+    :target: https://github.com/crate/crate-docs-build/blob/master/docs/build.json
 
-.. |travis| image:: https://img.shields.io/travis/crate/docs.svg?style=flat
+.. |travis| image:: https://img.shields.io/travis/crate/crate-docs-build.svg?style=flat
     :alt: Travis CI status
-    :target: https://travis-ci.org/crate/docs
+    :target: https://travis-ci.org/crate/crate-docs-build
 
-.. |rtd| image:: https://readthedocs.org/projects/docs/badge/?version=latest
+.. |rtd| image:: https://readthedocs.org/projects/crate-docs-build/badge/?version=latest
     :alt: Read The Docs status
-    :target: https://readthedocs.org/projects/docs
+    :target: https://readthedocs.org/projects/crate-docs-build
