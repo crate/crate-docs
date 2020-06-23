@@ -136,6 +136,42 @@ Follow these markup conventions for title and headings:
     Fifth-level heading
     ...................
 
+As a general principle, we use the imperative mood for top-level document
+titles where an action is relevant. E.g., correct:
+
+.. code-block:: rst
+
+    ================
+    Create a cluster
+    ================
+
+Incorrect:
+
+.. rst-class:: incorrect
+.. code-block:: rst
+
+    =======
+    Cluster
+    =======
+
+or
+
+.. rst-class:: incorrect
+.. code-block:: rst
+
+    =======================
+    How to create a cluster
+    =======================
+
+Where an action is not relevant (e.g., reference articles), just a descriptive
+title suffices. For example:
+
+.. code-block:: rst
+
+    ========
+    Glossary
+    ========
+
 
 .. _rst-labels:
 
@@ -151,7 +187,7 @@ Correct:
 
 .. code-block:: rst
 
-    .. _foo-wigets:
+    .. _foo-widgets:
 
     ===========
     Foo Widgets
@@ -164,7 +200,7 @@ Incorrect separating character:
 .. rst-class:: incorrect
 .. code-block:: rst
 
-    .. _foo_wigets:
+    .. _foo_widgets:
 
     ===========
     Foo Widgets
