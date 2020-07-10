@@ -6,6 +6,18 @@ Changes
 Unreleased
 ==========
 
+- Improved output by muting some Make rules
+- Removed `_no_vale` file from `docs`, which enables Vale testing using local
+  test Sphinx project
+- Changed `.clone` directory to `.crate-docs-build`, which should be more
+  readily understandable for most users
+- Improved lint checking output
+- Forced a full lint check every time `make dev` or `make check` is run
+- Fixed issue with `lint-watch` target not working the first time you run `make
+  dev`
+- Fixed issue with `bin/lint` not being run via fswatch
+- Moved lint files to hidden subdirectory to avoid cluttering the visible file
+  tree in text editors
 - Renamed project to crate-docs-build
 
 

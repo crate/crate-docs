@@ -18,19 +18,11 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 
-ifeq ($(TOP_DIR),)
-$(error `TOP_DIR` is not set)
-endif
-
-ifeq ($(TOP_DIR),)
-$(error `DOCS_DIR` is not set)
-endif
-
 .EXPORT_ALL_VARIABLES:
 
 LOCAL_DIR       := $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 SRC_DIR         := $(LOCAL_DIR)/src
-ENV_DIR         := $(LOCAL_DIR)/.env
+ENV_DIR         := $(LOCAL_DIR)/env
 ACTIVATE        := $(ENV_DIR)/bin/activate
 PYTHON          := python3.7
 PIP             := $(PYTHON) -m pip
@@ -48,10 +40,11 @@ VALE_LINUX      := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
 VALE_MACOS      := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
 VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
 NO_VALE_FILE    := $(TOP_DIR)/$(DOCS_DIR)/_no_vale # Vale disabled if exists
-TOOLS_DIR       := $(LOCAL_DIR)/.tools
+TOOLS_DIR       := $(LOCAL_DIR)/tools
 VALE            := $(TOOLS_DIR)/vale
 VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini
 LINT            := $(SRC_DIR)/bin/lint
+LINT_DIR        := $(LOCAL_DIR)/lint/$(DOCS_DIR)
 FSWATCH         := fswatch
 
 # Figure out the OS
@@ -64,22 +57,22 @@ else
     UNAME := $(patsubst MINGW%,Windows,$(UNAME))
 endif
 
+# Disable Vale
 ifneq ($(wildcard $(NO_VALE_FILE)),)
    UNAME := none
 endif
 
 # Find all RST source files in `TOP_DIR` (but skip possible locations of
 # third-party dependencies)
-source_files := $(shell \
+source_files := $(sort $(shell \
     find '$(TOP_DIR)' \
         -not -path '*/\.*' \
         -not -path '*/site-packages/*' \
         -name '*\.rst' \
-        -type f)
+        -type f))
 
 # Generate targets
-lint_targets := $(patsubst %,%.lint,$(source_files))
-delint_targets := $(patsubst %,%.delint,$(lint_targets))
+lint_targets := $(patsubst %.rst,%,$(patsubst %,$(LINT_DIR)/%,$(source_files)))
 
 .PHONY: help
 help:
@@ -140,63 +133,82 @@ vale: $(ACTIVATE) $(VALE)
 	    printf 'No rules to install Vale on your operating system.\n'; \
 	    exit 1; \
 	fi
+	# Force an empty line after environment setup and before linting happens
+	# when running `make dev` for the first time
+	@ echo
 
-.PHONY: tools
-tools: vale
+$(LINT_DIR):
+	@ mkdir -p $(LINT_DIR)
+
+.PHONY: lint-deps
+lint-deps: $(LINT_DIR) vale
 
 # Lint an RST file and dump the output
-%.rst.lint: %.rst
-	. $(ACTIVATE) && \
+$(LINT_DIR)/%: %.rst
+	@ if test -n '$(dir $@)'; then \
+	    mkdir -p '$(dir $@)'; \
+	fi
+	@ . $(ACTIVATE) && \
 	    $(LINT) '$<' '$@'
 
 .PHONY: lint
-lint: tools $(lint_targets)
-
-.PHONY: lint-watch
-lint-watch: $(SRC_DIR)
-	$(FSWATCH) $(BUILD_DIR)/sitemap.xml | while read num; do \
-	    $(SRC_MAKE) lint; \
-	done || true
+lint: lint-deps $(lint_targets)
 
 # If you are having problems with the `linkcheck` target, you might
 # want to configure `linkcheck_ignore` in your `conf.py` file.
 .PHONY: html linkcheck
 html linkcheck: $(ACTIVATE) $(SPHINXBUILD)
-	. $(ACTIVATE) && \
+	@ . $(ACTIVATE) && \
 	    $(SPHINXBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 
+.PHONY: autobuild-deps
+autobuild-deps: $(SPHINXAUTOBUILD)
+
 .PHONY: autobuild
-autobuild: $(ACTIVATE) $(SPHINXAUTOBUILD)
-	. $(ACTIVATE) && \
+autobuild: autobuild-deps
+	@ . $(ACTIVATE) && \
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
-.PHONY: dev
-dev: lint
+.PHONY: lint-watch
+lint-watch: lint-deps
 	@ if test ! -x "`which $(FSWATCH)`"; then \
 	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
 	    exit 1; \
 	fi
+	@ $(FSWATCH) $(BUILD_DIR)/sitemap.xml | while read num; do \
+	    cd $(TOP_DIR)/$(DOCS_DIR) && $(MAKE) lint; \
+	done || true
+
+.PHONY: dev
+dev:
+	@ # Build dependencies first
+	@ $(MAKE) autobuild-deps
+	@ $(MAKE) lint-deps
+	@ # Force existence of sitemap.xml prior to running lint-watch
+	@ mkdir -p $(BUILD_DIR)
+	@ touch $(BUILD_DIR)/sitemap.xml
+	@ # Force linting for all files
+	@ $(MAKE) delint > /dev/null
+	@ $(MAKE) lint
 	@ # Run `autobuild` and `lint-watch` simultaneously with the `-j` flag.
 	@ # Both output to STDOUT and STDERR. To make this less confusing,
 	@ # `lint-watch` watches the sitemap file that Sphinx builds at the end of
 	@ # each build iteration. So Sphinx should wake up first, and then the
 	@ # linter. The resulting output flows quite nicely.
-	$(MAKE) -j autobuild lint-watch
+	@ $(MAKE) -j autobuild lint-watch
 
 .PHONY: check
-check: html linkcheck lint
+check: html linkcheck
+	@ # Force linting for all files
+	@ $(MAKE) delint > /dev/null
+	@ $(MAKE) lint
 
 # Alias for commonly used Make target
 .PHONY: test
 test: check
 
-# Using targets for cleaning means we don't have to loop over the generated
-# list of unescaped filenames
-%.delint:
-	@ # Fake the output so it's more readable
-	@ filename=`echo $@ | sed s,.delint$$,,` && \
-	    rm -f "$$filename" && \
-	    printf "rm -f $$filename\n"
-
 .PHONY: delint
-delint: $(delint_targets)
+delint: $(LINT_DIR)
+	@ rm -rf $(LINT_DIR)
+	@ # Remove files left behind by older version of the build system
+	@ find $(TOP_DIR) -type f -name '*\.lint' -delete
