@@ -9,5 +9,3 @@ This documentation project is for testing purposes only.
 
 .. toctree::
    :maxdepth: 2
-
-   conventions/index
