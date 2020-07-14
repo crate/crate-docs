@@ -18,6 +18,11 @@ Unreleased
 - Fixed issue with `bin/lint` not being run via fswatch
 - Moved lint files to hidden subdirectory to avoid cluttering the visible file
   tree in text editors
+
+
+0.3.0 - 2020/06/23
+==================
+
 - Renamed project to crate-docs-build
 
 
