@@ -133,8 +133,8 @@ vale: $(ACTIVATE) $(VALE)
 	    printf 'No rules to install Vale on your operating system.\n'; \
 	    exit 1; \
 	fi
-	# Force an empty line after environment setup and before linting happens
-	# when running `make dev` for the first time
+	@ # Force an empty line after environment setup and before linting happens
+	@ # when running `make dev` for the first time
 	@ echo
 
 $(LINT_DIR):
