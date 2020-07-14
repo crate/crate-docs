@@ -90,8 +90,6 @@ help:
 	@ printf '\033[37m  check  \033[00m Build, test, and lint the'
 	@ printf                          ' documentation\n'
 	@ echo
-	@ printf '\033[37m  delint \033[00m Remove any `*.lint` files\n'
-	@ echo
 	@ printf '\033[37m  reset  \033[00m Reset the build cache\n'
 
 $(ACTIVATE):

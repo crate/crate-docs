@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+- Remove mention of `delint` target (internal use only)
+
+
 0.3.2 - 2020/07/14
 ==================
 
