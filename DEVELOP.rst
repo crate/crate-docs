@@ -36,8 +36,6 @@ For help, run:
 
       check   Build, test, and lint the documentation
 
-      delint  Remove any `*.lint` files
-
       reset   Reset the build cache
 
 You must install `fswatch`_ to use the ``dev`` target.
@@ -55,7 +53,7 @@ Please do not merge pull requests until the tests pass.
 configured branch is updated.
 
 To make changes to the RTD configuration (e.g., to activate or deactivate a
-release version), please contact the `@crate/docs`_ team.
+release version), please contact the `@crate/tech-writing`_ team.
 
 
 Preparing a release
