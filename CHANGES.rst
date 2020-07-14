@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+0.3.1 - 2020/07/14
+==================
+
 - Improved output by muting some Make rules
 - Removed `_no_vale` file from `docs`, which enables Vale testing using local
   test Sphinx project
