@@ -198,7 +198,7 @@ Incorrect use of a solidus:
     Inner/Nested Objects
     ====================
 
-**Note**:
+.. NOTE::
 
     You can make an exception if using "/" is in accordance with common usage
     (e.g., "client/server").

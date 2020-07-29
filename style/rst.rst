@@ -5,16 +5,7 @@ RST Guidelines
 At Crate.io, our documentation is written in RST. In order to create a uniform
 standard for writing our RST, we have developed some guidelines. Following
 these guidelines is required for contributions to our documentation. For ease
-of use, we have gathered them in this wiki page below.
-
-**Note**:
-
-    Due to the limitations of Github's RST support, some of the guidelines as
-    written here do not themselves correspond to best practice. For example, a
-    note like this should use an RST admonition and consistent pre-spacing.
-    This applies also to support for distinguishing open and closed lists. It
-    is better to follow the spirit of this guide than the RST of this specific
-    document!
+of use, we have gathered them in this document below.
 
 .. rubric:: Table of Contents
 
@@ -32,7 +23,7 @@ well as link URLs, lines should not exceed 79 characters. They should be
 wrapped as closely to 79 characters per line as possible, without exceeding
 that limit.
 
-**Tip**:
+.. TIP::
 
     Good text editors allow you to set a visual page margin indicator.
 
@@ -42,7 +33,7 @@ Additionally:
 * Lines should not end with any trailing spaces
 * Files should end with a single empty newline
 
-**Tip**:
+.. TIP::
 
     Good text editors can be configured to take care of spaces instead of tabs,
     trailing spaces, and trailing newlines.
