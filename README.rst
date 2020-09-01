@@ -26,7 +26,7 @@ Looking for more help?
 .. _Code of Conduct: CONTRIBUTING.rst
 .. _contributor docs: CONTRIBUTING.rst
 .. _Crate.io: https://crate.io/
-.. _Crate. documentation: https://crate.io/docs/
+.. _Crate documentation: https://crate.io/docs/
 .. _developer docs: DEVELOP.rst
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/
 .. _support channels: https://crate.io/support/
