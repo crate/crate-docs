@@ -1,6 +1,6 @@
-================
-Crate Docs Build
-================
+==========
+Crate Docs
+==========
 
 Build system, QA tools, and a style guide for the `Crate documentation`_.
 
