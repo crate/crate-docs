@@ -95,7 +95,7 @@ help:
 	@ echo
 	@ printf '\033[37m  qa     \033[00m Generate QA telemetry\n'
 	@ echo
-	@ printf '\033[37m  reset  \033[00m Reset the build cache\n'
+	@ printf '\033[37m  reset  \033[00m Reset the build\n'
 
 $(ACTIVATE):
 	$(PYTHON) -m venv $(ENV_DIR)
