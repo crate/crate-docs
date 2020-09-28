@@ -222,7 +222,7 @@ $(QA_DIR):
 .PHONY: qa-deps
 qa-deps: $(QA_DIR)
 
-# Lint an RST file and dump the output
+# Generate QA telemetry for a file
 $(QA_DIR)/%.csv: %.rst
 	@ if test -n '$(dir $@)'; then \
 	    mkdir -p '$(dir $@)'; \
