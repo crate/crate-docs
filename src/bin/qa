@@ -26,5 +26,5 @@ CSV_FILE=${2}
 echo "Scanning: ${SOURCE_FILE}"
 echo "modified, reviewed" > ${CSV_FILE}
 modified=$(git log -1 --date=iso --format="%ad" ${SOURCE_FILE})
-reviewed=$(grep -i ":reviewed:" ${SOURCE_FILE} | sed "s,.*: ,,")
+reviewed=$(head ${SOURCE_FILE} | grep -i ":reviewed:" | sed "s,.*: ,,")
 echo "${modified}, ${reviewed}" >> ${CSV_FILE}
