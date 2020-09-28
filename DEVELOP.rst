@@ -36,7 +36,9 @@ For help, run:
 
       check   Build, test, and lint the documentation
 
-      reset   Reset the build cache
+      qa      Generate QA telemetry
+
+      reset   Reset the build
 
 You must install `fswatch`_ to use the ``dev`` target.
 
