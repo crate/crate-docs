@@ -231,5 +231,5 @@ $(QA_DIR)/%.csv: %.rst
 
 .PHONY: qa
 qa: qa-deps $(qa_targets)
-	@ # Do not error out when linting for full reports
+	@ # Do not error out when linting for QA telemetry
 	@ VALE_NO_EXIT=1 $(MAKE) check
