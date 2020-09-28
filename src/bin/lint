@@ -42,7 +42,7 @@ VALE_CMD="${VALE} ${VALE_OPTS} ${SOURCE_FILE}"
 echo "Linting: ${SOURCE_FILE}"
 printf '%0.s-' {1..81}
 echo
-# For immediate output
+# For output
 ${VALE_CMD}
 # For post-processing
 echo "errors, warnings, suggestions" > ${CSV_FILE}
