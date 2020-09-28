@@ -45,6 +45,8 @@ VALE            := $(TOOLS_DIR)/vale
 VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini
 LINT            := $(SRC_DIR)/bin/lint
 LINT_DIR        := $(LOCAL_DIR)/lint/$(DOCS_DIR)
+QA              := $(SRC_DIR)/bin/qa
+QA_DIR          := $(LOCAL_DIR)/qa/$(DOCS_DIR)
 FSWATCH         := fswatch
 
 # Figure out the OS
@@ -72,7 +74,8 @@ source_files := $(sort $(shell \
         -type f))
 
 # Generate targets
-lint_targets := $(patsubst %.rst,%,$(patsubst %,$(LINT_DIR)/%,$(source_files)))
+lint_targets := $(patsubst %.rst,%.csv,$(patsubst %,$(LINT_DIR)/%,$(source_files)))
+qa_targets := $(patsubst %.rst,%.csv,$(patsubst %,$(QA_DIR)/%,$(source_files)))
 
 .PHONY: help
 help:
@@ -89,6 +92,8 @@ help:
 	@ echo
 	@ printf '\033[37m  check  \033[00m Build, test, and lint the'
 	@ printf                          ' documentation\n'
+	@ echo
+	@ printf '\033[37m  qa     \033[00m Generate QA telemetry\n'
 	@ echo
 	@ printf '\033[37m  reset  \033[00m Reset the build cache\n'
 
@@ -142,7 +147,7 @@ $(LINT_DIR):
 lint-deps: $(LINT_DIR) vale
 
 # Lint an RST file and dump the output
-$(LINT_DIR)/%: %.rst
+$(LINT_DIR)/%.csv: %.rst
 	@ if test -n '$(dir $@)'; then \
 	    mkdir -p '$(dir $@)'; \
 	fi
@@ -156,7 +161,7 @@ lint: lint-deps $(lint_targets)
 # want to configure `linkcheck_ignore` in your `conf.py` file.
 .PHONY: html linkcheck
 html linkcheck: $(ACTIVATE) $(SPHINXBUILD)
-	@ . $(ACTIVATE) && \
+	. $(ACTIVATE) && \
 	    $(SPHINXBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
 
 .PHONY: autobuild-deps
@@ -164,7 +169,7 @@ autobuild-deps: $(SPHINXAUTOBUILD)
 
 .PHONY: autobuild
 autobuild: autobuild-deps
-	@ . $(ACTIVATE) && \
+	. $(ACTIVATE) && \
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
 .PHONY: lint-watch
@@ -207,6 +212,24 @@ test: check
 
 .PHONY: delint
 delint: $(LINT_DIR)
-	@ rm -rf $(LINT_DIR)
+	rm -rf $(LINT_DIR)
 	@ # Remove files left behind by older version of the build system
-	@ find $(TOP_DIR) -type f -name '*\.lint' -delete
+	find $(TOP_DIR) -type f -name '*\.lint' -delete
+
+$(QA_DIR):
+	@ mkdir -p $(QA_DIR)
+
+.PHONY: qa-deps
+qa-deps: $(QA_DIR)
+
+# Lint an RST file and dump the output
+$(QA_DIR)/%.csv: %.rst
+	@ if test -n '$(dir $@)'; then \
+	    mkdir -p '$(dir $@)'; \
+	fi
+	@ $(QA) '$<' '$@'
+
+.PHONY: qa
+qa: qa-deps $(qa_targets)
+	@ # Do not error out when linting for full reports
+	@ VALE_NO_EXIT=1 $(MAKE) check

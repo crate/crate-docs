@@ -20,32 +20,11 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 
-if test ! -n "${VALE}"; then
-    echo '`VALE` is not set.'
-    exit 1
-fi
-
-if test ! -n "${VALE_OPTS}"; then
-    echo '`VALE_OPTS` is not set.'
-    exit 1
-fi
-
-if test -n "${VALE_NO_EXIT}"; then
-    VALE_OPTS="${VALE_OPTS} --no-exit"
-fi
-
 SOURCE_FILE=${1}
 CSV_FILE=${2}
 
-VALE_CMD="${VALE} ${VALE_OPTS} ${SOURCE_FILE}"
-
-echo "Linting: ${SOURCE_FILE}"
-printf '%0.s-' {1..81}
-echo
-# For immediate output
-${VALE_CMD}
-# For post-processing
-echo "errors, warnings, suggestions" > ${CSV_FILE}
-${VALE_CMD} | awk "{print \$2 \",\" \$4 \",\" \$7}" >> ${CSV_FILE}
-echo
-echo
+echo "Scanning: ${SOURCE_FILE}"
+echo "modified, reviewed" > ${CSV_FILE}
+modified=$(git log -1 --date=iso --format="%ad" ${SOURCE_FILE})
+reviewed=$(grep -i ":reviewed:" ${SOURCE_FILE} | sed "s,.*: ,,")
+echo "${modified}, ${reviewed}" >> ${CSV_FILE}
