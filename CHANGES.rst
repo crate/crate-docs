@@ -6,11 +6,15 @@ Changes
 Unreleased
 ==========
 
+0.4.0 - 2020/09/29
+==================
+
 - Add the `qa` target which generates QA telemetry in the form of CSV files for
   post-processing. At the moment, the only information reported is the modified
   date (as reported by Git) and the reviewed date (as manually recorded using
   RST metadata).
 - Modified the `lint` target to also produce CSV files for post-processing.
+
 
 0.3.3 - 2020/07/14
 ==================
