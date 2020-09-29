@@ -11,3 +11,8 @@ pull_request_rules:
       - status-success=continuous-integration/travis-ci
       - status-success=docs/readthedocs.org:crate-docs
     name: default
+  - name: Delete branch after merge
+    actions:
+      delete_head_branch: {}
+    conditions:
+      - merged
