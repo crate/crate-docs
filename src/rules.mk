@@ -45,7 +45,7 @@ VALE            := $(TOOLS_DIR)/vale
 VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini
 LINT            := $(SRC_DIR)/bin/lint
 LINT_DIR        := $(LOCAL_DIR)/lint/$(DOCS_DIR)
-QA              := $(SRC_DIR)/bin/qa
+GIT_LOG         := $(SRC_DIR)/bin/git-log
 QA_DIR          := $(LOCAL_DIR)/qa/$(DOCS_DIR)
 FSWATCH         := fswatch
 
@@ -75,7 +75,7 @@ source_files := $(sort $(shell \
 
 # Generate targets
 lint_targets := $(patsubst %.rst,%.csv,$(patsubst %,$(LINT_DIR)/%,$(source_files)))
-qa_targets := $(patsubst %.rst,%.csv,$(patsubst %,$(QA_DIR)/%,$(source_files)))
+git_log_targets := $(patsubst %.rst,%.git-log.csv,$(patsubst %,$(QA_DIR)/%,$(source_files)))
 
 .PHONY: help
 help:
@@ -223,13 +223,13 @@ $(QA_DIR):
 qa-deps: $(QA_DIR)
 
 # Generate QA telemetry for a file
-$(QA_DIR)/%.csv: %.rst
+$(QA_DIR)/%.git-log.csv: %.rst
 	@ if test -n '$(dir $@)'; then \
 	    mkdir -p '$(dir $@)'; \
 	fi
-	@ $(QA) '$<' '$@'
+	@ $(GIT_LOG) '$<' '$@'
 
 .PHONY: qa
-qa: qa-deps $(qa_targets)
+qa: qa-deps $(git_log_targets)
 	@ # Do not error out when linting for QA telemetry
 	@ VALE_NO_EXIT=1 $(MAKE) check
