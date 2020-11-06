@@ -23,8 +23,7 @@
 SOURCE_FILE=${1}
 CSV_FILE=${2}
 
-echo "Scanning: ${SOURCE_FILE}"
-echo "modified, reviewed" > ${CSV_FILE}
-modified=$(git log -1 --date=iso --format="%ad" ${SOURCE_FILE})
-reviewed=$(head ${SOURCE_FILE} | grep -i ":reviewed:" | sed "s,.*: ,,")
-echo "${modified}, ${reviewed}" >> ${CSV_FILE}
+echo "Writing: ${CSV_FILE}"
+git log --no-merges --date=iso \
+    --pretty=format:'"%ad","%H","%an","%ae","%s"' -- index.rst | \
+    paste - > ${CSV_FILE}
