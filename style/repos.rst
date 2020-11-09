@@ -54,17 +54,17 @@ Every repository, at a minimum, must contain the following top-level files:
 Example: `LICENSE <https://github.com/crate/crate/blob/master/LICENSE>`_ (`crate/crate <https://github.com/crate/crate>`_)
 
 Copy the text verbatim from one the example ``LICENSE`` file above. However, cut the text at the first horizontal rule (composed of multiple repeating `=` characters).
-   
+
 For any third-pary components included in the project:
-   
+
 1. Add a new horizontal rule composed of multiple repeating `=` characters, with two empty newlines above, and one empty newline below.
-   
+
 2. Identify the affected files (e.g., "For the `blackbox/docs` directory:") followed by a newline
-   
+
 3. List the full copyright notice for those files followed by a newline
-   
+
 4. Copy the license text verbatim
-   
+
 
 .. _notice
 
@@ -122,7 +122,7 @@ Example: `CODE_OF_CONDUCT.rst <https://github.com/crate/crate-operator/blob/mast
 
 Copy the text verbatim from the example ``CODE_OF_CONDUCT.rst`` file above.
 
-NOTE: At the moment, most *Code of Conduct* files are formatted using Markdown. This is a `known bug <https://github.com/crate/tech-writing-domain/issues/344>`_ and will be fixed.
+Note: At the moment, most *Code of Conduct* files are formatted using Markdown. This is a `known bug <https://github.com/crate/tech-writing-domain/issues/344>`_ and will be fixed.
 
 
 .. _optional
