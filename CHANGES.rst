@@ -6,6 +6,17 @@ Changes
 Unreleased
 ==========
 
+- The `qa` target now generates full git log CSV files for each RST file,
+  including commit subject. Subject lines can be scanned for keywords (by future
+  QA tooling) to help classify commits.
+
+  In the future, additional QA tools can be developed to generate additional
+  CSV files. For example, to record information reported by Vale.
+
+  The filename stem used by each CSV file can be used to determine the relevant
+  source RST file.
+
+
 0.4.0 - 2020/09/29
 ==================
 
