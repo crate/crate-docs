@@ -162,7 +162,7 @@ lint: lint-deps $(lint_targets)
 .PHONY: html linkcheck
 html linkcheck: $(ACTIVATE) $(SPHINXBUILD)
 	. $(ACTIVATE) && \
-	    $(SPHINXBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(O)
+	    $(SPHINXBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) -b $(@) $(O)
 
 .PHONY: autobuild-deps
 autobuild-deps: $(SPHINXAUTOBUILD)

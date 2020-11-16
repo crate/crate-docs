@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+- Pass target (`html` or `linkcheck`) through to `sphinx-build` (fixes
+  https://github.com/crate/crate-docs/issues/30)
+
 - The `qa` target now generates full git log CSV files for each RST file,
   including commit subject. Subject lines can be scanned for keywords (by future
   QA tooling) to help classify commits.
