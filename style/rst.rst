@@ -36,6 +36,11 @@ Additionally:
   Good text editors can be configured to take care of spaces instead of tabs,
   trailing spaces, and trailing newlines.
 
+.. _rst-general-heading-spacings:
+
+Heading line spacings
+---------------------
+
 Headings should be preceded by two empty lines to help visually distinguish the
 start of a new section.
 
@@ -57,6 +62,12 @@ Incorrect line spacing:
 
     New section header
     ==================
+
+
+.. _rst-general-other-spacings:
+
+Other line spacings
+-------------------
 
 In all other cases, with the exception of preformatted text, there should never
 be multiple sequential empty lines.
@@ -96,6 +107,8 @@ Incorrect line spacing:
     Section header
     ==============
     The first paragraph.
+
+
 
 .. _rst-titles-headings:
 
