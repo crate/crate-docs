@@ -23,9 +23,8 @@ well as link URLs, lines should not exceed 79 characters. They should be
 wrapped as closely to 79 characters per line as possible, without exceeding
 that limit.
 
-.. TIP::
-
-    Good text editors allow you to set a visual page margin indicator.
+**TIP**
+  Good text editors allow you to set a visual page margin indicator.
 
 Additionally:
 
@@ -33,10 +32,9 @@ Additionally:
 * Lines should not end with any trailing spaces
 * Files should end with a single empty newline
 
-.. TIP::
-
-    Good text editors can be configured to take care of spaces instead of tabs,
-    trailing spaces, and trailing newlines.
+**TIP**
+  Good text editors can be configured to take care of spaces instead of tabs,
+  trailing spaces, and trailing newlines.
 
 Headings should be preceded by two empty lines to help visually distinguish the
 start of a new section.
@@ -217,15 +215,13 @@ By default, this style of link will use the original title or heading text
 
     Next, we'll configure a :ref:`foo widget <foo-widgets>`.
 
-.. TIP::
+**TIP**
+  If you want to link to a page or a subsection of a page but there isn't a
+  corresponding title or heading label, you can add one.
 
-    If you want to link to a page or a subsection of a page but there isn't a
-    corresponding title or heading label, you can add one.
-
-.. NOTE::
-
-    Long labels (20 characters or more) can be unwieldy to use. Opt for a
-    shorthand version of the title or heading if you need to cut things down.
+**NOTE**
+  Long labels (20 characters or more) can be unwieldy to use. Opt for a
+  shorthand version of the title or heading if you need to cut things down.
 
 
 .. _lists:
@@ -398,8 +394,8 @@ Incorrect indentation level:
 
        Some note text.
 
-.. _rst-links:
 
+.. _rst-links:
 
 Links
 =====
