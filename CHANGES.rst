@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+- Disable `proselint.Annotations` so that using `**NOTE**` in standalone RST
+  files does not raise an error.
+
 - Pass target (`html` or `linkcheck`) through to `sphinx-build` (fixes
   https://github.com/crate/crate-docs/issues/30)
 
