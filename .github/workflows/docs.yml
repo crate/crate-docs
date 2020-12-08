@@ -23,3 +23,6 @@ jobs:
       - name: Build docs
         run: |
           cd docs && make check
+      - name: Check Vale
+        run: |
+          cd test && make test
