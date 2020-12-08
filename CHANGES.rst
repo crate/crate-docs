@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+- Relax Makefile constraint to specifically use Python 3.7.
+  Now, any version of Python >= 3.7 is allowed.
+
 - Disable `proselint.Annotations` so that using `**NOTE**` in standalone RST
   files does not raise an error.
 

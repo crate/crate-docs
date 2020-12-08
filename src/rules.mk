@@ -24,7 +24,7 @@ LOCAL_DIR       := $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 SRC_DIR         := $(LOCAL_DIR)/src
 ENV_DIR         := $(LOCAL_DIR)/env
 ACTIVATE        := $(ENV_DIR)/bin/activate
-PYTHON          := python3.7
+PYTHON          := python3
 PIP             := $(PYTHON) -m pip
 SPHINXBUILD     := $(ENV_DIR)/bin/sphinx-build
 SPHINXAUTOBUILD := $(ENV_DIR)/bin/sphinx-autobuild
@@ -98,6 +98,12 @@ help:
 	@ printf '\033[37m  reset  \033[00m Reset the build\n'
 
 $(ACTIVATE):
+
+	@# Check Python version.
+	@# Currently, this asserts Python>=3.7.
+	@$(PYTHON) -c 'import sys; assert sys.version_info >= (3, 7), "Requires Python>=3.7"'
+
+	@# Create Python virtualenv.
 	$(PYTHON) -m venv $(ENV_DIR)
 	. $(ACTIVATE) && \
 	    $(PIP) install --upgrade pip
