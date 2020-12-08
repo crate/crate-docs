@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+- We are transitioning to Sphinx 3.x., so the specific requirement
+  to use Sphinx 1.7.4 has been relaxed to allow all of Sphinx <4.
+
 - Use ``.venv`` as a directory under ``.crate-docs`` for
   hosting the built-in virtualenv. This prevents many
   search tools crossing that boundary.
