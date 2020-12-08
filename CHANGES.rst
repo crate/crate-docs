@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+- Use ``.venv`` as a directory under ``.crate-docs`` for
+  hosting the built-in virtualenv. This prevents many
+  search tools crossing that boundary.
+
 - Relax Makefile constraint to specifically use Python 3.7.
   Now, any version of Python >= 3.7 is allowed.
 

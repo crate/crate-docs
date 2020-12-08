@@ -22,7 +22,7 @@
 
 LOCAL_DIR       := $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 SRC_DIR         := $(LOCAL_DIR)/src
-ENV_DIR         := $(LOCAL_DIR)/env
+ENV_DIR         := $(LOCAL_DIR)/.venv
 ACTIVATE        := $(ENV_DIR)/bin/activate
 PYTHON          := python3
 PIP             := $(PYTHON) -m pip
