@@ -42,9 +42,8 @@ VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
 NO_VALE_FILE    := $(TOP_DIR)/$(DOCS_DIR)/_no_vale # Vale disabled if exists
 TOOLS_DIR       := $(LOCAL_DIR)/tools
 VALE            := $(TOOLS_DIR)/vale
-VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini
-LINT            := $(SRC_DIR)/bin/lint
-LINT_DIR        := $(LOCAL_DIR)/lint/$(DOCS_DIR)
+VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini --glob='!{**.git/**,**.venv/**}' --no-exit
+LINT_DIR        := $(LOCAL_DIR)/lint
 GIT_LOG         := $(SRC_DIR)/bin/git-log
 QA_DIR          := $(LOCAL_DIR)/qa/$(DOCS_DIR)
 FSWATCH         := fswatch
@@ -74,7 +73,6 @@ source_files := $(sort $(shell \
         -type f))
 
 # Generate targets
-lint_targets := $(patsubst %.rst,%.csv,$(patsubst %,$(LINT_DIR)/%,$(source_files)))
 git_log_targets := $(patsubst %.rst,%.git-log.csv,$(patsubst %,$(QA_DIR)/%,$(source_files)))
 
 .PHONY: help
@@ -152,16 +150,29 @@ $(LINT_DIR):
 .PHONY: lint-deps
 lint-deps: $(LINT_DIR) vale
 
-# Lint an RST file and dump the output
-$(LINT_DIR)/%.csv: %.rst
-	@ if test -n '$(dir $@)'; then \
-	    mkdir -p '$(dir $@)'; \
-	fi
-	@ . $(ACTIVATE) && \
-	    $(LINT) '$<' '$@'
-
 .PHONY: lint
-lint: lint-deps $(lint_targets)
+lint: lint-deps
+
+	@# Run linter for humans.
+	. $(ACTIVATE) && $(VALE) $(VALE_OPTS) $(TOP_DIR)
+
+	@# Run linter for machines, generate "report.json".
+	. $(ACTIVATE) && $(VALE) $(VALE_OPTS) --output=JSON $(TOP_DIR) \
+	    > $(LINT_DIR)/report.json
+
+	@# Summarize "report.json" to "summary.json".
+	@cat $(LINT_DIR)/report.json \
+	    | jq --from-file $(SRC_DIR)/bin/vale-summary.jq \
+	    > $(LINT_DIR)/summary.json
+
+	@# Reformat "summary.json" to "summary.csv"
+	@cat $(LINT_DIR)/summary.json \
+	    | jq --from-file $(SRC_DIR)/bin/vale-summary2csv.jq --raw-output \
+	    > $(LINT_DIR)/summary.csv
+
+	@# Output reports, with colors.
+	@cat $(LINT_DIR)/summary.json | jq .
+	@cat $(LINT_DIR)/summary.csv
 
 # If you are having problems with the `linkcheck` target, you might
 # want to configure `linkcheck_ignore` in your `conf.py` file.
@@ -197,7 +208,6 @@ dev:
 	@ mkdir -p $(BUILD_DIR)
 	@ touch $(BUILD_DIR)/sitemap.xml
 	@ # Force linting for all files
-	@ $(MAKE) delint > /dev/null
 	@ $(MAKE) lint
 	@ # Run `autobuild` and `lint-watch` simultaneously with the `-j` flag.
 	@ # Both output to STDOUT and STDERR. To make this less confusing,
@@ -207,20 +217,11 @@ dev:
 	@ $(MAKE) -j autobuild lint-watch
 
 .PHONY: check
-check: html linkcheck
-	@ # Force linting for all files
-	@ $(MAKE) delint > /dev/null
-	@ $(MAKE) lint
+check: html linkcheck lint
 
 # Alias for commonly used Make target
 .PHONY: test
 test: check
-
-.PHONY: delint
-delint: $(LINT_DIR)
-	rm -rf $(LINT_DIR)
-	@ # Remove files left behind by older version of the build system
-	find $(TOP_DIR) -type f -name '*\.lint' -delete
 
 $(QA_DIR):
 	@ mkdir -p $(QA_DIR)
