@@ -98,12 +98,9 @@ help:
 	@ printf '\033[37m  reset  \033[00m Reset the build\n'
 
 $(ACTIVATE):
-
-	@# Check Python version.
-	@# Currently, this asserts Python>=3.7.
+	@# Check Python version. Currently, this asserts Python>=3.7.
 	@$(PYTHON) -c 'import sys; assert sys.version_info >= (3, 7), "Requires Python>=3.7"'
-
-	@# Create Python virtualenv.
+	@# Create Python virtualenv
 	$(PYTHON) -m venv $(ENV_DIR)
 	. $(ACTIVATE) && \
 	    $(PIP) install --upgrade pip
@@ -117,17 +114,20 @@ $(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
 
 ifeq ($(UNAME),Linux)
 $(VALE):
-	mkdir -p $(TOOLS_DIR)
-	curl -L $(VALE_URL)/$(VALE_LINUX) -o $(TOOLS_DIR)/$(VALE_LINUX)
-	cd $(TOOLS_DIR) && tar -xzf $(VALE_LINUX)
+	$(MAKE) install-vale PROGRAM=$(VALE_LINUX)
 endif
 
 ifeq ($(UNAME),Darwin)
 $(VALE):
-	mkdir -p $(TOOLS_DIR)
-	curl -L $(VALE_URL)/$(VALE_MACOS) -o $(TOOLS_DIR)/$(VALE_MACOS)
-	cd $(TOOLS_DIR) && tar -xzf $(VALE_MACOS)
+	$(MAKE) install-vale PROGRAM=$(VALE_MACOS)
 endif
+
+install-vale:
+	mkdir -p $(TOOLS_DIR)
+	curl --fail --location $(VALE_URL)/$(PROGRAM) \
+	    --output $(TOOLS_DIR)/$(PROGRAM) || \
+	    (echo; echo ERROR: Downloading Vale failed && exit 1)
+	cd $(TOOLS_DIR) && tar -xzf $(PROGRAM)
 
 # Disable Vale by mocking the executable
 ifeq ($(UNAME),none)
