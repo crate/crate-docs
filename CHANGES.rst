@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Bump Vale from 1.x to the most recent 2.x release.
+
 - Improve Vale linting and reporting
 
   - Invoking Vale just once tremendously improves efficiency
