@@ -33,14 +33,17 @@ BUILD_DIR       := $(LOCAL_DIR)/.build
 SPHINX_ARGS     := . $(BUILD_DIR)
 SPHINX_OPTS     := -W -n
 RST2HTML        := $(ENV_DIR)/bin/rst2html.py
-VALE_VERSION    := 1.4.2
+VALE_VERSION    := 2.6.7
 VALE_URL        := https://github.com/errata-ai/vale/releases/download
 VALE_URL        := $(VALE_URL)/v$(VALE_VERSION)
 VALE_LINUX      := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
 VALE_MACOS      := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
 VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
+VALE_PROSELINT  := https://github.com/errata-ai/proselint/archive/v0.3.2.tar.gz
+VALE_WRITEGOOD  := https://github.com/errata-ai/write-good/archive/v0.4.0.tar.gz
 NO_VALE_FILE    := $(TOP_DIR)/$(DOCS_DIR)/_no_vale # Vale disabled if exists
 TOOLS_DIR       := $(LOCAL_DIR)/tools
+STYLE_DIR       := $(LOCAL_DIR)/tools/styles
 VALE            := $(TOOLS_DIR)/vale
 VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini --glob='!{**.git/**,**.venv/**}' --no-exit
 LINT_DIR        := $(LOCAL_DIR)/lint
@@ -110,11 +113,13 @@ $(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
 ifeq ($(UNAME),Linux)
 $(VALE):
 	$(MAKE) install-vale PROGRAM=$(VALE_LINUX)
+	$(MAKE) install-vale-styles-linux
 endif
 
 ifeq ($(UNAME),Darwin)
 $(VALE):
 	$(MAKE) install-vale PROGRAM=$(VALE_MACOS)
+	$(MAKE) install-vale-styles-macos
 endif
 
 install-vale:
@@ -123,6 +128,20 @@ install-vale:
 	    --output $(TOOLS_DIR)/$(PROGRAM) || \
 	    (echo; echo ERROR: Downloading Vale failed && exit 1)
 	cd $(TOOLS_DIR) && tar -xzf $(PROGRAM)
+
+install-vale-styles-linux:
+	mkdir -p $(STYLE_DIR)
+	curl --location $(VALE_PROSELINT) | \
+	    tar -C $(STYLE_DIR) -xz --strip-components=1 --wildcards '*/proselint'
+	curl --location $(VALE_WRITEGOOD) | \
+	    tar -C $(STYLE_DIR) -xz --strip-components=1 --wildcards '*/write-good'
+
+install-vale-styles-macos:
+	mkdir -p $(STYLE_DIR)
+	curl --location $(VALE_PROSELINT) | \
+	    tar -C $(STYLE_DIR) -xz --strip-components=1 '*/proselint'
+	curl --location $(VALE_WRITEGOOD) | \
+	    tar -C $(STYLE_DIR) -xz --strip-components=1 '*/write-good'
 
 # Disable Vale by mocking the executable
 ifeq ($(UNAME),none)
