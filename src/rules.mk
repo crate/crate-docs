@@ -46,7 +46,6 @@ VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini --glob='!{**.git/**,**.venv/**}
 LINT_DIR        := $(LOCAL_DIR)/lint
 GIT_LOG         := $(SRC_DIR)/bin/git-log
 QA_DIR          := $(LOCAL_DIR)/qa/$(DOCS_DIR)
-FSWATCH         := fswatch
 
 # Figure out the OS
 ifeq ($(findstring ;,$(PATH)),;)
@@ -81,10 +80,8 @@ help:
 	@ echo
 	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
 	@ echo
-	@ printf '\033[37m  dev    \033[00m Run a Sphinx development server that'
-	@ printf                          ' builds and lints the \n'
-	@ printf '\033[37m         \033[00m documentation as you edit the source'
-	@ printf                          ' files\n'
+	@ printf '\033[37m  dev    \033[00m Run a Sphinx development server that builds\n'
+	@ printf '\033[37m         \033[00m the documentation as you edit the source files\n'
 	@ echo
 	@ printf '\033[37m  html   \033[00m Build the static HTML output\n'
 	@ echo
@@ -189,32 +186,8 @@ autobuild: autobuild-deps
 	. $(ACTIVATE) && \
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
-.PHONY: lint-watch
-lint-watch: lint-deps
-	@ if test ! -x "`which $(FSWATCH)`"; then \
-	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
-	    exit 1; \
-	fi
-	@ $(FSWATCH) $(BUILD_DIR)/sitemap.xml | while read num; do \
-	    cd $(TOP_DIR)/$(DOCS_DIR) && $(MAKE) lint; \
-	done || true
-
 .PHONY: dev
-dev:
-	@ # Build dependencies first
-	@ $(MAKE) autobuild-deps
-	@ $(MAKE) lint-deps
-	@ # Force existence of sitemap.xml prior to running lint-watch
-	@ mkdir -p $(BUILD_DIR)
-	@ touch $(BUILD_DIR)/sitemap.xml
-	@ # Force linting for all files
-	@ $(MAKE) lint
-	@ # Run `autobuild` and `lint-watch` simultaneously with the `-j` flag.
-	@ # Both output to STDOUT and STDERR. To make this less confusing,
-	@ # `lint-watch` watches the sitemap file that Sphinx builds at the end of
-	@ # each build iteration. So Sphinx should wake up first, and then the
-	@ # linter. The resulting output flows quite nicely.
-	@ $(MAKE) -j autobuild lint-watch
+dev: autobuild
 
 .PHONY: check
 check: html linkcheck lint
