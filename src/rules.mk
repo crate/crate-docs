@@ -157,6 +157,16 @@ lint: lint-deps
 	. $(ACTIVATE) && $(VALE) $(VALE_OPTS) --output=JSON $(TOP_DIR) \
 	    > $(LINT_DIR)/report.json
 
+	@ if test $(shell which jq); then \
+	    $(MAKE) lint-summary; \
+	else \
+	    echo; \
+	    echo "INFO: For summarizing Vale output, please install the 'jq' program"; \
+	    echo; \
+	fi
+
+lint-summary:
+
 	@# Summarize "report.json" to "summary.json".
 	@cat $(LINT_DIR)/report.json \
 	    | jq --from-file $(SRC_DIR)/bin/vale-summary.jq \
