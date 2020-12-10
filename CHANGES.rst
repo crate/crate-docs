@@ -6,6 +6,13 @@ Changes
 Unreleased
 ==========
 
+- Improve Vale linting and reporting
+
+  - Invoking Vale just once tremendously improves efficiency
+  - Postprocessing now produces the artefacts
+    "report.json", "summary.json" and "summary.csv"
+  - ``make dev`` will now only invoke the ``autobuild`` target
+
 - We are transitioning to Sphinx 3.x., so the specific requirement
   to use Sphinx 1.7.4 has been relaxed to allow all of Sphinx <4.
 
