@@ -23,13 +23,13 @@
 
 .EXPORT_ALL_VARIABLES:
 
-DOCS_DIR      := docs
+DOCS_DIR      := demo-docs
 TOP_DIR       := ..
 BUILD_JSON    := build.json
 BUILD_REPO    := https://github.com/crate/crate-docs.git
 CLONE_DIR     := .crate-docs
-SRC_DIR       := $(CLONE_DIR)/src
-SELF_SRC      := $(TOP_DIR)/src
+SRC_DIR       := $(CLONE_DIR)/common-build
+SELF_SRC      := $(TOP_DIR)/common-build
 SELF_MAKEFILE := $(SELF_SRC)/rules.mk
 SRC_MAKE      := $(MAKE) -f $(SRC_DIR)/rules.mk
 

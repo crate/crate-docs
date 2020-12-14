@@ -20,8 +20,8 @@
 
 .EXPORT_ALL_VARIABLES:
 
-LOCAL_DIR       := $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-SRC_DIR         := $(LOCAL_DIR)/src
+LOCAL_DIR       := $(patsubst %/common-build/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+SRC_DIR         := $(LOCAL_DIR)/common-build
 ENV_DIR         := $(LOCAL_DIR)/.venv
 ACTIVATE        := $(ENV_DIR)/bin/activate
 PYTHON          := python3
