@@ -1,6 +1,6 @@
 name: docs
 on:
-  pull_request: ~
+  pull_request:
   push:
     branches:
       - main
@@ -13,6 +13,10 @@ concurrency:
   cancel-in-progress: true
   group: ${{ github.workflow }}-${{ github.ref }}
 
+defaults:
+  run:
+    shell: sh
+
 jobs:
   documentation:
     name: Build docs on ${{ matrix.os }}
@@ -20,7 +24,7 @@ jobs:
 
     strategy:
       matrix:
-        os: ["ubuntu-latest", "macos-latest"]
+        os: ["windows-latest"]
 
     steps:
       - uses: actions/checkout@v4
