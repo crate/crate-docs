@@ -7,19 +7,20 @@ on:
 
 jobs:
   documentation:
-    name: Build docs on ${{ matrix.os }}
+    name: Build docs on ${{ matrix.os }} using Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+        python-version: ["3.7", "3.8", "3.9"]
 
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: ${{ matrix.python-version }}
       - name: Build docs
         run: |
           cd docs && make check
