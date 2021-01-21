@@ -167,7 +167,8 @@ Miscellaneous
 
 The term "ID" is an abbreviation and should always be capitalized in prose.
 Lowercase is okay for literals, such as column names or variables (e.g.,
-``row_id``).
+``row_id``). References to other repos in the docs (e.g., "tutorials") are
+normally lowercase.
 
 Use "and" instead of "&".
 
