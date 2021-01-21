@@ -6,6 +6,28 @@ Changes
 Unreleased
 ==========
 
+- Bump Vale from 1.x to the most recent 2.x release.
+
+- Improve Vale linting and reporting
+
+  - Invoking Vale just once tremendously improves efficiency
+  - Postprocessing now produces the artefacts
+    "report.json", "summary.json" and "summary.csv"
+  - ``make dev`` will now only invoke the ``autobuild`` target
+
+- We are transitioning to Sphinx 3.x., so the specific requirement
+  to use Sphinx 1.7.4 has been relaxed to allow all of Sphinx <4.
+
+- Use ``.venv`` as a directory under ``.crate-docs`` for
+  hosting the built-in virtualenv. This prevents many
+  search tools crossing that boundary.
+
+- Relax Makefile constraint to specifically use Python 3.7.
+  Now, any version of Python >= 3.7 is allowed.
+
+- Disable `proselint.Annotations` so that using `**NOTE**` in standalone RST
+  files does not raise an error.
+
 - Pass target (`html` or `linkcheck`) through to `sphinx-build` (fixes
   https://github.com/crate/crate-docs/issues/30)
 

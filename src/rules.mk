@@ -22,9 +22,9 @@
 
 LOCAL_DIR       := $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 SRC_DIR         := $(LOCAL_DIR)/src
-ENV_DIR         := $(LOCAL_DIR)/env
+ENV_DIR         := $(LOCAL_DIR)/.venv
 ACTIVATE        := $(ENV_DIR)/bin/activate
-PYTHON          := python3.7
+PYTHON          := python3
 PIP             := $(PYTHON) -m pip
 SPHINXBUILD     := $(ENV_DIR)/bin/sphinx-build
 SPHINXAUTOBUILD := $(ENV_DIR)/bin/sphinx-autobuild
@@ -33,21 +33,22 @@ BUILD_DIR       := $(LOCAL_DIR)/.build
 SPHINX_ARGS     := . $(BUILD_DIR)
 SPHINX_OPTS     := -W -n
 RST2HTML        := $(ENV_DIR)/bin/rst2html.py
-VALE_VERSION    := 1.4.2
+VALE_VERSION    := 2.6.7
 VALE_URL        := https://github.com/errata-ai/vale/releases/download
 VALE_URL        := $(VALE_URL)/v$(VALE_VERSION)
 VALE_LINUX      := vale_$(VALE_VERSION)_Linux_64-bit.tar.gz
 VALE_MACOS      := vale_$(VALE_VERSION)_macOS_64-bit.tar.gz
 VALE_WIN        := vale_$(VALE_VERSION)_Windows_64-bit.tar.gz
+VALE_PROSELINT  := https://github.com/errata-ai/proselint/archive/v0.3.2.tar.gz
+VALE_WRITEGOOD  := https://github.com/errata-ai/write-good/archive/v0.4.0.tar.gz
 NO_VALE_FILE    := $(TOP_DIR)/$(DOCS_DIR)/_no_vale # Vale disabled if exists
 TOOLS_DIR       := $(LOCAL_DIR)/tools
+STYLE_DIR       := $(LOCAL_DIR)/tools/styles
 VALE            := $(TOOLS_DIR)/vale
-VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini
-LINT            := $(SRC_DIR)/bin/lint
-LINT_DIR        := $(LOCAL_DIR)/lint/$(DOCS_DIR)
+VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini --glob='!{**.git/**,**.venv/**}' --no-exit
+LINT_DIR        := $(LOCAL_DIR)/lint
 GIT_LOG         := $(SRC_DIR)/bin/git-log
 QA_DIR          := $(LOCAL_DIR)/qa/$(DOCS_DIR)
-FSWATCH         := fswatch
 
 # Figure out the OS
 ifeq ($(findstring ;,$(PATH)),;)
@@ -74,7 +75,6 @@ source_files := $(sort $(shell \
         -type f))
 
 # Generate targets
-lint_targets := $(patsubst %.rst,%.csv,$(patsubst %,$(LINT_DIR)/%,$(source_files)))
 git_log_targets := $(patsubst %.rst,%.git-log.csv,$(patsubst %,$(QA_DIR)/%,$(source_files)))
 
 .PHONY: help
@@ -83,10 +83,8 @@ help:
 	@ echo
 	@ printf 'Run `make <TARGET>`, where <TARGET> is one of:\n'
 	@ echo
-	@ printf '\033[37m  dev    \033[00m Run a Sphinx development server that'
-	@ printf                          ' builds and lints the \n'
-	@ printf '\033[37m         \033[00m documentation as you edit the source'
-	@ printf                          ' files\n'
+	@ printf '\033[37m  dev    \033[00m Run a Sphinx development server that builds\n'
+	@ printf '\033[37m         \033[00m the documentation as you edit the source files\n'
 	@ echo
 	@ printf '\033[37m  html   \033[00m Build the static HTML output\n'
 	@ echo
@@ -98,6 +96,9 @@ help:
 	@ printf '\033[37m  reset  \033[00m Reset the build\n'
 
 $(ACTIVATE):
+	@# Check Python version. Currently, this asserts Python>=3.7.
+	@$(PYTHON) -c 'import sys; assert sys.version_info >= (3, 7), "Requires Python>=3.7"'
+	@# Create Python virtualenv
 	$(PYTHON) -m venv $(ENV_DIR)
 	. $(ACTIVATE) && \
 	    $(PIP) install --upgrade pip
@@ -111,17 +112,36 @@ $(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
 
 ifeq ($(UNAME),Linux)
 $(VALE):
-	mkdir -p $(TOOLS_DIR)
-	curl -L $(VALE_URL)/$(VALE_LINUX) -o $(TOOLS_DIR)/$(VALE_LINUX)
-	cd $(TOOLS_DIR) && tar -xzf $(VALE_LINUX)
+	$(MAKE) install-vale PROGRAM=$(VALE_LINUX)
+	$(MAKE) install-vale-styles-linux
 endif
 
 ifeq ($(UNAME),Darwin)
 $(VALE):
-	mkdir -p $(TOOLS_DIR)
-	curl -L $(VALE_URL)/$(VALE_MACOS) -o $(TOOLS_DIR)/$(VALE_MACOS)
-	cd $(TOOLS_DIR) && tar -xzf $(VALE_MACOS)
+	$(MAKE) install-vale PROGRAM=$(VALE_MACOS)
+	$(MAKE) install-vale-styles-macos
 endif
+
+install-vale:
+	mkdir -p $(TOOLS_DIR)
+	curl --fail --location $(VALE_URL)/$(PROGRAM) \
+	    --output $(TOOLS_DIR)/$(PROGRAM) || \
+	    (echo; echo ERROR: Downloading Vale failed && exit 1)
+	cd $(TOOLS_DIR) && tar -xzf $(PROGRAM)
+
+install-vale-styles-linux:
+	mkdir -p $(STYLE_DIR)
+	curl --location $(VALE_PROSELINT) | \
+	    tar -C $(STYLE_DIR) -xz --strip-components=1 --wildcards '*/proselint'
+	curl --location $(VALE_WRITEGOOD) | \
+	    tar -C $(STYLE_DIR) -xz --strip-components=1 --wildcards '*/write-good'
+
+install-vale-styles-macos:
+	mkdir -p $(STYLE_DIR)
+	curl --location $(VALE_PROSELINT) | \
+	    tar -C $(STYLE_DIR) -xz --strip-components=1 '*/proselint'
+	curl --location $(VALE_WRITEGOOD) | \
+	    tar -C $(STYLE_DIR) -xz --strip-components=1 '*/write-good'
 
 # Disable Vale by mocking the executable
 ifeq ($(UNAME),none)
@@ -146,16 +166,39 @@ $(LINT_DIR):
 .PHONY: lint-deps
 lint-deps: $(LINT_DIR) vale
 
-# Lint an RST file and dump the output
-$(LINT_DIR)/%.csv: %.rst
-	@ if test -n '$(dir $@)'; then \
-	    mkdir -p '$(dir $@)'; \
-	fi
-	@ . $(ACTIVATE) && \
-	    $(LINT) '$<' '$@'
-
 .PHONY: lint
-lint: lint-deps $(lint_targets)
+lint: lint-deps
+
+	@# Run linter for humans.
+	. $(ACTIVATE) && $(VALE) $(VALE_OPTS) $(TOP_DIR)
+
+	@# Run linter for machines, generate "report.json".
+	. $(ACTIVATE) && $(VALE) $(VALE_OPTS) --output=JSON $(TOP_DIR) \
+	    > $(LINT_DIR)/report.json
+
+	@ if test $(shell which jq); then \
+	    $(MAKE) lint-summary; \
+	else \
+	    echo; \
+	    echo "INFO: For summarizing Vale output, please install the 'jq' program"; \
+	    echo; \
+	fi
+
+lint-summary:
+
+	@# Summarize "report.json" to "summary.json".
+	@cat $(LINT_DIR)/report.json \
+	    | jq --from-file $(SRC_DIR)/bin/vale-summary.jq \
+	    > $(LINT_DIR)/summary.json
+
+	@# Reformat "summary.json" to "summary.csv"
+	@cat $(LINT_DIR)/summary.json \
+	    | jq --from-file $(SRC_DIR)/bin/vale-summary2csv.jq --raw-output \
+	    > $(LINT_DIR)/summary.csv
+
+	@# Output reports, with colors.
+	@cat $(LINT_DIR)/summary.json | jq .
+	@cat $(LINT_DIR)/summary.csv
 
 # If you are having problems with the `linkcheck` target, you might
 # want to configure `linkcheck_ignore` in your `conf.py` file.
@@ -172,49 +215,15 @@ autobuild: autobuild-deps
 	. $(ACTIVATE) && \
 	    $(SPHINXAUTOBUILD) $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
-.PHONY: lint-watch
-lint-watch: lint-deps
-	@ if test ! -x "`which $(FSWATCH)`"; then \
-	    printf '\033[31mYou must have fswatch installed.\033[00m\n'; \
-	    exit 1; \
-	fi
-	@ $(FSWATCH) $(BUILD_DIR)/sitemap.xml | while read num; do \
-	    cd $(TOP_DIR)/$(DOCS_DIR) && $(MAKE) lint; \
-	done || true
-
 .PHONY: dev
-dev:
-	@ # Build dependencies first
-	@ $(MAKE) autobuild-deps
-	@ $(MAKE) lint-deps
-	@ # Force existence of sitemap.xml prior to running lint-watch
-	@ mkdir -p $(BUILD_DIR)
-	@ touch $(BUILD_DIR)/sitemap.xml
-	@ # Force linting for all files
-	@ $(MAKE) delint > /dev/null
-	@ $(MAKE) lint
-	@ # Run `autobuild` and `lint-watch` simultaneously with the `-j` flag.
-	@ # Both output to STDOUT and STDERR. To make this less confusing,
-	@ # `lint-watch` watches the sitemap file that Sphinx builds at the end of
-	@ # each build iteration. So Sphinx should wake up first, and then the
-	@ # linter. The resulting output flows quite nicely.
-	@ $(MAKE) -j autobuild lint-watch
+dev: autobuild
 
 .PHONY: check
-check: html linkcheck
-	@ # Force linting for all files
-	@ $(MAKE) delint > /dev/null
-	@ $(MAKE) lint
+check: html linkcheck lint
 
 # Alias for commonly used Make target
 .PHONY: test
 test: check
-
-.PHONY: delint
-delint: $(LINT_DIR)
-	rm -rf $(LINT_DIR)
-	@ # Remove files left behind by older version of the build system
-	find $(TOP_DIR) -type f -name '*\.lint' -delete
 
 $(QA_DIR):
 	@ mkdir -p $(QA_DIR)
