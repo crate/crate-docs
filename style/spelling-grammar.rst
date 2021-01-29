@@ -10,7 +10,7 @@ Some basic principles:
   
     - Write "catalog" (US English). Avoid "catalogue" (British English).
 
-    - Write "license" (US English). Avoid "Licence" (British English).
+    - Write "license" (US English). Avoid "licence" (British English).
 
 - Compound adjectives should be hypenated whereas compound nouns should not be hypenated
 
