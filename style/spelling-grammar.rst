@@ -50,6 +50,6 @@ Specific guidelines:
 
 - Write "Crate.io" when refering to the company. Avoid "Crate", "Crate.IO", and other variants.
 
-- Write "an SQL" (using "SQL" as an initialism pronounced "S Q L") instead of "a SQL" (using "SQL" an acronym pronounced "sequel"). (Citation: `StackExchange <https://english.stackexchange.com/a/5266>`_)
+- Write "an SQL" (using "SQL" as an initialism pronounced "S Q L") instead of "a SQL" (using "SQL" an acronym pronounced "sequel"). (Citation: `StackExchange <https://english.stackexchange.com/a/5266>`_.)
   
 - Treat "IoT" as a proper noun (e.g., do not preface "IoT" with "the"). Treat "Internet of Things" as a collective noun (e.g., "the Internet of Things" is considered good style).
