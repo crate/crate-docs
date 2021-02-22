@@ -45,7 +45,7 @@ NO_VALE_FILE    := $(TOP_DIR)/$(DOCS_DIR)/_no_vale # Vale disabled if exists
 TOOLS_DIR       := $(LOCAL_DIR)/tools
 STYLE_DIR       := $(LOCAL_DIR)/tools/styles
 VALE            := $(TOOLS_DIR)/vale
-VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini --glob='!{**.git/**,**.venv/**}' --no-exit
+VALE_OPTS       := --config=$(SRC_DIR)/_vale.ini --glob='!{**.git/**,**.venv/**,**.crate-docs/**,**vendor/**}' --no-exit
 LINT_DIR        := $(LOCAL_DIR)/lint
 GIT_LOG         := $(SRC_DIR)/bin/git-log
 QA_DIR          := $(LOCAL_DIR)/qa/$(DOCS_DIR)
@@ -171,6 +171,8 @@ lint: lint-deps
 
 	@# Run linter for humans.
 	. $(ACTIVATE) && $(VALE) $(VALE_OPTS) $(TOP_DIR)
+
+lint-report:
 
 	@# Run linter for machines, generate "report.json".
 	. $(ACTIVATE) && $(VALE) $(VALE_OPTS) --output=JSON $(TOP_DIR) \
