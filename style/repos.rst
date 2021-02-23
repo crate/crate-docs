@@ -22,9 +22,16 @@ General
 Markup languages
 ----------------
 
-We use `reStructuredText <https://docutils.sourceforge.io/rst.html>`_ (RST) for most text files on GitHub because this is also the markup language used by `Sphinx <https://www.sphinx-doc.org/en/master/>`_, our primary documentation system. Having everything written using RST makes writing and editing documents a standard experience across all repositories and makes it easy to copy and paste content from one location to another.
+We use reStructuredText_ (RST) for most text files on GitHub because this is
+also the markup language used by Sphinx_, our primary documentation system.
 
-In addition, we are in the process of folling out automated style checks for any documents that use RST, so it's good to have them in RST for that reason too.
+Having everything written using RST makes writing and editing documents a
+standard experience across all repositories and makes it easy to copy and
+paste content from one location to another.
+
+In addition, we are in the process of rolling out automated style checks for
+any documents that use RST, so it's good to have them in RST for that reason
+too.
 
 
 .. _top-level-files
@@ -148,6 +155,10 @@ Top-level directories
 ``docs``
 --------
 
-The ``docs`` directory is reserved for use as a `Sphinx <https://www.sphinx-doc.org/en/master/>`_ documentation project.
+The ``docs`` directory is reserved for use as a Sphinx_ documentation project.
 
 All Sphinx projects must use a top-level directory named ``docs``.
+
+
+.. _reStructuredText: http://docutils.sourceforge.net/rst.html
+.. _Sphinx: http://sphinx-doc.org/
