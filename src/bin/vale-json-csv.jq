@@ -1,5 +1,10 @@
-# Reformat JSON summary of Vale to CSV using jq.
-# cat vale-summary.json | jq --raw-output --from-file vale-summary2csv.jq > vale-summary.csv
+# Process Vale report into CSV summary
+
+# Example:
+#
+# $ cat vale-summary.json | \
+#       jq --raw-output --from-file vale-json-csv.jq > vale-summary.csv
+
 
 # Define header columns
 ["file", "errors", "warnings", "suggestions"],
@@ -9,3 +14,4 @@
 
 # Format as CSV
 | @csv
+

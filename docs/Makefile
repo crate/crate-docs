@@ -18,8 +18,54 @@
 # pursuant to the terms of the relevant commercial agreement.
 
 
-# Do not edit anything below this line
-###############################################################################
+# =============================================================================
+# Crate Docs
+# =============================================================================
+
+# The Crate Docs project provides a common set of tools for producing the
+# Crate.io documentation. See <https://github.com/crate/crate-docs/> for more
+# information.
+
+# This file is taken from the demo Sphinx project available at
+# <https://github.com/crate/crate-docs/blob/main/docs>. This demo docs project
+# provides a reference implementation that should be copied for all Sphinx
+# projects at Crate.io.
+
+# The Crate Docs build system works by centralizing its core components in the
+# `crate-docs` repository. At build time, this Makefile creates a copy of the
+# this project under the `.crate-docs` directory. This Makefile is an interface
+# for those core components.
+
+# You must pin your Sphinx project to a specific version of the Crate Docs
+# project. You can do this by editing the `build.json` file. Change the JSON
+# `message` value to the desired release number. A list of releases is
+# available at <https://github.com/crate/crate-docs/releases>.
+
+# Although care has been taken to restrict changes to the core components, you
+# may occasionally need to update your project to match the reference
+# implementation.
+
+
+# Project-specific customization
+# =============================================================================
+
+# If you want to customize the build system for your Sphinx project, add lines
+# to this section.
+
+
+# Build system integration
+# =============================================================================
+
+# This is a boilerplate section is required for integration with the Crate Docs
+# build system. All Sphinx projects using a the same Crate Docs version
+# should have exactly the same boilerplate.
+
+# IF YOU ARE EDITING THIS FILE IN A REAL SPHINX PROJECT, YOU SHOULD NOT MAKE
+# ANY CHANGES TO THIS SECTION.
+
+# If you want to make changes to the boilerplate, please make a pull request on
+# the demo Sphinx project in the Crate Docs repository available at
+# <https://github.com/crate/crate-docs/blob/main/docs>.
 
 .EXPORT_ALL_VARIABLES:
 
@@ -50,13 +96,17 @@ ifneq ($(wildcard $(SELF_MAKEFILE)),)
 # The project detects itself and fakes an install of its own core build rules
 # so that it can test itself
 $(CLONE_DIR):
-	mkdir -p $@
-	cp -R $(SELF_SRC) $(SRC_DIR)
+	@ printf '\033[1mInstalling the build system...\033[00m\n'
+	@ mkdir -p $@
+	@ cp -R $(SELF_SRC) $(SRC_DIR)
+	@ printf 'Created: $(CLONE_DIR)\n'
 else
 # All other projects install a versioned copy of the core build rules
 $(CLONE_DIR):
-	git clone --depth=1 -c advice.detachedHead=false \
+	@ printf '\033[1mInstalling the build system...\033[00m\n'
+	@ git clone --depth=1 -c advice.detachedHead=false \
 	    --branch=$(BUILD_VERSION) $(BUILD_REPO) $(CLONE_DIR)
+	@ printf 'Created: $(CLONE_DIR)\n'
 endif
 
 # Don't pass through this target
@@ -70,4 +120,6 @@ Makefile:
 
 .PHONY: reset
 reset:
-	rm -rf $(CLONE_DIR)
+	@ printf '\033[1mResetting the build system...\033[00m\n'
+	@ rm -rf $(CLONE_DIR)
+	@ printf 'Removed: $(CLONE_DIR)\n'

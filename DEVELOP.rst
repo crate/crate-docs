@@ -66,10 +66,17 @@ To create a new release:
 - Commit your changes with a message like "Prepare release X.Y.Z"
 - Push to ``origin``
 - Run ``./devtools/create_tag.sh``
+- Browse to the `releases page`_ and select the version you just released
+- Select *Edit tag*
+- Copy and paste the changelog notes for this release (be sure to remove the
+  hard line breaks)
+- Check the *Preview* tab for display errors and fix if necessary
+- Select *Publish release*
 
 
 .. _@crate/tech-writing: https://github.com/orgs/crate/teams/tech-writing
 .. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
+.. _releases page: https://github.com/crate/crate-docs/releases
 .. _ReStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/

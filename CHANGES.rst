@@ -6,40 +6,49 @@ Changes
 Unreleased
 ==========
 
+- Make rules have been silenced and status messages are now produced. This
+  improves the readability of Make output.
+
+  Please update your Sphinx project's `Makefile`. See `docs/Makefile` in this
+  project for details.
+
+- Some ANSI colors have been replaced with ANSI bold to improve the readability
+  of Make output for some consoles.
+
 - Bump Vale from 1.x to the most recent 2.x release.
 
-- Improve Vale linting and reporting
+- Improvements to the Vale integration:
 
-  - Invoking Vale just once tremendously improves efficiency
-  - Postprocessing now produces the artefacts
-    "report.json", "summary.json" and "summary.csv"
-  - ``make dev`` will now only invoke the ``autobuild`` target
+  - Vale is no longer run when ``make dev``is used
+  - When `make check` is run, Vale is only run once on all file which improves
+    execution speed
 
-- We are transitioning to Sphinx 3.x., so the specific requirement
-  to use Sphinx 1.7.4 has been relaxed to allow all of Sphinx <4.
+- Make will now error out if `make check` or `make telemetry` are run and Vale
+  cannot be installed.
 
-- Use ``.venv`` as a directory under ``.crate-docs`` for
-  hosting the built-in virtualenv. This prevents many
-  search tools crossing that boundary.
+- Use ``.venv`` as a directory under ``.crate-docs`` for hosting the built-in
+  Python virtual environment. This prevents many search tools crossing that
+  boundary.
 
-- Relax Makefile constraint to specifically use Python 3.7.
-  Now, any version of Python >= 3.7 is allowed.
+- Relax Makefile constraint to specifically use Python 3.7. Now, any version of
+  Python >= 3.7 is allowed.
+
+- We are transitioning to Sphinx 3.x., so the specific requirement to use
+  Sphinx 1.7.4 has been relaxed to allow all of Sphinx <4.
 
 - Disable `proselint.Annotations` so that using `**NOTE**` in standalone RST
   files does not raise an error.
 
-- Pass target (`html` or `linkcheck`) through to `sphinx-build` (fixes
-  https://github.com/crate/crate-docs/issues/30)
+- The demo `Makefile` now passes the correct target (`html` or `linkcheck`)
+  through to `sphinx-build` (fixes
+  https://github.com/crate/crate-docs/issues/30).
 
-- The `qa` target now generates full git log CSV files for each RST file,
-  including commit subject. Subject lines can be scanned for keywords (by future
-  QA tooling) to help classify commits.
+- A new `telemetry` target now generates a Vale report and full git log CSV
+  files for each RST file, including commit subject. This data can be used by
+  future tooling for reporting purposes.
 
-  In the future, additional QA tools can be developed to generate additional
-  CSV files. For example, to record information reported by Vale.
-
-  The filename stem used by each CSV file can be used to determine the relevant
-  source RST file.
+- Comments have been added to the demo Sphinx project to document how the build
+  system works.
 
 
 0.4.0 - 2020/09/29
@@ -49,6 +58,7 @@ Unreleased
   post-processing. At the moment, the only information reported is the modified
   date (as reported by Git) and the reviewed date (as manually recorded using
   RST metadata).
+
 - Modified the `lint` target to also produce CSV files for post-processing.
 
 
@@ -90,7 +100,7 @@ Unreleased
 0.2.4 - 2020/04/03
 ==================
 
-- Disabled proselint.Very rule
+- Disabled `proselint.Very` rule
 
 
 0.2.3 - 2019/10/22
