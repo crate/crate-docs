@@ -1,5 +1,9 @@
-# Summarize JSON output of Vale using jq.
-# cat vale-report.json | jq --from-file vale-summary.jq > vale-summary.json
+# Process Vale report into JSON summary
+
+# Example:
+#
+# $ cat vale-report.json | \
+#       jq --from-file vale-json.jq > vale-summary.json
 
 to_entries | map({
     file: .key,
