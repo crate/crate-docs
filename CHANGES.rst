@@ -6,11 +6,14 @@ Changes
 Unreleased
 ==========
 
+- The `docs/Makefile` file has been upgraded and now features a version warning
+  if you are using an out of date version of Crate Docs.
+
+  IMPORTANT: You must update your Sphinx project's `Makefile` to pick up these
+  changes. See `docs/Makefile` for details.
+
 - Make rules have been silenced and status messages are now produced. This
   improves the readability of Make output.
-
-  Please update your Sphinx project's `Makefile`. See `docs/Makefile` in this
-  project for details.
 
 - Some ANSI colors have been replaced with ANSI bold to improve the readability
   of Make output for some consoles.
