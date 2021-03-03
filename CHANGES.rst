@@ -6,52 +6,80 @@ Changes
 Unreleased
 ==========
 
-- The `docs/Makefile` file has been upgraded and now features a version warning
-  if you are using an out of date version of Crate Docs.
 
-  IMPORTANT: You must update your Sphinx project's `Makefile` to pick up these
-  changes. See `docs/Makefile` for details.
+1.0.0 - 2021/03/22
+==================
 
-- Make rules have been silenced and status messages are now produced. This
-  improves the readability of Make output.
 
-- Some ANSI colors have been replaced with ANSI bold to improve the readability
-  of Make output for some consoles.
+Breaking Changes
+----------------
 
-- Bump Vale from 1.x to the most recent 2.x release.
+IMPORTANT: You must update your Sphinx project's ``Makefile`` to pick up these
+changes. See ``docs/Makefile`` for details.
 
-- Improvements to the Vale integration:
-
-  - Vale is no longer run when ``make dev``is used
-  - When `make check` is run, Vale is only run once on all file which improves
-    execution speed
-
-- Make will now error out if `make check` or `make telemetry` are run and Vale
-  cannot be installed.
-
-- Use ``.venv`` as a directory under ``.crate-docs`` for hosting the built-in
-  Python virtual environment. This prevents many search tools crossing that
-  boundary.
-
-- Relax Makefile constraint to specifically use Python 3.7. Now, any version of
-  Python >= 3.7 is allowed.
-
-- We are transitioning to Sphinx 3.x., so the specific requirement to use
-  Sphinx 1.7.4 has been relaxed to allow all of Sphinx <4.
-
-- Disable `proselint.Annotations` so that using `**NOTE**` in standalone RST
-  files does not raise an error.
-
-- The demo `Makefile` now passes the correct target (`html` or `linkcheck`)
-  through to `sphinx-build` (fixes
+- The demo ``Makefile`` now passes the correct target (``html`` or
+  ``linkcheck``) through to ``sphinx-build`` (fixes
   https://github.com/crate/crate-docs/issues/30).
 
-- A new `telemetry` target now generates a Vale report and full git log CSV
-  files for each RST file, including commit subject. This data can be used by
-  future tooling for reporting purposes.
+- The demo ``Makefile`` file now displays a warning message if you are using an
+  out-of-date version of Crate Docs. If you see this message in the future, you
+  will know there is an upgrade available for the build system.
 
-- Comments have been added to the demo Sphinx project to document how the build
-  system works.
+- We have silenced Make rules (too noisy and not helpful) and added
+  informational messages to let you know what's going on.
+
+- We replaced some ANSI colors with ANSI bold to improve the readability of
+  Make output for some consoles.
+
+- We added comments to the demo ``Makefile`` to document how the build system
+  works.
+
+
+Functionality
+-------------
+
+- A new ``telemetry`` target now generates a Vale report and full git log CSV
+  files for each RST file, including the commit subject.
+
+  We may add a telemetry aggregation app to the Crate Docs project for QA use
+  in the future. Ideally, this app would give you a reporting overview for all
+  Sphinx projects.
+
+  See <https://github.com/crate/crate-docs/issues/63> for more information and
+  status update.
+
+- Bump Vale from version 1.x to the most recent 2.x release.
+
+- Make no longer runs Vale when ``make dev``is run. Running Vale before every
+  ``sphinx-autobuild`` was adding a significant delay to the editing workflow.
+  This issue was exacerbated by the fact that Vale was run once for individual
+  RST file.
+
+  Now, Make runs Vale when ``make check`` is run. Additionally, Vale is run
+  once for all files which improves speed.
+
+  Because Vale is no longer necessary to run ``make dev`` or ``make html``,
+  there is no need to mock the Vale binary if Vale cannot be
+  installed. Accordingly, Make will now error out when ``make check`` or ``make
+  telemetry`` are run and Vale cannot be installed because Vale is essential
+  for both of these targets.
+
+- Previously, Python 3.7 was required. Now, any version of Python >= 3.7 is
+  allowed.
+
+- We are transitioning to Sphinx 3. Accordingly, we have relaxed the Sphinx
+  1.7.4 requirement to allow any version of Sphinx < 4.
+
+
+Fixes
+-----
+
+- Disable ``proselint.Annotations`` so that using `**NOTE**` in standalone RST
+  files does not raise an error.
+
+- The ``.venv`` directory (a Python virtual environment) is now created under
+  ``.crate-docs``. This change prevents many developer search tools from
+  crossing that boundary and producing unwanted results.
 
 
 0.4.0 - 2020/09/29
