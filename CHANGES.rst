@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Fix version warning (was warning when the pinned version was up-to-date)
+
 
 1.0.0 - 2021/03/22
 ==================
