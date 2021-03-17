@@ -100,7 +100,7 @@ LATEST_VERSION := $(shell curl -sI --connect-timeout 2 '$(LATEST_BUILD)' | \
 # Skip if no version could be determined (i.e., because of a network error)
 ifneq ($(LATEST_VERSION),)
 # Only issue a warning if there is a version mismatch
-ifeq ($(BUILD_VERSION),$(LATEST_VERSION))
+ifneq ($(BUILD_VERSION),$(LATEST_VERSION))
 define version_warning
 You are using Crate Docs version $(BUILD_VERSION), however version \
 $(LATEST_VERSION) is available. You should consider upgrading. Follow the \
