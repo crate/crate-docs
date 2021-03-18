@@ -18,6 +18,10 @@ Unreleased
       project that can be used to test the other tools within this very
       repository.
 
+- Use explicit version pinning for the Sphinx release, adhering to RTD's
+  recommendations about reproducible builds. Currently, we are using
+  Sphinx 3.5.3.
+
 
 1.0.0 - 2021/03/22
 ==================
