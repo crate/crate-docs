@@ -8,6 +8,8 @@ Unreleased
 
 - Fix version warning (was warning when the pinned version was up-to-date)
 
+- Add ``--keep-going`` to Sphinx options
+
 
 1.0.0 - 2021/03/22
 ==================
