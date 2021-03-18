@@ -27,9 +27,9 @@
 # information.
 
 # This file is taken from the demo Sphinx project available at
-# <https://github.com/crate/crate-docs/blob/main/docs>. This demo docs project
-# provides a reference implementation that should be copied for all Sphinx
-# projects at Crate.io.
+# <https://github.com/crate/crate-docs/blob/main/demo-docs>. This demo docs
+# project provides a reference implementation that should be copied for all
+# Sphinx projects at Crate.io.
 
 # The Crate Docs build system works by centralizing its core components in the
 # `crate-docs` repository. At build time, this Makefile creates a copy of the
@@ -69,18 +69,18 @@
 
 # If you want to make changes to the boilerplate, please make a pull request on
 # the demo Sphinx project in the Crate Docs repository available at
-# <https://github.com/crate/crate-docs/blob/main/docs>.
+# <https://github.com/crate/crate-docs/blob/main/demo-docs>.
 
 .EXPORT_ALL_VARIABLES:
 
-DOCS_DIR      := docs
+DOCS_DIR      := demo-docs
 TOP_DIR       := ..
 BUILD_JSON    := build.json
 BUILD_REPO    := https://github.com/crate/crate-docs.git
 LATEST_BUILD  := https://github.com/crate/crate-docs/releases/latest
 CLONE_DIR     := .crate-docs
-SRC_DIR       := $(CLONE_DIR)/src
-SELF_SRC      := $(TOP_DIR)/src
+SRC_DIR       := $(CLONE_DIR)/common-build
+SELF_SRC      := $(TOP_DIR)/common-build
 SELF_MAKEFILE := $(SELF_SRC)/rules.mk
 SRC_MAKE      := $(MAKE) -f $(SRC_DIR)/rules.mk
 

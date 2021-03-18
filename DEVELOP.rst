@@ -6,13 +6,13 @@ Developer Guide
 Documentation
 =============
 
-The documentation is written using `Sphinx`_ and `ReStructuredText`_.
+The documentation is written using `Sphinx`_ and `reStructuredText`_.
 
 
 Working on the documentation
 ----------------------------
 
-Python 3.7 is required.
+Python >= 3.7 is required.
 
 Change into the ``docs`` directory:
 
@@ -62,7 +62,7 @@ Preparing a release
 To create a new release:
 
 - Add a new version section to the ``CHANGES.txt`` file
-- Update ``message`` in ``docs/build.json`` to the latest version
+- Update ``message`` in ``demo-docs/build.json`` to the latest version
 - Commit your changes with a message like "Prepare release X.Y.Z"
 - Push to ``origin``
 - Run ``./devtools/create_tag.sh``
@@ -78,5 +78,5 @@ To create a new release:
 .. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
 .. _releases page: https://github.com/crate/crate-docs/releases
-.. _ReStructuredText: http://docutils.sourceforge.net/rst.html
+.. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/

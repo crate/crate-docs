@@ -1,4 +1,4 @@
-VALE := ../docs/.crate-docs/tools/vale
+VALE := ../demo-docs/.crate-docs/tools/vale
 
 test:
 	@# Just for having humanized output.

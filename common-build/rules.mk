@@ -24,7 +24,7 @@
 # This Make script implements the core of the Crate Docs build system.
 
 # All Sphinx projects that use the Crate Docs build system contain a `Makefile`
-# (copied from `docs/Makefile` in this project) with a boilerplate section
+# (copied from `demo-docs/Makefile` in this project) with a boilerplate section
 # responsible making a local copy of the Crate Docs project and integrating
 # with the core build system.
 
@@ -40,8 +40,8 @@
 
 .EXPORT_ALL_VARIABLES:
 
-LOCAL_DIR       = $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
-SRC_DIR         = $(LOCAL_DIR)/src
+LOCAL_DIR       = $(patsubst %/common-build/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+SRC_DIR         = $(LOCAL_DIR)/common-build
 BIN_DIR         = $(SRC_DIR)/bin
 ENV_DIR         = $(LOCAL_DIR)/.venv
 ACTIVATE        = $(ENV_DIR)/bin/activate
