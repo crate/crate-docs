@@ -10,6 +10,14 @@ Unreleased
 
 - Add ``--keep-going`` to Sphinx options
 
+- Rename directories
+
+    - ``src`` -> ``common-build``: As this is what we talk about in
+      conversations so it is less ambiguous.
+    - ``docs`` -> ``demo-docs``: This Sphinx project only exists as a demo
+      project that can be used to test the other tools within this very
+      repository.
+
 
 1.0.0 - 2021/03/22
 ==================
@@ -19,7 +27,7 @@ Breaking Changes
 ----------------
 
 IMPORTANT: You must update your Sphinx project's ``Makefile`` to pick up these
-changes. See ``docs/Makefile`` for details.
+changes. See ``demo-docs/Makefile`` for details.
 
 - The demo ``Makefile`` now passes the correct target (``html`` or
   ``linkcheck``) through to ``sphinx-build`` (fixes
@@ -173,7 +181,7 @@ Fixes
 ===================
 
 - Improve Make targets
-- Streamline `docs/Makefile` (move heavy-lifting to `rules.mk`)
+- Streamline `demo-docs/Makefile` (move heavy-lifting to `rules.mk`)
 
 
 0.1.10 - 2019/07/09
