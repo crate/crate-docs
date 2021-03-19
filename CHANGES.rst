@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+1.1.0 - 2021/03/22
+==================
+
 - Fix version warning (was warning when the pinned version was up-to-date)
 
 - Add ``--keep-going`` to Sphinx options
@@ -23,7 +27,7 @@ Unreleased
   Sphinx 3.5.3.
 
 
-1.0.0 - 2021/03/22
+1.0.0 - 2021/03/03
 ==================
 
 
