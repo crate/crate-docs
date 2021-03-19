@@ -44,16 +44,16 @@ LOCAL_DIR       = $(patsubst %/src/,%,$(dir $(lastword $(MAKEFILE_LIST))))
 SRC_DIR         = $(LOCAL_DIR)/src
 BIN_DIR         = $(SRC_DIR)/bin
 ENV_DIR         = $(LOCAL_DIR)/.venv
-ACTIVATE        = $(ENV_DIR)/bin/activate
-PYTHON          = python3
+ACTIVATE        = $(ENV_DIR)/Scripts/activate
+PYTHON          = python.exe
 PIP             = $(PYTHON) -m pip
-SPHINXBUILD     = $(ENV_DIR)/bin/sphinx-build
-SPHINXAUTOBUILD = $(ENV_DIR)/bin/sphinx-autobuild
+SPHINXBUILD     = $(ENV_DIR)/Scripts/sphinx-build.exe
+SPHINXAUTOBUILD = $(ENV_DIR)/Scripts/sphinx-autobuild.exe
 AUTOBUILD_OPTS  = --re-ignore '^(?!.+\.rst$$)'
 BUILD_DIR       = $(LOCAL_DIR)/.build
 SPHINX_ARGS     = . $(BUILD_DIR)
 SPHINX_OPTS     = -W --keep-going -n
-RST2HTML        = $(ENV_DIR)/bin/rst2html.py
+RST2HTML        = $(ENV_DIR)/Scripts/rst2html.py
 TELEMETRY_DIR   = $(LOCAL_DIR)/telemetry
 VALE_VERSION    = 2.6.7
 ERRATA_AI       = https://github.com/errata-ai
@@ -222,7 +222,7 @@ vale: $(ACTIVATE) $(VALE)
 
 # Both target names will work
 .PHONY: check test
-check test: html linkcheck vale
+check test: html linkcheck
 
 
 # Telemetry data
