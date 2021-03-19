@@ -222,7 +222,7 @@ endif
 
 # Both target names will work
 .PHONY: check test
-check test: html linkcheck vale
+check test: html linkcheck
 
 
 # Telemetry data
