@@ -45,7 +45,7 @@ LOCAL_DIR       = $(patsubst %/common-build/,%,$(dir $(lastword $(MAKEFILE_LIST)
 SRC_DIR         = $(LOCAL_DIR)/common-build
 BIN_DIR         = $(SRC_DIR)/bin
 ENV_DIR         = $(LOCAL_DIR)/.venv
-ACTIVATE        = $(ENV_DIR)/Scripts/activate.bat
+ACTIVATE        = $(ENV_DIR)/Scripts/activate
 PYTHON          = python.exe
 PIP             = $(PYTHON) -m pip
 SPHINXBUILD     = $(ENV_DIR)/Scripts/sphinx-build.exe
@@ -139,16 +139,16 @@ $(ACTIVATE):
 	      exit 1; \
 	  fi
 	@ $(PYTHON) -m venv $(ENV_DIR)
-	@ $(ACTIVATE) && \
+	@ . $(ACTIVATE) && \
 	      $(PIP) install --upgrade pip
 
 # Install dependencies needed by these three tools
 $(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
 	@ printf '\033[1mInstalling Python dependencies...\033[00m\n'
-	@ $(ACTIVATE) && \
+	@ . $(ACTIVATE) && \
 	      $(PIP) install -r $(SRC_DIR)/requirements.txt
 	@ # Change to `TOP_DIR` to mimic how Read the Docs does it
-	@ $(ACTIVATE) && cd $(TOP_DIR) && \
+	@ . $(ACTIVATE) && cd $(TOP_DIR) && \
 	      $(PIP) install -r $(DOCS_DIR)/requirements.txt
 
 # Configured and run in a sub-make by the $(VALE) target
@@ -196,14 +196,14 @@ endif
 # want to configure `linkcheck_ignore` in your `conf.py` file.
 .PHONY: html linkcheck
 html linkcheck: $(ACTIVATE) $(SPHINXBUILD)
-	@ $(ACTIVATE) && \
+	@ . $(ACTIVATE) && \
 	      $(SPHINXBUILD) \
 	      $(SPHINX_ARGS) $(SPHINX_OPTS) $(SPHINX_OPTS_CI) -b $(@) $(O)
 
 # Both target names will work
 .PHONY: dev autobuild
 dev autobuild: $(SPHINXAUTOBUILD)
-	@ $(ACTIVATE) && \
+	@ . $(ACTIVATE) && \
 	      $(SPHINXAUTOBUILD) \
 	      $(SPHINX_ARGS) $(SPHINX_OPTS) $(AUTOBUILD_OPTS) $(O)
 
@@ -216,7 +216,7 @@ vale:
 else
 vale: $(ACTIVATE) $(VALE)
 	@ mkdir -p $(@D)
-	@ $(ACTIVATE) && \
+	@ . $(ACTIVATE) && \
 	      $(VALE) $(VALE_OPTS) $(TOP_DIR)
 endif
 
@@ -289,7 +289,7 @@ $(VALE_OUT_DIR)/summary.json: $(VALE_OUT_DIR)/report.json $(JQ)
 # summary data)
 $(VALE_OUT_DIR)/report.json: $(ACTIVATE) $(VALE)
 	@ mkdir -p $(@D)
-	@ $(ACTIVATE) && \
+	@ . $(ACTIVATE) && \
 	      $(VALE) $(VALE_OPTS) --output=JSON $(TOP_DIR) > $@
 	@ printf 'Written: $@\n'
 
