@@ -52,7 +52,8 @@ SPHINXAUTOBUILD = $(ENV_DIR)/bin/sphinx-autobuild
 AUTOBUILD_OPTS  = --re-ignore '^(?!.+\.rst$$)'
 BUILD_DIR       = $(LOCAL_DIR)/.build
 SPHINX_ARGS     = . $(BUILD_DIR)
-SPHINX_OPTS     = -W --keep-going -n
+SPHINX_OPTS     = -W -n
+SPHINX_OPTS_CI  = --keep-going
 RST2HTML        = $(ENV_DIR)/bin/rst2html.py
 TELEMETRY_DIR   = $(LOCAL_DIR)/telemetry
 VALE_VERSION    = 2.6.7
@@ -204,7 +205,7 @@ endif
 html linkcheck: $(ACTIVATE) $(SPHINXBUILD)
 	@ . $(ACTIVATE) && \
 	      $(SPHINXBUILD) \
-	      $(SPHINX_ARGS) $(SPHINX_OPTS) -b $(@) $(O)
+	      $(SPHINX_ARGS) $(SPHINX_OPTS) $(SPHINX_OPTS_CI) -b $(@) $(O)
 
 # Both target names will work
 .PHONY: dev autobuild
