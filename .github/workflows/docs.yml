@@ -23,7 +23,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Build docs
         run: |
-          cd demo-docs && make check
+          cd docs && make check
       - name: Check Vale
         run: |
           cd test && make test
