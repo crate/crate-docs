@@ -2,10 +2,10 @@ version: 2
 
 sphinx:
   builder: html
-  configuration: demo-docs/conf.py
+  configuration: docs/conf.py
   fail_on_warning: true
 
 python:
   version: 3.7
   install:
-    - requirements: demo-docs/requirements.txt
+    - requirements: docs/requirements.txt
