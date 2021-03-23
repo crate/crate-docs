@@ -10,17 +10,24 @@ Unreleased
 1.1.0 - 2021/03/22
 ==================
 
-- Fix version warning (was warning when the pinned version was up-to-date)
-
-- Add ``--keep-going`` to Sphinx options
+Breaking Changes
+----------------
 
 - Rename directories
 
-    - ``src`` -> ``common-build``: As this is what we talk about in
-      conversations so it is less ambiguous.
-    - ``docs`` -> ``demo-docs``: This Sphinx project only exists as a demo
-      project that can be used to test the other tools within this very
-      repository.
+  - ``src`` -> ``common-build``: As this is what we talk about in
+    conversations so it is less ambiguous.
+
+  - ``docs`` -> ``demo-docs``: This Sphinx project only exists as a demo
+    project that can be used to test the other tools within this very
+    repository.
+
+Fixes
+-----
+
+- Fix version warning (was warning when the pinned version was up-to-date)
+
+- Add ``--keep-going`` to Sphinx options
 
 - Use explicit version pinning for the Sphinx release, adhering to RTD's
   recommendations about reproducible builds. Currently, we are using
