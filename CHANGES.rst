@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 
+- Added the `preview-rst` helper script
+
+
 2.0.0 - 2021/03/24
 ==================
 
