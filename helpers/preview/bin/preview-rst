@@ -1,0 +1,313 @@
+#!/bin/sh -e
+
+# Licensed to Crate (https://crate.io) under one or more contributor license
+# agreements.  See the NOTICE file distributed with this work for additional
+# information regarding copyright ownership.  Crate licenses this file to you
+# under the Apache License, Version 2.0 (the "License"); you may not use this
+# file except in compliance with the License.  You may obtain a copy of the
+# License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations under
+# the License.
+#
+# However, if you have executed another commercial license agreement with Crate
+# these terms will supersede the license and you may use the software solely
+# pursuant to the terms of the relevant commercial agreement.
+
+
+# =============================================================================
+# Preview an RST file
+# =============================================================================
+
+# This script can be used to generate an HTML preview of any RST file you may
+# be editing.
+#
+# Usage:
+#
+#    preview-rst <RST_FILE>
+#
+# This script is not intended to be run by hand. It has been written with the
+# purpose of being integrated into a desktop editing environment. Integration
+# is possible if you are using an editor that allows you to extend its
+# functionality with arbitrary scripting.
+#
+# In particular, you may get the most use out of this script if you bind it to
+# a keyboard shortcut like <Command-P> (for "preview"). This would likely
+# involve overriding the "Print" keyboard shortcut of your editor, which,
+# depending on your situation, may not be too important.
+#
+# This script has two modalities:
+#
+# - Running this script on RST files in a Sphinx project should open a new
+#   browser window to the corresponding HTML page.
+#
+#   If you are editing lots of files, this can save a significant amount of
+#   time because it does not require you to navigate to each page manually to
+#   check your work.
+#
+# - Running this script on a standalone file (e.g., `CHANGES.rst`) will build
+#   an HTML version and open a new browser window to display it.
+#
+#   This is helpful because without pushing a file to GitHub (or elsewhere)
+#   there is no easy way to preview your work. Indeed, lots of errors may creep
+#   in because of this limitation.
+#
+# For standalone files, there are two strategies currently implemented:
+#
+# - The basic strategy (`display_standalone`) uses pandoc to generate a simple
+#   HTML file. This file has no styling whatsoever and, as a result, the result
+#   may be hard to read. This strategy has been disabled in favor of the Sphinx
+#   strategy (see next item).
+#
+# - The Sphinx strategy (`display_standalone_sphinx`) creates a temporary
+#   Sphinx project for your RST file, starts `sphinx-autobuild`, and opens a
+#   new browser window.
+#
+#   This strategy has many advantages:
+#
+#   - At the moment, the Read The Docs theme is used. This styles your RST in
+#     an easy-to-ready manner.
+#
+#   - The `sphinx-autobuild` program features live reloading, meaning that when
+#     you edit the RST file, the HTML will be rebuilt, and the browser window
+#     will automatically refresh to show your changes.
+
+
+# Caution
+# -----------------------------------------------------------------------------
+
+# This script is a work in progress and features may be added, removed, or
+# changed significantly.
+#
+# TODO:
+#
+# - Assorted `TODO` markers scattered throughout the code
+#
+# - Add wrappers for specific editors (e.g., BBEdit)
+#
+# - Needs to exclude some directives (e.g., admonitions) when generating
+#   standalone files to mimic GitHub's limited RST support
+
+
+# Setup
+# =============================================================================
+
+PY='python3'
+
+script_file="${0}"
+script_dir=$(dirname ${script_file})
+script_basename=$(basename ${script_file})
+etc_dir="${script_dir}/../etc"
+
+if test -z "${1}"; then
+    echo "Usage: ${script_basename} <RST_FILE>"
+    exit 1
+fi
+
+rst_file=$(realpath "${1}")
+
+if ! test -f "${rst_file}"; then
+    echo "No such file: ${1}"
+    exit 1
+fi
+
+
+# Utility functions
+# =============================================================================
+
+function get_output_dir {
+    input_file="${1}"
+    # We need the following variables so that we can recreate the full path
+    # to the file under the `/tmp` directory.
+    #
+    # Doing it this way ensures that the URL for the output HTML remains the
+    # same no matter how many times you regenerate the HTML. Doing it this way,
+    # instead of creating a random directory name (e.g., using `mktemp`), means
+    # that refreshing the browser works to pick up changes if the file is
+    # modified.
+    input_dirname=$(dirname "${input_file}")
+    output_dir_subpath=$(realpath "${input_dirname}")
+    # Namespace our temporary directories
+    output_dir="/tmp/${script_basename}/output${output_dir_subpath}"
+    # This path should remain constant for subsequent HTML generations of the
+    # same source file path (see above). We leave deletion of this temporary
+    # directory up to the user or the operating system.
+    mkdir -p "${output_dir}"
+    echo "${output_dir}"
+}
+
+function progs_exist {
+    progs="${1}"
+    return_code=0
+    for prog in "${progs}"; do
+        if test -z "$(which \"${prog}\")"; then
+            return_code=1
+            echo "The \`${prog}\` program is not on your PATH." >&2
+        fi
+    done
+    return $return_code
+}
+
+
+# This function creates a temporary Python virtual environment that is shared
+# by every invokation of this script
+function get_venv_dir {
+    tmp_dir="${1}"
+    # Namespace our temporary directories
+    venv_dir="/tmp/${script_basename}/deps/${PY}/venv"
+    log_dir="/tmp/${script_basename}/deps/${PY}/log"
+    log_file="${log_dir}/pip.log"
+    if test ! -f "${venv_dir}/bin/activate"; then
+        mkdir -p "${venv_dir}" "${log_dir}"
+        ${PY} -m venv "${venv_dir}" \
+            >> "${log_file}"
+        . "${venv_dir}/bin/activate"
+        # The only way for a user to get dependency upgrades is to remove the
+        # `venv` directory.
+        #
+        # TODO: Add some method of handling upgrades that doesn't involve
+        # manual intervention by the user. For example, adding a stamp file and
+        # using modified date to perform upgrades once a month. The main issue
+        # here is that upgrading dependencies takes time, and would add latency
+        # to the preview script. Another option would be forking to perform the
+        # upgrades.
+        pip install --upgrade pip \
+            >> "${log_file}" || rm -r "${venv_dir}"
+        pip install --upgrade -r "${etc_dir}/requirements.txt" \
+            >> "${log_file}" || rm -r "${venv_dir}"
+    fi
+    if test ! -f "${venv_dir}/bin/activate"; then
+        # The pip installation failed for some reason
+        exit 1
+    fi
+    echo "${venv_dir}"
+}
+
+
+# Display strategies
+# =============================================================================
+
+# This function assumes you already have `sphinx-autobuild` running, and opens
+# the corresponding HTML file in a browser.
+#
+# TODO: In a later update, we might want to check whether this is the case, and
+# if not, start one up. This should respect the Makefile, if one exists, or
+# else invoke `sphinx-autobuild` manually.
+function display_sphinx_autobuild {
+    rst_file="${1}"
+    html_file=$(echo "${rst_file}" | \
+        sed 's,.*/docs/,http://127\.0\.0\.1:8000/,' | \
+        sed 's,\.rst,\.html,')
+    open "${html_file}"
+}
+
+# This function generates an HTML file once and then opens it in a browser. It
+# does not feature automatic rebuilds ala `sphinx-autobuild`.
+function display_standalone {
+    rst_file="${1}"
+    # TODO: In a later update, we could create a Python virtual environment
+    # that installs the necessary requirements
+    if ! progs_exist pandoc; then
+        return 1
+    fi
+    rst_basename=$(basename ${rst_file})
+    # The output filename will be the same for every generation of the same
+    # input filename (to allow for browser refreshing)
+    get_output_dir=$(get_output_dir '${rst_file}')
+    html_file=$(echo ${get_output_dir}/${rst_basename}.html | \
+        sed 's,\.rst,\.html,')
+    # Build a standalone HTML file
+    pandoc_opts="--standalone --self-contained --fail-if-warnings"
+    pandoc ${pandoc_opts} -o "${html_file}" "${rst_file}"
+    if test ! -f "${html_file}"; then
+        echo "Could not generate output file: ${html_file}" >&2
+        return 1
+    fi
+    open "${html_file}"
+}
+
+# This function creates a temporary Sphinx project and runs `sphinx-autobuild`
+# to take advantage of live reloads (too much work to implement manually)
+function display_standalone_sphinx {
+    rst_file="${1}"
+    rst_basename=$(basename "${rst_file}")
+    # The output filename will be the same for every generation of the same
+    # input filename (to allow for browser refreshing)
+    sphinx_template_dir="${etc_dir}/sphinx"
+    output_dir=$(get_output_dir "${rst_file}")
+    sphinx_dir="${output_dir}/sphinx"
+    sphinx_rst_file="${sphinx_dir}/index.rst"
+    html_dir="${output_dir}/html"
+    log_dir="${output_dir}/log"
+    sphinx_log_file="${output_dir}/log/sphinx.log"
+    # We do not create `${sphinx_dir}` because this is done in a subsequent
+    # step (and doing it here would mess up the `cp` command)
+    mkdir -p "${html_dir}" "${log_dir}"
+    # Try to find any `sphinx-autobuild` running on port 8080
+    autobuild_pid=$(ps aux | \
+        grep 'sphinx-autobuild --port 8080' | \
+        grep -v 'grep' | awk '{print $2}')
+    if test ! -z "${autobuild_pid}"; then
+        # The `sphinx-autobuild` program is running, so we kill it before
+        # starting it up again.
+        #
+        # It doesn't matter if the existing `sphinx-autobuild` is running for
+        # this Sphinx directory or not because the user has requested a new
+        # preview, so it is reasonable to assume they want to start over. If
+        # they didn't want to start over, they can instead rely on the existing
+        # `sphinx-autobuild` to keep rebuilding the file.
+        kill "${autobuild_pid}"
+    fi
+    # Protective measure before copying (older versions of this directory may
+    # still exist)
+    rm -rf "${sphinx_dir}"
+    # Copy the template Sphinx project to the temporary directory
+    cp -R "${sphinx_template_dir}" "${sphinx_dir}"
+    # Soft link the provided RST file to the temporary Sphinx project
+    ln -s "${rst_file}" "${sphinx_rst_file}"
+    venv_dir=$(get_venv_dir)
+    . "${venv_dir}/bin/activate"
+    # Run on port 8080 to avoid conflict with 8000 (the default port), which
+    # may be attached to an already running, but unrelated,`sphinx-autobuild`
+    nohup sphinx-autobuild \
+        --port 8080 --open-browser --delay 0 -b html \
+        "${sphinx_dir}" "${html_dir}" \
+        >> "${sphinx_log_file}" &
+    # The `sphinx-autobuild` program is left running. There should be no issues
+    # with this given the small footprint of the program.
+}
+
+# Choose a display strategy and execute
+# =============================================================================
+
+# Choose a strategy based on path globbing
+case "${rst_file}" in
+    # This assumes that a file belongs to a Sphinx project if we detect the
+    # presence of a `docs` directory in the file path.
+    #
+    # TODO: In a future update, we could provide a way to configure this
+    # heuristic. A better method would perhaps be to traverse the parent
+    # directories looking for the presence of a valid-looking `conf.py`.
+    */docs/*.rst)
+        display_sphinx_autobuild "${rst_file}"
+        ;;
+    *.rst)
+        # The older method of displaying a standalone HTML file has been
+        # commented out in favor of the Sphinx method.
+        #
+        # TODO: In a future update, we could provide a way for the user to
+        # switch between the two.
+        #
+        # display_standalone "${rst_file}"
+        display_standalone_sphinx "${rst_file}"
+        ;;
+    *)
+        echo "No display strategy for file: ${rst_file}"
+        exit 1
+        ;;
+esac
