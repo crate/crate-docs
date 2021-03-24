@@ -13,6 +13,15 @@ Breaking Changes
 **IMPORTANT**: You must update your Sphinx project's ``Makefile`` to pick up
 these changes. See ``demo-docs/Makefile`` for details.
 
+Features
+--------
+
+- The `make dev` command now opens a browser window for you once the build is
+  ready.
+
+Fixes
+-----
+
 - Renamed ``demo-docs`` back to ``docs``.
 
   We did this so that the reference project looks exactly like how we recommend
