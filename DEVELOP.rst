@@ -70,7 +70,7 @@ To create a new release:
   - Please separate out the changes into sections where it makes sense. Consult
     previous releases for an idea of how to do this.
 
-- Update ``message`` in ``demo-docs/build.json`` to the latest version
+- Update ``message`` in ``docs/build.json`` to the latest version
 
 - Commit your changes with a message like "Prepare release X.Y.Z"
 
