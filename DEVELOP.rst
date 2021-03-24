@@ -86,6 +86,7 @@ To create a new release:
   hard line breaks)
 
 - Check the *Preview* tab for display errors and fix if necessary
+
 - Select *Publish release*
 
 
