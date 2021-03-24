@@ -7,20 +7,49 @@ Unreleased
 ==========
 
 
+Breaking Changes
+----------------
+
+**IMPORTANT**: You must update your Sphinx project's ``Makefile`` to pick up
+these changes. See ``demo-docs/Makefile`` for details.
+
+- Renamed ``demo-docs`` back to ``docs``.
+
+  We did this so that the reference project looks exactly like how we recommend
+  Sphinx projects to look (i.e., residing under ``docs/``). This is also a
+  low-effort way to avoid the issue of having to ask users to update the
+  Makefile to edit the ``DOCS_DIR`` setting from ``demo-docs`` to ``docs``,
+  which would be an unnecessary (and potentially confusing) request.
+
+Fixes
+-----
+
+- Fixed the use of the ``--keep-going`` flag that was being erroneously passed
+  to ``sphinx-autobuild`` as well as ``sphinx``.
+
+
 1.1.0 - 2021/03/22
 ==================
+
+**NOTE**: The 1.1.0 release should have been released as version 2.0.0 because it
+contains breaking changes.  This cannot be fixed in retrospect. However, 2.0.0
+has subsequently been released with additional fixes.
+
 
 Breaking Changes
 ----------------
 
-- Rename directories
+**IMPORTANT**: You must update your Sphinx project's ``Makefile`` to pick up
+these changes. See ``demo-docs/Makefile`` for details.
 
-  - ``src`` -> ``common-build``: As this is what we talk about in
-    conversations so it is less ambiguous.
+- Renamed directories.
 
-  - ``docs`` -> ``demo-docs``: This Sphinx project only exists as a demo
-    project that can be used to test the other tools within this very
-    repository.
+  - The ``src`` directory has been renamed ``common-build``. This directory is
+    what we talk about in conversations, so now it is less ambiguous.
+
+  - Renamed the ``docs`` directory to ``demo-docs``. This Sphinx project only
+    exists as a demo project that can be used to test the other tools within
+    this very repository.
 
 Fixes
 -----
@@ -41,8 +70,8 @@ Fixes
 Breaking Changes
 ----------------
 
-IMPORTANT: You must update your Sphinx project's ``Makefile`` to pick up these
-changes. See ``demo-docs/Makefile`` for details.
+**IMPORTANT**: You must update your Sphinx project's ``Makefile`` to pick up
+these changes. See ``demo-docs/Makefile`` for details.
 
 - The demo ``Makefile`` now passes the correct target (``html`` or
   ``linkcheck``) through to ``sphinx-build`` (fixes
@@ -86,8 +115,8 @@ Functionality
   once for all files which improves speed.
 
   Because Vale is no longer necessary to run ``make dev`` or ``make html``,
-  there is no need to mock the Vale binary if Vale cannot be
-  installed. Accordingly, Make will now error out when ``make check`` or ``make
+  there is no need to mock the Vale binary if Vale cannot be installed.
+  Accordingly, Make will now error out when ``make check`` or ``make
   telemetry`` are run and Vale cannot be installed because Vale is essential
   for both of these targets.
 
@@ -101,8 +130,8 @@ Functionality
 Fixes
 -----
 
-- Disable ``proselint.Annotations`` so that using `**NOTE**` in standalone RST
-  files does not raise an error.
+- Disable ``proselint.Annotations`` so that using ``**NOTE**`` in standalone
+  RST files does not raise an error.
 
 - The ``.venv`` directory (a Python virtual environment) is now created under
   ``.crate-docs``. This change prevents many developer search tools from
@@ -112,18 +141,18 @@ Fixes
 0.4.0 - 2020/09/29
 ==================
 
-- Add the `qa` target which generates QA telemetry in the form of CSV files for
-  post-processing. At the moment, the only information reported is the modified
-  date (as reported by Git) and the reviewed date (as manually recorded using
-  RST metadata).
+- Add the ``qa`` target which generates QA telemetry in the form of CSV files
+  for post-processing. At the moment, the only information reported is the
+  modified date (as reported by Git) and the reviewed date (as manually
+  recorded using RST metadata).
 
-- Modified the `lint` target to also produce CSV files for post-processing.
+- Modified the ``lint`` target to also produce CSV files for post-processing.
 
 
 0.3.3 - 2020/07/14
 ==================
 
-- Remove mention of `delint` target (internal use only)
+- Remove mention of ``delint`` target (internal use only)
 
 
 0.3.2 - 2020/07/14
@@ -136,15 +165,15 @@ Fixes
 ==================
 
 - Improved output by muting some Make rules
-- Removed `_no_vale` file from `docs`, which enables Vale testing using local
-  test Sphinx project
-- Changed `.clone` directory to `.crate-docs-build`, which should be more
+- Removed ``_no_vale`` file from ``docs``, which enables Vale testing using
+  local test Sphinx project
+- Changed ``.clone`` directory to ``.crate-docs-build``, which should be more
   readily understandable for most users
 - Improved lint checking output
-- Forced a full lint check every time `make dev` or `make check` is run
-- Fixed issue with `lint-watch` target not working the first time you run `make
-  dev`
-- Fixed issue with `bin/lint` not being run via fswatch
+- Forced a full lint check every time ``make dev`` or ``make check`` is run
+- Fixed issue with ``lint-watch`` target not working the first time you run
+  ``make dev``
+- Fixed issue with ``bin/lint`` not being run via fswatch
 - Moved lint files to hidden subdirectory to avoid cluttering the visible file
   tree in text editors
 
@@ -158,19 +187,19 @@ Fixes
 0.2.4 - 2020/04/03
 ==================
 
-- Disabled `proselint.Very` rule
+- Disabled ``proselint.Very`` rule
 
 
 0.2.3 - 2019/10/22
 ==================
 
-- Fix incorrect use of hardcoded build directory path with fswatch
+- Fix incorrect use of hardcoded build directory path with ``fswatch``
 
 
 0.2.2 - 2019/10/22
 ==================
 
-- Add `_no_vale` file feature for disabling Vale lint checks
+- Add ``_no_vale`` file feature for disabling Vale lint checks
 
 
 0.2.1 - 2019/09/13
@@ -183,62 +212,62 @@ Fixes
 ===================
 
 - Improve dependency tracking
-- Switch to `src` directory name
+- Switch to ``src`` directory name
 
 
 0.1.12 - 2019/07/31
 ===================
 
-- Add `site-packages` to RST skip list
+- Add ``site-packages`` to RST skip list
 
 
 0.1.11 - 2019/07/30
 ===================
 
 - Improve Make targets
-- Streamline `demo-docs/Makefile` (move heavy-lifting to `rules.mk`)
+- Streamline ``demo-docs/Makefile`` (move heavy-lifting to ``rules.mk``)
 
 
 0.1.10 - 2019/07/09
 ===================
 
-- Add `style.json` for use with https://shields.io/endpoint for creating GitHub
-  badges
-- Fixed conditional `$(STYLE_DIR)` rules
+- Add ``style.json`` for use with https://shields.io/endpoint for creating
+  GitHub badges
+- Fixed conditional ``$(STYLE_DIR)`` rules
 
 
 0.1.9 - 2019/07/08
 ==================
 
-- Switch to `bin/activate` based target
+- Switch to ``bin/activate`` based target
 
 
 0.1.8 - 2019/07/08
 ==================
 
-- Fix use of venv targets
-- Improve file ignoring for `sphinx-autobuild`
+- Fix use of ``venv`` targets
+- Improve file ignoring for ``sphinx-autobuild``
 
 
 0.1.7 - 2019/07/08
 ==================
 
-- Use `activate`, don't hardcode venv paths
+- Use ``activate``, don't hardcode ``venv`` paths
 
 
 0.1.6 - 2019/07/05
 ==================
 
-- Fix `dev` target prerequisites
+- Fix ``dev`` target prerequisites
 
 
 0.1.5 - 2019/07/03
 ==================
 
-- Move PATH manipulation to lint script
-- Include latest release number in reference `doc/Makefile`
-- Activate the Python venv before running Sphinx
-- Separate `clean` and `reset` targets
+- Move ``PATH`` manipulation to lint script
+- Include latest release number in reference ``doc/Makefile``
+- Activate the Python ``venv`` before running Sphinx
+- Separate ``clean`` and ``reset`` targets
 
 
 0.1.4 - 2019/07/01
@@ -248,8 +277,8 @@ Fixes
 - Add link to GitHub in Makefile comment
 - Touch source files when the lint fails so they get picked up by Make
   for linting again
-- Fix dependencies for `dev` target
-- Fix `lint-watch` target
+- Fix dependencies for ``dev`` target
+- Fix ``lint-watch`` target
 
 
 0.1.3 - 2019/06/28
@@ -268,32 +297,32 @@ Fixes
 0.1.1 - 2019/06/28
 ==================
 
-- Drop need to use STYLE_DIR environment variable
+- Drop need to use ``STYLE_DIR`` environment variable
 
 
 0.1.0 - 2019/06/27
 ==================
 
-- Use a .style directory for reliable self-testing
+- Use a ``.style`` directory for reliable self-testing
 
 
 0.0.4 - 2019/06/26
 ==================
 
-- Fix invokation of pip
+- Fix invokation of ``pip``
 
 
 0.0.3 - 2019/06/26
 ==================
 
-- Fixed ROOT_DIR variable name
+- Fixed ``ROOT_DIR`` variable name
 
 
 0.0.2 - 2019/06/26
 ==================
 
 - Implement lint file based testing approach
-- Add lint-watch target using fswatch
+- Add lint-watch target using ``fswatch``
 - Switch to using pre-built Vale binaries
 - Added Travis CI integration
 - Automatically install Python dependencies
@@ -303,11 +332,11 @@ Fixes
 ==================
 
 - Add Makefile
-- Drop doc8 (buggy, inactive project)
+- Drop ``doc8`` (buggy, inactive project)
 
 
 0.0.0 - 2019/06/10
 ==================
 
-- Add doc8 configuration
+- Add ``doc8`` configuration
 - Add minimal Vale configuration
