@@ -62,14 +62,29 @@ Preparing a release
 To create a new release:
 
 - Add a new version section to the ``CHANGES.txt`` file
+
+  - Please honor `SemVer`_ when choosing the new version number. If this
+    release includes breaking changes, please add the boilerplate notice to the
+    top of the changelog entry.
+
+  - Please separate out the changes into sections where it makes sense. Consult
+    previous releases for an idea of how to do this.
+
 - Update ``message`` in ``demo-docs/build.json`` to the latest version
+
 - Commit your changes with a message like "Prepare release X.Y.Z"
+
 - Push to ``origin``
+
 - Run ``./devtools/create_tag.sh``
+
 - Browse to the `releases page`_ and select the version you just released
+
 - Select *Edit tag*
+
 - Copy and paste the changelog notes for this release (be sure to remove the
   hard line breaks)
+
 - Check the *Preview* tab for display errors and fix if necessary
 - Select *Publish release*
 
@@ -79,4 +94,5 @@ To create a new release:
 .. _Read the Docs: http://readthedocs.org
 .. _releases page: https://github.com/crate/crate-docs/releases
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
+.. _SemVer: https://semver.org/
 .. _Sphinx: http://sphinx-doc.org/
