@@ -139,13 +139,31 @@ Follow these markup conventions for title and headings:
     --------------------
 
     Third-level heading
-    ~~~~~~~~~~~~~~~~~~~
+    """""""""""""""""""
 
     Fourth-level heading
-    ^^^^^^^^^^^^^^^^^^^^
+    ''''''''''''''''''''
 
     Fifth-level heading
-    ...................
+    ````````````````````
+
+These underlines were chosen to satisfy the following requirements:
+
+1. Honor the well-established practice of using `=` and `-` for the first three
+   heading levels.
+
+2. Underlines should resemble properly typeset underlines (i.e., a single
+   continuous line) as much as possible.
+
+   This rules out symbols that do not create the impression of a standard
+   underline. Additionally, underlines should sit somewhere between `the median
+   and the cap hight`_. Symbols that sit on the baseline leave an undesirable
+   amount of vertical space between the underline and the heading text
+
+4. The visual prominence (defined here as the combination of `point size`_ and
+   `type color`_) of the underline should decrease with heading depth (e.g.,
+   the fourth-level heading should be less prominent than the third-level
+   heading).
 
 As a general principle, we use the imperative mood for top-level document
 titles where an action is relevant. E.g., correct:
@@ -460,5 +478,8 @@ Incorrect sort order:
     .. _Elasticsearch: http://www.elasticsearch.org/
 
 
+.. _point size: https://en.wikipedia.org/wiki/Point_(typography)
 .. _sentence case: https://en.wiktionary.org/wiki/sentence_case
+.. _the median and the cap hight: https://en.wikipedia.org/wiki/Baseline_(typography)#/media/File:Typography_Line_Terms.svg
 .. _title case: http://individed.com/code/to-title-case/
+.. _type color:https://en.wikipedia.org/wiki/Type_color
