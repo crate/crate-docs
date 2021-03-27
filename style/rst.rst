@@ -158,7 +158,7 @@ These underlines were chosen to satisfy the following requirements:
    This rules out symbols that do not create the impression of a standard
    underline. Additionally, underlines should sit somewhere between `the median
    and the cap hight`_. Symbols that sit on the baseline leave an undesirable
-   amount of vertical space between the underline and the heading text
+   amount of vertical space between the underline and the heading text.
 
 4. The visual prominence (defined here as the combination of `point size`_ and
    `type color`_) of the underline should decrease with heading depth (e.g.,
