@@ -116,6 +116,11 @@ if ! test -f "${rst_file}"; then
     exit 1
 fi
 
+# Make a temporary directory
+tmp_dir="$(mktemp -d)"
+
+# Tell the user where they can find the script output
+echo "Working directory: ${tmp_dir}"
 
 # Utility functions
 # =============================================================================
@@ -123,17 +128,17 @@ fi
 function get_output_dir {
     input_file="${1}"
     # We need the following variables so that we can recreate the full path
-    # to the file under the `/tmp` directory.
+    # to the file under the a temporary directory.
     #
     # Doing it this way ensures that the URL for the output HTML remains the
     # same no matter how many times you regenerate the HTML. Doing it this way,
     # instead of creating a random directory name (e.g., using `mktemp`), means
     # that refreshing the browser works to pick up changes if the file is
     # modified.
-    input_dirname=$(dirname "${input_file}")
-    output_dir_subpath=$(realpath "${input_dirname}")
+    input_path=$(realpath "${input_file}")
+    output_prefix=$(dirname "${input_file}" | cut -c 2-)
     # Namespace our temporary directories
-    output_dir="/tmp/${script_basename}/output${output_dir_subpath}"
+    output_dir="${tmp_dir}/output/${output_prefix}"
     # This path should remain constant for subsequent HTML generations of the
     # same source file path (see above). We leave deletion of this temporary
     # directory up to the user or the operating system.
@@ -153,17 +158,17 @@ function progs_exist {
     return $return_code
 }
 
-
 # This function creates a temporary Python virtual environment that is shared
-# by every invokation of this script
+# by every invocation of this script
 function get_venv_dir {
-    tmp_dir="${1}"
     # Namespace our temporary directories
-    venv_dir="/tmp/${script_basename}/deps/${PY}/venv"
-    log_dir="/tmp/${script_basename}/deps/${PY}/log"
+    venv_dir="${tmp_dir}/deps/${PY}/venv"
+    log_dir=" ${tmp_dir}/deps/${PY}/log"
     log_file="${log_dir}/pip.log"
     if test ! -f "${venv_dir}/bin/activate"; then
         mkdir -p "${venv_dir}" "${log_dir}"
+        # TODO: The Python virtual environment can fail during setup. We need
+        # to detect this and reset the environment.
         ${PY} -m venv "${venv_dir}" \
             >> "${log_file}"
         . "${venv_dir}/bin/activate"
@@ -186,6 +191,17 @@ function get_venv_dir {
         exit 1
     fi
     echo "${venv_dir}"
+}
+
+# Generate a random unused port
+function get_port {
+    while
+      port=$(shuf -n 1 -i 49152-65535)
+      netstat -atun | grep -q "${port}"
+    do
+      continue
+    done
+    echo "${port}"
 }
 
 
@@ -272,10 +288,11 @@ function display_standalone_sphinx {
     ln -s "${rst_file}" "${sphinx_rst_file}"
     venv_dir=$(get_venv_dir)
     . "${venv_dir}/bin/activate"
-    # Run on port 8080 to avoid conflict with 8000 (the default port), which
-    # may be attached to an already running, but unrelated,`sphinx-autobuild`
+    # Run on a random port to avoid conflict with 8000 (the default port),
+    # which may be attached to an already running, but
+    # unrelated,`sphinx-autobuild`
     nohup sphinx-autobuild \
-        --port 8080 --open-browser --delay 0 -b html \
+        --port "`get_port`" --open-browser --delay 0 -b html \
         "${sphinx_dir}" "${html_dir}" \
         >> "${sphinx_log_file}" &
     # The `sphinx-autobuild` program is left running. There should be no issues
