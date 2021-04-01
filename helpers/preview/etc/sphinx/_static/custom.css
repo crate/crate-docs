@@ -1,0 +1,16 @@
+/* This CSS fixes the display of `open` lists which do not work properly with
+   the Read The Docs theme */
+
+.rst-content .section ol>li>p:only-child,
+.rst-content .section ol>li>p:only-child:last-child,
+.rst-content .section ul>li>p:only-child,
+.rst-content .section ul>li>p:only-child:last-child {
+    margin-bottom: 12px !important;
+}
+
+.rst-content .section ol.simple>li>p:only-child,
+.rst-content .section ol.simple>li>p:only-child:last-child,
+.rst-content .section ul.simple>li>p:only-child,
+.rst-content .section ul.simple>li>p:only-child:last-child {
+    margin-bottom: 0 !important;
+}
