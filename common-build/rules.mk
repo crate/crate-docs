@@ -70,7 +70,7 @@ NO_VALE_FILE    = $(TOP_DIR)/$(DOCS_DIR)/_no_vale
 TOOLS_DIR       = $(LOCAL_DIR)/tools
 STYLE_DIR       = $(LOCAL_DIR)/tools/styles
                   # Ignore RST files matching these globs (space separated)
-GLOBS           = */.* */style/* */site-packages/* */vendor/*
+GLOBS           = */.* */style/* */site-packages/* */eggs/* */vendor/*
                   # Package globs for the `find` program
 FIND_OPTS       = $(foreach glob,$(GLOBS),-path '$(glob)' -prune -o)
 FIND_RST        = cd $(TOP_DIR) && find . $(FIND_OPTS) -name '*.rst' -print
