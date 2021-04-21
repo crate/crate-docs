@@ -1,0 +1,113 @@
+#!/bin/sh -e
+
+# Check the `crate.yml` configuration file
+#
+# Instructions:
+#
+# - Set the `CRATE_REPO_DIR` environment variable to the path to your local
+#   clone of the `crate/crate` Git repository. For example:
+#
+#       $ export CRATE_REPO_DIR=/path/to/crate
+#
+# - Invoke this script with one of two arguments: `node` or `cluster`. This
+#   will compare the relevant section of the `crate.yml` file to the `node.rst`
+#   or `cluster.rst` files, respectively. For example:
+#
+#       $ ./check-crate-conf node
+#
+# Further explanation:
+#
+# This script is the first draft of a tool that can check whether the
+# `crate.yml` configuration file that ships with CrateDB is synced up with the
+# configuration section of the documentation.
+#
+# Because the configuration file and the documentation must list the same
+# configuration options, one may be updated without the other, and they will
+# fall out of sync.
+#
+# This script uses the `outline` program to generate two outlines: one for the
+# documentation and one for the configuration file (comparing the node settings
+# or cluster settings separately). The script then compares the two outlines so
+# that you can see any differences that exist.
+#
+# It is left up to the user to determine what changes are necessary given the
+# differences present.
+#
+# If this setup proves helpful in the long term, we could move these programs
+# to the common build system. That way, any documentation project that uses the
+# common build will have access to them. This change would open up the
+# possibility of hooking these checks into the rest of the project's test
+# system.
+
+# These hard-coded variables must match the headings used in `crate.yml`
+NODE_HEADING="Node-specific settings"
+CLUSTER_HEADING="Cluster-specific settings"
+
+if test -z "${1}"; then
+    echo "Usage: ${0} ( node | cluster )"
+    exit
+fi
+
+section="${1}"
+
+# Set `CRATE_REPO_DIR` to the path to your local clone of the
+# <https://github.com/crate/crate> repository
+if test -z "${CRATE_REPO_DIR}"; then
+    echo "ERROR: \`CRATE_REPO_DIR\` environment variable must be set"
+    exit 1
+fi
+
+# These hard-code variables must match the location of the target files in the
+# `crate/crate` repository
+node_rst="${CRATE_REPO_DIR}/docs/config/node.rst"
+cluster_rst="${CRATE_REPO_DIR}/docs/config/cluster.rst"
+crate_yml="${CRATE_REPO_DIR}/app/src/main/dist/config/crate.yml"
+
+if test ! -f "${node_rst}" -o \
+        ! -f "${cluster_rst}" -o \
+        ! -f "${crate_yml}"; then
+    echo "ERROR: Cannot find target files under directory: ${CRATE_REPO_DIR}"
+    exit 1
+fi
+
+# This puts the `outline` program (which is located in the same directory as
+# this script) on the `PATH`
+script_path=$(realpath "${0}")
+script_dir=$(dirname "${script_path}")
+export PATH="${PATH}:${script_dir}"
+
+temp_dir=$(mktemp -d)
+
+rst_outline="rst.txt"
+yml_outline="yml.txt"
+
+if test "${section}" = "node"; then
+    rst_file="${node_rst}"
+    yml_heading="${NODE_HEADING}"
+fi
+
+if test "${section}" = "cluster"; then
+    rst_file="${cluster_rst}"
+    yml_heading="${CLUSTER_HEADING}"
+fi
+
+# Generate two outlines in the previously created temporary directory
+outline "${rst_file}" > "${temp_dir}/${rst_outline}"
+outline "${crate_yml}" "${yml_heading}" "#" > "${temp_dir}/${yml_outline}"
+
+# We print the rest of the commands because:
+#
+# - The user may find it helpful to know the path to the temporary directory so
+#   that they may inspect the outlines manually
+#
+# - The user may find it helpful to know the exact command used to generate the
+#   differences because:
+#
+#   - Knowing the order of the files passed to `diff` is necessary to
+#     understand the output
+#
+#   - The user may want to modify the `diff` command and run it manually
+
+set -x
+cd "${temp_dir}"
+diff -y "${rst_outline}" "${yml_outline}" | colordiff
