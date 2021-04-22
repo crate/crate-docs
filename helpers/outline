@@ -155,7 +155,7 @@ if root_heading:
     if root_level == 0:
         print("ERROR: No subheading matching `ROOT` value")
         sys.exit(1)
-    headings = headings[i_first:i_last-1]
+    headings = headings[i_first : i_last - 1]
 
 # Summarize the heading structure
 heading_tree_str = ""
