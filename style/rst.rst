@@ -13,86 +13,30 @@ of use, we have gathered them in this document below.
    :local:
 
 
-.. _rst-general:
+.. _general:
 
 General
 =======
 
 
+.. _line-lengths:
+
 Line lengths
 ------------
 
 With the exception of pre-formatted text (e.g., literals and code blocks), as
-well as link URLs, lines should not exceed 79 characters. They should be
+well as link URLs, lines should not exceed 79 characters. Lines should be
 wrapped as closely to 79 characters per line as possible, without exceeding
 that limit.
 
 **TIP**
   Good text editors allow you to set a visual page margin indicator.
 
-Additionally:
 
-* Use spaces, not tabs
-* Lines should not end with any trailing spaces
-* Files should end with a single empty newline
+.. _whitespace:
 
-**TIP**
-  Good text editors can be configured to take care of spaces instead of tabs,
-  trailing spaces, and trailing newlines.
-
-
-.. _rst-general-heading-spacings:
-
-Heading line spacings
----------------------
-
-Headings should be preceded by two empty lines to help visually distinguish the
-start of a new section.
-
-Correct:
-
-.. code-block:: rst
-
-    Paragraph belonging to a previous section.
-
-
-    New section header
-    ==================
-
-Incorrect line spacing:
-
-.. code-block:: rst
-
-    Paragraph belonging to a previous section.
-
-    New section header
-    ==================
-
-
-.. _rst-general-other-spacings:
-
-Other line spacings
--------------------
-
-In all other cases, with the exception of preformatted text, there should never
-be multiple sequential empty lines.
-
-Correct:
-
-.. code-block:: rst
-
-    Some paragraph text.
-
-    The start of a new paragraph.
-
-Incorrect line spacing:
-
-.. code-block:: rst
-
-    Some paragraph text.
-
-
-    The start of a new paragraph.
+Whitespace
+-----------
 
 Separate block-level elements with a single empty line.
 
@@ -113,23 +57,40 @@ Incorrect line spacing:
     ==============
     The first paragraph.
 
+**NOTE**
+  In most cases, an RST file should never contain multiple sequential empty
+  lines. Exceptions to this rule include: preformatted text, two empty lines
+  preceding headings, and two empty lines preceding link lists.
+
+Additionally:
+
+* Use spaces, not tabs
+* Lines should not end with any trailing spaces
+* Files should end with a single empty newline
+
+**TIP**
+  Good text editors can be configured to take care of spaces instead of tabs,
+  trailing spaces, and trailing newlines.
 
 
-.. _rst-titles-headings:
+.. _titles-headings:
 
 Titles and headings
 ===================
 
-Use `title case`_ for page titles and `sentence case`_ for headings.
 
-Mark up literals that occur in a title or heading, e.g.:
+.. _titles-headings-markup:
 
-.. code-block:: rst
+Markup
+------
 
-    Using ``COPY FROM``
-    ===================
 
-Follow these markup conventions for title and headings:
+.. _titles-headings-underlines:
+
+Underlines
+''''''''''
+
+You should mark up titles and headings with the following underlines:
 
 .. code-block:: rst
 
@@ -154,8 +115,8 @@ Follow these markup conventions for title and headings:
 
 These underlines were chosen to satisfy the following requirements:
 
-1. Honor the well-established practice of using `=` and `-` for the first three
-   heading levels.
+1. Honor the well-established practice of using ``=`` and ``-`` for the first
+   three heading levels.
 
 2. Underlines should resemble properly typeset underlines (i.e., a single
    continuous line) as much as possible.
@@ -169,6 +130,55 @@ These underlines were chosen to satisfy the following requirements:
    `type color`_) of the underline should decrease with heading depth (e.g.,
    the fourth-level heading should be less prominent than the third-level
    heading).
+
+
+.. _titles-headings-preceding-lines:
+
+Preceding empty lines
+'''''''''''''''''''''
+
+Headings should be preceded by two empty lines to help visually distinguish the
+start of a new section.
+
+Correct:
+
+.. code-block:: rst
+
+    Paragraph belonging to a previous section.
+
+
+    New section header
+    ==================
+
+Incorrect line spacing:
+
+.. code-block:: rst
+
+    Paragraph belonging to a previous section.
+
+    New section header
+    ==================
+
+
+.. _titles-headings-typography:
+
+Typography
+----------
+
+Use `title case`_ for page titles and `sentence case`_ for headings.
+
+Mark up literals that occur in a title or heading, e.g.:
+
+.. code-block:: rst
+
+    Using ``COPY FROM``
+    ===================
+
+
+.. _titles-headings-phrasing:
+
+Phrasing
+--------
 
 As a general principle, we use the imperative mood for top-level document
 titles where an action is relevant. E.g., correct:
@@ -195,8 +205,8 @@ Also incorrect:
     How to create a cluster
     =======================
 
-Where an action is not relevant (e.g., reference articles), just a descriptive
-title suffices. For example:
+Where an action is not relevant (e.g., reference articles), a simple descriptive
+noun will suffice. For example:
 
 .. code-block:: rst
 
@@ -205,7 +215,7 @@ title suffices. For example:
     ========
 
 
-.. _rst-labels:
+.. _labels:
 
 Labels
 ======
@@ -258,6 +268,39 @@ By default, this style of link will use the original title or heading text
 **NOTE**
   Long labels (20 characters or more) can be unwieldy to use. Opt for a
   shorthand version of the title or heading if you need to cut things down.
+
+
+.. _paragraphs:
+
+Paragraphs
+==========
+
+You should separate paragraphs with a single empty line.
+
+Correct:
+
+.. code-block:: rst
+
+    Some paragraph text.
+
+    The start of a new paragraph.
+
+Missing separating empty line:
+
+.. code-block:: rst
+
+    Some paragraph text.
+    The start of a new paragraph.
+
+Too many empty lines:
+
+.. code-block:: rst
+
+    Some paragraph text.
+
+
+    The start of a new paragraph.
+
 
 
 .. _lists:
@@ -324,6 +367,7 @@ Incorrect line spacing:
     * Suspendisse quis fermentum quam, at tincidunt nisi
 
     * Etiam convallis dolor nec dolor feugiat
+
 
 .. _lists-open:
 
@@ -431,10 +475,10 @@ Incorrect indentation level:
        Some note text.
 
 
-.. _rst-links:
+.. _link-lists:
 
-Links
-=====
+Link lists
+==========
 
 Order link URL lists alphabetically (case-insensitive) and keep them at the end
 of the document.
@@ -487,4 +531,4 @@ Incorrect sort order:
 .. _sentence case: https://en.wiktionary.org/wiki/sentence_case
 .. _the median and the cap hight: https://en.wikipedia.org/wiki/Baseline_(typography)#/media/File:Typography_Line_Terms.svg
 .. _title case: http://individed.com/code/to-title-case/
-.. _type color:https://en.wikipedia.org/wiki/Type_color
+.. _type color: https://en.wikipedia.org/wiki/Type_color
