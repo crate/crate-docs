@@ -18,6 +18,10 @@ of use, we have gathered them in this document below.
 General
 =======
 
+
+Line lengths
+------------
+
 With the exception of pre-formatted text (e.g., literals and code blocks), as
 well as link URLs, lines should not exceed 79 characters. They should be
 wrapped as closely to 79 characters per line as possible, without exceeding
@@ -35,6 +39,7 @@ Additionally:
 **TIP**
   Good text editors can be configured to take care of spaces instead of tabs,
   trailing spaces, and trailing newlines.
+
 
 .. _rst-general-heading-spacings:
 
