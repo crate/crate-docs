@@ -76,7 +76,7 @@ To create a new release:
 
 - Push to ``origin``
 
-- Run ``./devtools/create_tag.sh``
+- Run ``./devs/tools/create_tag.sh``
 
 - Browse to the `releases page`_ and select the version you just released
 
