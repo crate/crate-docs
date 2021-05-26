@@ -1,10 +1,14 @@
-===================
-CrateDB Docs System
-===================
+=============
+Crate.io Docs
+=============
 
 |version| |ci| |rtd|
 
 Build system, QA tools, and a style guide for the `Crate documentation`_.
+
+The `Crate.io Docs`_ project contains the :ref:`common build system
+<common-build>`, :ref:`QA tools <qa>`, :ref:`style guides <style>`, and other
+meta miscellanies for doing docs at `Crate.io`_.
 
 
 Contributing
