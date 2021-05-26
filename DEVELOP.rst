@@ -53,7 +53,7 @@ CI is configured to run ``make check`` from the ``docs`` directory.
 configured branch is updated.
 
 To make changes to the RTD configuration (e.g., to activate or deactivate a
-release version), please contact the `@crate/tech-writing`_ team.
+release version), please contact an admin.
 
 
 Preparing a release
@@ -76,9 +76,9 @@ To create a new release:
 
 - Push to ``origin``
 
-- Run ``./devs/tools/create_tag.sh``
+- Run ``./devstools/create_tag.sh``
 
-- Browse to the `releases page`_ and select the version you just released
+- Visit the `releases page`_ and select the version you just released
 
 - Select *Edit tag*
 
@@ -90,7 +90,6 @@ To create a new release:
 - Select *Publish release*
 
 
-.. _@crate/tech-writing: https://github.com/orgs/crate/teams/tech-writing
 .. _fswatch: https://github.com/emcrisostomo/fswatch
 .. _Read the Docs: http://readthedocs.org
 .. _releases page: https://github.com/crate/crate-docs/releases
