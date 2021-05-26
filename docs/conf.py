@@ -1,1 +1,1 @@
-from crate.theme.rtd.conf.fake import *
+from crate.theme.rtd.conf.doing_docs import *
