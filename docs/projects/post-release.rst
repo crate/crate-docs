@@ -7,7 +7,7 @@ Post-Release Docs Update Process
 When `CrateDB`_ makes a new stable release, the CrateDB release manager will
 ping a tech writer to update the docs.
 
-The `CrateDB docs` make use of a special ``latest`` version in the `Read The
+The `CrateDB docs`_ make use of a special ``latest`` version in the `Read The
 Docs`_ versions drop-down (top right-hand corner of the screen). All internal
 links point to the ``latest`` version of the CrateDB docs. In turn, we have
 configured our HTTP redirects so that any request for the ``latest`` version of
@@ -83,13 +83,13 @@ Steps
 
 - Skip to the *Active versions* section
 
-- Each active release line should have a corresponding entry this section, like so:
+- Each active release line should have a corresponding entry, like so:
 
   ```
   rewrite ^/docs/crate/reference/en/4\.(?!1/)[^/]*/(.*)$ /docs/crate/reference/en/4.1/$1 permanent;
   ```
 
-  This redirect checks for any 4.x version that doesn't match the latest feature release (e.g., ``4.1`) for that release line and redirects the request to the latest feature release version (e.g., ``4.1``). In this example, this redirect forces all 4.x versions to resolve to 4.1.
+  This redirect checks for any 4.x version that doesn't match the latest feature release (e.g., ``4.1``) for that release line and redirects the request to the latest feature release version (e.g., ``4.1``). In this example, this redirect forces all 4.x versions to resolve to 4.1.
 
   For example, if you have activated version 4.2, change the above to:
 

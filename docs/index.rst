@@ -10,7 +10,7 @@ meta miscellanies for doing docs at `Crate.io`_.
 
 .. NOTE::
 
-    We have designed this project so that it also function as a reference
+    We have designed this project so that it also functions as a reference
     implementation for you to use when :ref:`creating new Sphinx projects
     <sphinx>`, :ref:`setting up GitHub repositories <github>`, :ref:`working
     with the common build system <common-build>`, and so on.
