@@ -11,3 +11,4 @@ Sphinx
    :maxdepth: 2
 
    common-build
+   theme

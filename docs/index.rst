@@ -15,6 +15,19 @@ meta miscellanies for doing docs at `Crate.io`_.
     <sphinx>`, :ref:`setting up GitHub repositories <github>`, :ref:`working
     with the common build system <common-build>`, and so on.
 
+.. NOTE::
+
+    This Sphinx project uses the standard `Crate Docs Theme`_ to for
+    demonstration purposes, despite not being intended for inclusion in the
+    `main documentation`_ navigation tree on the live Crate.io website.
+
+    When viewing these docs, a *Doing Docs at Crate.io* navigation heading is
+    shown towards the bottom navigation tree (on the left-hand side of the
+    screen). However, under normal circumstances,
+    this navigation heading is hidden.
+
+    Read more about :ref:`how the theme works <theme>`.
+
 .. rubric:: Table of contents
 
 .. toctree::
@@ -30,3 +43,5 @@ meta miscellanies for doing docs at `Crate.io`_.
 
 .. _Crate.io Docs: https://github.com/crate/crate-docs
 .. _Crate.io: htttp://crate.io/
+.. _main documentation: htttp://crate.io/docs/
+.. _Crate Docs Theme: https://github.com/crate/crate-docs-theme
