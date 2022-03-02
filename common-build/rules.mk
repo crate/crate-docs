@@ -100,7 +100,7 @@ endif
 
 # Disable Vale if `$(NO_VALE_FILE)` exists
 ifneq ($(wildcard $(NO_VALE_FILE)),)
-   UNAME = none
+    UNAME := none
 endif
 
 
@@ -188,14 +188,6 @@ $(VALE):
 	@ $(MAKE) install-vale-styles
 endif
 
-# We don't know how to install on any other system
-ifeq ($(UNAME),none)
-$(VALE):
-    @ printf '\033[31mERROR: No rules to install Vale on your operating '
-    @ printf 'system.\033[00m\n'
-    @ exit 1
-endif
-
 
 # Core build commands and QA checks
 # =============================================================================
@@ -217,10 +209,16 @@ dev autobuild: $(SPHINXAUTOBUILD)
 
 # Lint RST files and echo the results (for users and CI/CD logs)
 .PHONY: lint
+ifeq ($(UNAME),none)
+vale:
+	@ printf '\033[31mERROR: No rules to install Vale on your operating '
+	@ printf 'system or disabled by _no_vale file.\033[00m\n'
+else
 vale: $(ACTIVATE) $(VALE)
 	@ mkdir -p $(@D)
 	@ . $(ACTIVATE) && \
 	      $(VALE) $(VALE_OPTS) $(TOP_DIR)
+endif
 
 # Both target names will work
 .PHONY: check test
