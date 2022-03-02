@@ -6,7 +6,21 @@ Changes
 Unreleased
 ==========
 
-- Added the `preview-rst` helper script
+-
+
+2.0.1 - 2022/03/02
+==================
+
+Features
+--------
+
+- Added the ``preview-rst`` helper script
+
+Fixes
+-----
+
+- Fixed no vale case
+- Vale ignores ``eggs`` folder
 
 
 2.0.0 - 2021/03/24
@@ -16,7 +30,7 @@ Breaking Changes
 ----------------
 
 **IMPORTANT**: You must update your Sphinx project's ``Makefile`` to pick up
-these changes. See ``demo-docs/Makefile`` for details.
+these changes. See ``docs/Makefile`` for details.
 
 Features
 --------
