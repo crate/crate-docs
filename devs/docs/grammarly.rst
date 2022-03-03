@@ -43,5 +43,5 @@ dashboard.
 .. _Grammarly: https://app.grammarly.com/
 .. _share a style guide: https://account.grammarly.com/admin/style-guide
 .. _Vale: https://github.com/errata-ai/vale
-.. _common build system: https://github.com/crate/crate-docs-build/blob/master/src/_vale.ini
+.. _common build system: https://github.com/crate/crate-docs/blob/main/common-build/_vale.ini
 .. _web app: https://app.grammarly.com/
