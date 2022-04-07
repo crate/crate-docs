@@ -25,7 +25,7 @@
 # This Make script implements the core of the Crate Docs build system.
 
 # All Sphinx projects that use the Crate Docs build system contain a `Makefile`
-# (copied from `demo-docs/Makefile` in this project) with a boilerplate section
+# (copied from `docs/Makefile` in this project) with a boilerplate section
 # responsible making a local copy of the Crate Docs project and integrating
 # with the core build system.
 

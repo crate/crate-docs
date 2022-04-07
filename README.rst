@@ -34,9 +34,9 @@ Looking for more help?
 .. _support channels: https://crate.io/support/
 
 
-.. |version| image:: https://img.shields.io/endpoint.svg?color=blue&label=docs%20build%20version&url=https://raw.githubusercontent.com/crate/crate-docs/main/demo-docs/build.json
+.. |version| image:: https://img.shields.io/endpoint.svg?color=blue&label=docs%20build%20version&url=https://raw.githubusercontent.com/crate/crate-docs/main/docs/build.json
     :alt: Build version
-    :target: https://github.com/crate/crate-docs/blob/main/demo-docs/build.json
+    :target: https://github.com/crate/crate-docs/blob/main/docs/build.json
 
 .. |ci| image:: https://github.com/crate/crate-docs/workflows/docs/badge.svg
     :alt: CI status
