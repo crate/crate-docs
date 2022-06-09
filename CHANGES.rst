@@ -6,7 +6,14 @@ Changes
 Unreleased
 ==========
 
--
+
+2.0.2 - 2022/06/09
+==================
+
+- Update link to sample vale configuration
+- Fix version shield and remove demo-docs reference
+- Fix Makefile to use python3
+
 
 2.0.1 - 2022/03/02
 ==================
