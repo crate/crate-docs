@@ -32,8 +32,8 @@ echo "Fetching origin..."
 git fetch origin > /dev/null
 
 REGEXP='^\d+\.\d+\.\d+ - \d{4}/\d{2}/\d{2}$'
-VERSION=`grep -E "$REGEXP" CHANGES.rst | head -n 1 | awk '{print $1}'`
-echo "Found version $VERSION."
+VERSION=`grep -P "$REGEXP" CHANGES.rst | head -n 1 | awk '{print $1}'`
+echo "Found version '$VERSION'."
 
 # Check if tag to create has already been created
 if test "$VERSION" = "`git tag | grep $VERSION`"; then
