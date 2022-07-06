@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+2.1.0 - 2022/07/06
+==================
+
 - Allow usage on Sphinx 5
 
 
