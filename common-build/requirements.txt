@@ -7,4 +7,4 @@ sphinx-autobuild
 # These versions should match the Read The Docs environment (please update if
 # you notice this is not the case)
 setuptools>=41.1.0
-sphinx==3.5.3
+sphinx>=3,<6
