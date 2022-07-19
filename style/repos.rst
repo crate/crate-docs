@@ -160,5 +160,17 @@ The ``docs`` directory is reserved for use as a Sphinx_ documentation project.
 All Sphinx projects must use a top-level directory named ``docs``.
 
 
+Repo structure
+==============
+
+There are three main types of documentation: tutorials, howtos, and reference.
+
+Tutorials are for step-by-step guides that guide you from beginning to end through a process (e.g., installation or cluster deployment).
+
+Howtos are for guides to performing a single particular operation (e.g., deleting a cluster).
+
+Reference is for reference information (e.g., a list of SQL syntax or an overview of the CrateDB Cloud Console). 
+
+
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Sphinx: http://sphinx-doc.org/
