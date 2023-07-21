@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+2.1.1 - 2023/07/27
+==================
+
 - Start watching more resources when using ``make dev``
 
   - Also watch the top-level ``src`` directory
