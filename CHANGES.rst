@@ -6,6 +6,11 @@ Changes
 Unreleased
 ==========
 
+- Start watching more resources when using ``make dev``
+
+  - Also watch the top-level ``src`` directory
+  - Extend the list of considered filename extensions to Markdown and HTML
+
 
 2.1.0 - 2022/07/06
 ==================
