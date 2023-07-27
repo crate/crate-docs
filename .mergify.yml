@@ -8,12 +8,8 @@ pull_request_rules:
     conditions:
       - label=ready-to-merge
       - '#approved-reviews-by>=1'
-      - status-success~=Build docs on ubuntu-latest using Python 3.7
-      - status-success~=Build docs on ubuntu-latest using Python 3.8
-      - status-success~=Build docs on ubuntu-latest using Python 3.9
-      - status-success~=Build docs on macos-latest using Python 3.7
-      - status-success~=Build docs on macos-latest using Python 3.8
-      - status-success~=Build docs on macos-latest using Python 3.9
+      - status-success~=Build docs on ubuntu-latest.*
+      - status-success~=Build docs on macos-latest.*
       - status-success~=docs/readthedocs.org
     name: default
   - name: Delete branch after merge
