@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- CI: Modernize RTD configuration file
+
 
 2.1.1 - 2023/07/27
 ==================
