@@ -7,6 +7,7 @@ Unreleased
 ==========
 
 - CI: Modernize RTD configuration file
+- Fix reference to renamed "CrateDB Documentation Theme" project
 
 
 2.1.1 - 2023/07/27
