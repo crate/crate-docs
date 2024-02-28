@@ -6,6 +6,10 @@ Changes
 Unreleased
 ==========
 
+
+2.1.2 - 2024/02/28
+==================
+
 - CI: Modernize RTD configuration file
 - Fix reference to renamed "CrateDB Documentation Theme" project
 - Fix errors with most recent sphinx-autobuild 2024.2.4 by downgrading
