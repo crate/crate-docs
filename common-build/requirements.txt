@@ -2,7 +2,9 @@
 ###############################################################################
 
 docutils>=0.14
-sphinx-autobuild
+
+# Most recent 2024.2.4 has errors on live reloading.
+sphinx-autobuild==2021.3.14
 
 # These versions should match the Read The Docs environment (please update if
 # you notice this is not the case)
