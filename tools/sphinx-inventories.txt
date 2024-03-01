@@ -1,0 +1,14 @@
+https://cratedb.com/docs/cloud/en/latest/objects.inv
+https://cratedb.com/docs/cloud/cli/en/latest/objects.inv
+https://cratedb.com/docs/crate/crash/en/latest/objects.inv
+https://cratedb.com/docs/crate/reference/en/latest/objects.inv
+https://cratedb.com/docs/crate/admin-ui/en/latest/objects.inv
+https://cratedb.com/docs/crate/clients-tools/en/latest/objects.inv
+https://cratedb.com/docs/dbal/en/latest/objects.inv
+https://cratedb.com/docs/guide/objects.inv
+https://cratedb.com/docs/jdbc/en/latest/objects.inv
+https://cratedb.com/docs/npgsql/en/latest/objects.inv
+https://cratedb.com/docs/pdo/en/latest/objects.inv
+https://cratedb.com/docs/python/en/latest/objects.inv
+https://crate-docs-theme.readthedocs.io/en/latest/objects.inv
+https://crate-operator.readthedocs.io/en/latest/objects.inv
