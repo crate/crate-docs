@@ -23,7 +23,8 @@ def inv(c, url: str, format: t.Literal["text", "markdown"] = "text"):
     if format == "text":
         inventory.as_text()
     elif format == "markdown":
-        inventory.as_markdown()
+        inventory.as_markdown(omit_documents=True)
+        #inventory.as_markdown(labels_only=True)
     else:
         raise NotImplementedError(f"Output format not implemented: {format}")
 
