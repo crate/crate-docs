@@ -1,2 +1,3 @@
 invoke<3
+pueblo[sphinx] @ git+https://github.com/pyveci/pueblo.git@amo/sphinx
 sphinx<8
