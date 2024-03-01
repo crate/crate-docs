@@ -38,6 +38,6 @@ def allinv(c, format: t.Literal["text", "markdown"] = "text"):
         invoke allinv
         invoke allinv --format=markdown
     """
-    urls = Path("./tools/sphinx-inventories.txt").read_text().splitlines()
+    urls = Path("./registry/sphinx-inventories.txt").read_text().splitlines()
     for url in urls:
         inv(c, url, format)
