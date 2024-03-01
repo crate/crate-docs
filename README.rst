@@ -4,19 +4,22 @@ CrateDB Documentation System
 
 |version| |ci| |rtd|
 
-Build system, authoring and QA tools, and a style guide for the
+Build system, authoring, and QA tools, and a style guide for the
 `CrateDB documentation`_.
 
 
 🧐 What's Inside
 ================
 
-This section gives you an overview about what's inside the relevant
-folders.
+-   **docs** contains an example documentation instance for demonstration
+    purposes.
 
--   **docs** contains an example documentation instance for demonstration purposes.
+-   **style** contains the CrateDB style guide.
 
--   **tools** includes the `github-projects.txt`_ and `sphinx-inventories.txt`_
+-   The **tasks.py** file includes tooling to support operations
+    in tech writing.
+
+-   The **registry** folder includes the `github-projects.txt`_ and `sphinx-inventories.txt`_
     files, which enumerate all repositories and target URLs that resemble
     the documentation at https://cratedb.com/docs/.
 
@@ -45,7 +48,7 @@ There is also tooling to support `Technical Writing on HubSpot`_.
 🔗 Intersphinx
 --------------
 
-For displaying a list of intersphinx_ link targets per project,
+For displaying intersphinx_ inventories to learn about available link targets,
 run commands like this::
 
     invoke inv https://cratedb.com/docs/crate/reference/en/latest/objects.inv
@@ -88,9 +91,9 @@ Looking for more help?
 .. _Crate.io: https://cratedb.com/
 .. _CrateDB documentation: https://cratedb.com/docs/
 .. _developer docs: DEVELOP.rst
-.. _github-projects.txt: tools/github-projects.txt
+.. _github-projects.txt: registry/github-projects.txt
 .. _intersphinx: https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html
 .. _Sphinx: http://www.sphinx-doc.org/en/stable/
-.. _sphinx-inventories.txt: tools/sphinx-inventories.txt
+.. _sphinx-inventories.txt: registry/sphinx-inventories.txt
 .. _support channels: https://cratedb.com/support/
 .. _Technical Writing on HubSpot: https://github.com/crate-workbench/hubspot-tech-writing
