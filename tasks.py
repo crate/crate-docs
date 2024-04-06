@@ -1,15 +1,13 @@
 # Tech Writing support.
 # https://docs.pyinvoke.org/en/stable/getting-started.html
-from pathlib import Path
+import shlex
+import subprocess
 
 from invoke import task
-import typing as t
-
-from pueblo.sphinx.inventory import SphinxInventoryDecoder
 
 
 @task
-def inv(c, url: str, format: t.Literal["text", "markdown"] = "text"):
+def inv(c, url: str, format_: str = "text"):
     """
     Display intersphinx inventory for individual project, using selected output format.
 
@@ -18,19 +16,12 @@ def inv(c, url: str, format: t.Literal["text", "markdown"] = "text"):
         invoke inv https://cratedb.com/docs/crate/reference/en/latest/objects.inv
         invoke inv https://cratedb.com/docs/crate/reference/en/latest/objects.inv --format=markdown
     """
-    name = Path(url).parent.parent.parent.name
-    inventory = SphinxInventoryDecoder(name=name, url=url)
-    if format == "text":
-        inventory.as_text()
-    elif format == "markdown":
-        inventory.as_markdown(omit_documents=True)
-        #inventory.as_markdown(labels_only=True)
-    else:
-        raise NotImplementedError(f"Output format not implemented: {format}")
+    cmd = f"linksmith inventory {url} --format={format_}"
+    subprocess.check_call(shlex.split(cmd))
 
 
 @task
-def allinv(c, format: t.Literal["text", "markdown"] = "text"):
+def allinv(c, format_: str = "text"):
     """
     Display intersphinx inventory for all projects, using selected output format.
 
@@ -39,6 +30,5 @@ def allinv(c, format: t.Literal["text", "markdown"] = "text"):
         invoke allinv
         invoke allinv --format=markdown
     """
-    urls = Path("./registry/sphinx-inventories.txt").read_text().splitlines()
-    for url in urls:
-        inv(c, url, format)
+    cmd = f"linksmith inventory https://github.com/crate/crate-docs/raw/main/registry/sphinx-inventories.txt --format={format_}"
+    subprocess.check_call(shlex.split(cmd))
