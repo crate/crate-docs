@@ -53,6 +53,7 @@ run commands like this::
 
     invoke inv https://cratedb.com/docs/crate/reference/en/latest/objects.inv
     invoke allinv --format=markdown
+    invoke allinv --format=html+table
 
 
 Contributing
