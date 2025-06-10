@@ -16,5 +16,6 @@ cratedb-guide
 croud
 handbook
 new-tech-content
+sqlalchemy-createdb
 sql-99
 tech-writing-domain
