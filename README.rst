@@ -27,6 +27,8 @@ Build system, authoring, and QA tools, and a style guide for the
 Usage
 =====
 
+Currently Python >= 3.13 is not supported.
+
 🍀 Tools
 --------
 
