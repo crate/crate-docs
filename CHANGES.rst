@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+- Dependencies: Unblock newer versions of Sphinx
+
 
 2.1.2 - 2024/02/28
 ==================
