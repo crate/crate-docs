@@ -74,5 +74,5 @@ To check up on the build, do this:
 - On the build page, select *Console Output* to view the console output of the
   build.
 
-.. _rebuild_all_docs: https://jenkins.crate.io/job/crate_release_and_packaging/job/rebuild_all_docs/
+.. _rebuild_all_docs: https://jenkins.crate.io/job/Documentation/job/rebuild_all_docs/
 .. _fastly_purge: https://jenkins.crate.io/job/crate.io/job/fastly_purge/
