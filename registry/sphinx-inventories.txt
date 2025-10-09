@@ -10,5 +10,6 @@ https://cratedb.com/docs/jdbc/en/latest/objects.inv
 https://cratedb.com/docs/npgsql/en/latest/objects.inv
 https://cratedb.com/docs/pdo/en/latest/objects.inv
 https://cratedb.com/docs/python/en/latest/objects.inv
+https://cratedb.com/docs/sqlalchemy-cratedb/objects.inv
 https://crate-docs-theme.readthedocs.io/en/latest/objects.inv
 https://crate-operator.readthedocs.io/en/latest/objects.inv
