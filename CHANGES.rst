@@ -6,6 +6,8 @@ Changes
 Unreleased
 ==========
 
+2.1.3 - 2025/11/06
+==================
 - Dependencies: Unblock newer versions of Sphinx
 - Dependencies: Updated to ``sphinx-autobuild==2025.8.25``
 - Enabled parallel builds by updating theme and using ``--jobs auto``
