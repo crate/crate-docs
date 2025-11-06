@@ -5,6 +5,9 @@ Changes
 
 Unreleased
 ==========
+
+2.1.4 - 2025/11/06
+==================
 - Enabled parallel builds using ``--jobs auto`` also for link checker runs
 
 2.1.3 - 2025/11/06
