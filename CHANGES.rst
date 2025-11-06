@@ -7,6 +7,7 @@ Unreleased
 ==========
 
 - Dependencies: Unblock newer versions of Sphinx
+- Dependencies: Updated to ``sphinx-autobuild==2025.8.25``
 
 
 2.1.2 - 2024/02/28
