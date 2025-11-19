@@ -2,7 +2,7 @@
 ###############################################################################
 
 docutils>=0.14
-sphinx-autobuild==2025.8.25
+sphinx-autobuild>=2024
 
 # These versions should match the Read The Docs environment (please update if
 # you notice this is not the case)
