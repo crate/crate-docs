@@ -5,6 +5,9 @@ Changes
 
 Unreleased
 ==========
+
+2.1.5 - 2025/11/19
+==================
 - Relaxed dependency to ``sphinx-autobuild>=2024``
 
 2.1.4 - 2025/11/06
