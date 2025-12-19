@@ -1,2 +1,2 @@
-sphinx>=3,<9
+sphinx>=3,<10
 crate-docs-theme>=0.42.0
