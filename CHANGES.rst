@@ -5,6 +5,9 @@ Changes
 
 Unreleased
 ==========
+
+2.1.6 - 2025/12/23
+==================
 - Dependencies: Permitted installation of Sphinx 9.x
 
 2.1.5 - 2025/11/19
