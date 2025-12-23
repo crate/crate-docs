@@ -5,6 +5,7 @@ Changes
 
 Unreleased
 ==========
+- Removed redundant ``--jobs auto`` definition
 
 2.1.6 - 2025/12/23
 ==================
