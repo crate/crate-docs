@@ -6,6 +6,9 @@ Changes
 Unreleased
 ==========
 - Removed redundant ``--jobs auto`` definition
+- Turned off treating warnings as errors in authoring mode using the
+  ``-W`` option, only use it in CI workflows. This doesn't invalidate
+  the build cache, so cycles are much faster now. Thanks, @surister.
 
 2.1.6 - 2025/12/23
 ==================
