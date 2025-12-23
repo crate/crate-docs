@@ -5,6 +5,9 @@ Changes
 
 Unreleased
 ==========
+
+2.1.7 - 2025/12/23
+==================
 - Removed redundant ``--jobs auto`` definition
 - Turned off treating warnings as errors in authoring mode using the
   ``-W`` option, only use it in CI workflows. This doesn't invalidate
