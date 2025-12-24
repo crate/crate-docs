@@ -5,6 +5,7 @@ Changes
 
 Unreleased
 ==========
+- Started using the ``uv`` package manager if it's installed
 
 2.1.7 - 2025/12/23
 ==================

@@ -48,6 +48,8 @@ ENV_DIR         = $(LOCAL_DIR)/.venv
 ACTIVATE        = $(ENV_DIR)/bin/activate
 PYTHON          = python3
 PIP             = $(PYTHON) -m pip
+UV              = uv
+SEED_VIRTUALENV = $(PYTHON) -m venv
 SPHINXBUILD     = $(ENV_DIR)/bin/sphinx-build
 SPHINXAUTOBUILD = $(ENV_DIR)/bin/sphinx-autobuild
 AUTOBUILD_OPTS  = --watch $(TOP_DIR) --re-ignore '^(?!.+\.(?:rst|md|mmd|html|css|js|py|conf)$$)' --open-browser --delay 0
@@ -87,6 +89,12 @@ JQ_FILE_CSV     = $(BIN_DIR)/vale-json-csv.jq
 VALE_OUT_DIR    = $(TELEMETRY_DIR)/vale
 GIT_LOG         = $(BIN_DIR)/git-log
 GIT_LOG_OUT_DIR = $(TELEMETRY_DIR)/git-log
+
+# Figure out if `uv` can be used
+ifneq (, $(shell which $(UV)))
+    PIP := $(UV) pip
+    SEED_VIRTUALENV := uv venv --seed
+endif
 
 # Figure out the OS
 ifeq ($(findstring ;,$(PATH)),;)
@@ -138,7 +146,7 @@ $(ACTIVATE):
 	      printf '\033[31mERROR: Python>=3.7 is required.\033[00m\n'; \
 	      exit 1; \
 	  fi
-	@ $(PYTHON) -m venv $(ENV_DIR)
+	@ $(SEED_VIRTUALENV) $(ENV_DIR)
 	@ . $(ACTIVATE) && \
 	      $(PIP) install --upgrade pip
 
@@ -146,10 +154,10 @@ $(ACTIVATE):
 $(RST2HTML) $(SPHINXBUILD) $(SPHINXAUTOBUILD): $(ACTIVATE)
 	@ printf '\033[1mInstalling Python dependencies...\033[00m\n'
 	@ . $(ACTIVATE) && \
-	      $(PIP) install -r $(SRC_DIR)/requirements.txt
+	      $(PIP) install --upgrade --requirement $(SRC_DIR)/requirements.txt
 	@ # Change to `TOP_DIR` to mimic how Read the Docs does it
 	@ . $(ACTIVATE) && cd $(TOP_DIR) && \
-	      $(PIP) install -r $(DOCS_DIR)/requirements.txt
+	      $(PIP) install --upgrade --requirement $(DOCS_DIR)/requirements.txt
 
 # Configured and run in a sub-make by the $(VALE) target
 install-vale:
