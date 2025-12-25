@@ -13,6 +13,10 @@ concurrency:
   cancel-in-progress: true
   group: ${{ github.workflow }}-${{ github.ref }}
 
+defaults:
+  run:
+    shell: sh
+
 jobs:
 
   with-pip:
@@ -21,7 +25,7 @@ jobs:
 
     strategy:
       matrix:
-        os: ["ubuntu-latest", "macos-latest"]
+        os: ["windows-latest"]
 
     steps:
       - uses: actions/checkout@v4
@@ -56,5 +60,6 @@ jobs:
         run: |
           cd docs && make check
       - name: Check Vale
+        #if: matrix.os != 'windows-latest'
         run: |
           cd test && make test

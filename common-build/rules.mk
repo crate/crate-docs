@@ -99,6 +99,12 @@ endif
 # Figure out the OS
 ifeq ($(findstring ;,$(PATH)),;)
     # Windows, but not POSIX environment
+    # Adjustments when running on Windows
+    ACTIVATE        := $(ENV_DIR)/Scripts/activate
+    PYTHON          := python.exe
+    SPHINXBUILD     := $(ENV_DIR)/Scripts/sphinx-build.exe
+    SPHINXAUTOBUILD := $(ENV_DIR)/Scripts/sphinx-autobuild.exe
+    RST2HTML        := $(ENV_DIR)/Scripts/rst2html.py
 else
     UNAME := $(shell uname 2>/dev/null || echo Unknown)
     UNAME := $(patsubst CYGWIN%,Windows,$(UNAME))
@@ -193,6 +199,13 @@ endif
 ifeq ($(UNAME),Darwin)
 $(VALE):
 	@ $(MAKE) install-vale PROGRAM=$(VALE_MACOS)
+	@ $(MAKE) install-vale-styles
+endif
+
+# Vale installation for Windows
+ifeq ($(UNAME),Windows)
+$(VALE):
+	@ $(MAKE) install-vale PROGRAM=$(VALE_WIN)
 	@ $(MAKE) install-vale-styles
 endif
 
