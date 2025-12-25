@@ -35,6 +35,7 @@ jobs:
       - name: Build docs
         run: |
           cd docs && make check
-      #- name: Check Vale
-      #  run: |
-      #    cd test && make test
+      - name: Check Vale
+        #if: matrix.os != 'windows-latest'
+        run: |
+          cd test && make test

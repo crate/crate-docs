@@ -45,17 +45,17 @@ LOCAL_DIR       = $(patsubst %/common-build/,%,$(dir $(lastword $(MAKEFILE_LIST)
 SRC_DIR         = $(LOCAL_DIR)/common-build
 BIN_DIR         = $(SRC_DIR)/bin
 ENV_DIR         = $(LOCAL_DIR)/.venv
-ACTIVATE        = $(ENV_DIR)/Scripts/activate
-PYTHON          = python.exe
+ACTIVATE        = $(ENV_DIR)/bin/activate
+PYTHON          = python3
 PIP             = $(PYTHON) -m pip
-SPHINXBUILD     = $(ENV_DIR)/Scripts/sphinx-build.exe
-SPHINXAUTOBUILD = $(ENV_DIR)/Scripts/sphinx-autobuild.exe
+SPHINXBUILD     = $(ENV_DIR)/bin/sphinx-build
+SPHINXAUTOBUILD = $(ENV_DIR)/bin/sphinx-autobuild
 AUTOBUILD_OPTS  = --watch $(TOP_DIR) --re-ignore '^(?!.+\.(?:rst|md|mmd|html|css|js|py|conf)$$)' --open-browser --delay 0
 BUILD_DIR       = $(LOCAL_DIR)/.build
 SPHINX_ARGS     = . $(BUILD_DIR)
 SPHINX_OPTS     = -n --jobs auto
 SPHINX_OPTS_CI  = -W --keep-going
-RST2HTML        = $(ENV_DIR)/Scripts/rst2html.py
+RST2HTML        = $(ENV_DIR)/bin/rst2html.py
 TELEMETRY_DIR   = $(LOCAL_DIR)/telemetry
 VALE_VERSION    = 2.6.7
 ERRATA_AI       = https://github.com/errata-ai
@@ -103,6 +103,14 @@ ifneq ($(wildcard $(NO_VALE_FILE)),)
     UNAME := none
 endif
 
+# Adjustments when running on Windows
+ifeq ($(UNAME),Windows)
+    ACTIVATE        := $(ENV_DIR)/Scripts/activate
+    PYTHON          := python.exe
+    SPHINXBUILD     := $(ENV_DIR)/Scripts/sphinx-build.exe
+    SPHINXAUTOBUILD := $(ENV_DIR)/Scripts/sphinx-autobuild.exe
+    RST2HTML        := $(ENV_DIR)/Scripts/rst2html.py
+endif
 
 # Help message
 # =============================================================================
@@ -188,6 +196,13 @@ $(VALE):
 	@ $(MAKE) install-vale-styles
 endif
 
+# Vale installation for Windows
+ifeq ($(UNAME),Windows)
+$(VALE):
+	@ $(MAKE) install-vale PROGRAM=$(VALE_WIN)
+	@ $(MAKE) install-vale-styles
+endif
+
 
 # Core build commands and QA checks
 # =============================================================================
@@ -222,7 +237,7 @@ endif
 
 # Both target names will work
 .PHONY: check test
-check test: html linkcheck
+check test: html linkcheck vale
 
 
 # Telemetry data
