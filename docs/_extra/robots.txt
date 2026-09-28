@@ -1,2 +1,36 @@
+# Root robots.txt for https://docs.cratedb.com/
+#
+# This file is published by `crate-docs`, the root project, so it is served at
+# the web root of the documentation domain. Only the robots.txt at a domain
+# root is honoured by crawlers: the copies that subprojects publish under
+# /projects/<slug>/robots.txt are ignored. Every sitemap for the whole
+# documentation site therefore has to be listed here.
+#
+# Each project generates `site.xml` rather than `sitemap.xml`
+# (`sitemap_filename` in the theme). Versioned projects publish it below
+# `/en/<version>/`, unversioned ones directly at their root.
+
 User-agent: *
-Disallow: /
+Disallow:
+
+# Root project
+Sitemap: https://docs.cratedb.com/site.xml
+
+# Unversioned subprojects
+Sitemap: https://docs.cratedb.com/projects/guide/site.xml
+
+# Versioned subprojects
+Sitemap: https://docs.cratedb.com/projects/cloud/en/latest/site.xml
+Sitemap: https://docs.cratedb.com/projects/cloud-cli/en/latest/site.xml
+Sitemap: https://docs.cratedb.com/projects/crate-reference/en/latest/site.xml
+Sitemap: https://docs.cratedb.com/projects/crate-admin-ui/en/latest/site.xml
+Sitemap: https://docs.cratedb.com/projects/crate-crash/en/latest/site.xml
+
+# Driver projects
+Sitemap: https://docs.cratedb.com/projects/python/en/latest/site.xml
+Sitemap: https://docs.cratedb.com/projects/jdbc/en/latest/site.xml
+Sitemap: https://docs.cratedb.com/projects/pdo/en/latest/site.xml
+Sitemap: https://docs.cratedb.com/projects/dbal/en/latest/site.xml
+
+# Unversioned driver project
+Sitemap: https://docs.cratedb.com/projects/sqlalchemy-cratedb/site.xml
