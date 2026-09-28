@@ -1,2 +1,7 @@
 sphinx>=3,<10
-crate-docs-theme>=0.42.0
+
+# TEMPORARY, for the docs.cratedb.com migration proof of concept.
+#
+# Restore `crate-docs-theme>=0.42.0` once the migration theme ships as a
+# final release.
+crate-docs-theme==0.51.0.dev0
