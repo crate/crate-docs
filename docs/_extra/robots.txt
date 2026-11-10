@@ -9,6 +9,8 @@
 # Each project generates `site.xml` rather than `sitemap.xml`
 # (`sitemap_filename` in the theme). Versioned projects publish it below
 # `/en/<version>/`, unversioned ones directly at their root.
+#
+# Algolia-Crawler-Verif: 011A57CA7A7A4363
 
 User-agent: *
 Disallow:
