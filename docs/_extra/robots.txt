@@ -34,3 +34,5 @@ Sitemap: https://docs.cratedb.com/projects/dbal/en/latest/site.xml
 
 # Unversioned driver project
 Sitemap: https://docs.cratedb.com/projects/sqlalchemy-cratedb/site.xml
+
+# Algolia-Crawler-Verif: 011A57CA7A7A4363
